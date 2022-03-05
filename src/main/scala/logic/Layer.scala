@@ -4,7 +4,11 @@ import scalafx.scene.canvas.Canvas
 
 import scala.collection.mutable.Buffer
 
-case class Layer(name: String, elements: Buffer[Element], hidden: Boolean, var currentImage: Option[Canvas]) {
+case class Layer(var name: String) {
+
+  val elements = Buffer[Element]()
+  var hidden = false
+  var currentImage: Option[Canvas] = None
 
   def addElement(element: Element) = {
     this.elements += element
@@ -15,13 +19,17 @@ case class Layer(name: String, elements: Buffer[Element], hidden: Boolean, var c
   }
 
   def paint(width: Int, height: Int): Canvas = {
-    if (currentImage.nonEmpty) {
-      return currentImage.get
+    def repaint(width: Int, height: Int) = {
+      val canvas = new Canvas(width, height)
+      this.elements.foreach(_.paint(canvas))
+      currentImage = Some(canvas)
+      canvas
     }
-    val canvas = new Canvas(width, height)
-    this.elements.foreach(_.paint(canvas))
-    currentImage = Some(canvas)
-    canvas
+    currentImage.getOrElse(repaint(width, height))
+  }
+
+  def rename(newName: String) = {
+    this.name = newName
   }
 
 }
