@@ -11,10 +11,9 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-abstract class Shape(stype: ShapeType, width: Int, height: Int, borderWidth: Int, borderColor: Color,
+case class Shape(stype: ShapeType, width: Int, height: Int, borderWidth: Int, borderColor: Color,
                      id: String, origin: Point, rotation: Int, color: Color,
-                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
-  extends Element(id, origin, rotation, color, group, previousVersion, hidden, deleted) {
+                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean) extends Element {
 
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
@@ -39,27 +38,31 @@ abstract class Shape(stype: ShapeType, width: Int, height: Int, borderWidth: Int
   }
 
   def move(newOrigin: Point): Element = {
-    this.stype match {
+    /*this.stype match {
       case Rectangle => new Rectangle(width, height, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
       case Square => new Square(width, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
       case Ellipse => new Ellipse(width, height, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
       case Circle => new Circle(width, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
-    }
+    }*/
+
+    this.copy(origin = newOrigin)
   }
 
   def rotate(angle: Int): Element = {
-    this.stype match {
+    /*this.stype match {
       case Rectangle => new Rectangle(width, height, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
       case Square => new Square(width, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
       case Ellipse => new Ellipse(width, height, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
       case Circle => new Circle(width, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
-    }
+    }*/
+
+    this.copy(rotation = this.rotation + angle)
   }
 
 }
 
 
-class Rectangle(width: Int, height: Int, borderWidth: Int, borderColor: Color,
+ class Rectangle(width: Int, height: Int, borderWidth: Int, borderColor: Color,
                      id: String, origin: Point, rotation: Int, color: Color,
                      group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
   extends Shape(Rectangle, width, height, borderWidth, borderColor, id, origin, rotation, color, group, previousVersion, hidden, deleted)
