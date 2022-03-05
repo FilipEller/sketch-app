@@ -61,7 +61,7 @@ case class Shape(stype: ShapeType, width: Int, height: Int, borderWidth: Int, bo
 
 }
 
-
+/*
  class Rectangle(width: Int, height: Int, borderWidth: Int, borderColor: Color,
                      id: String, origin: Point, rotation: Int, color: Color,
                      group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
@@ -81,3 +81,4 @@ class Circle(width: Int, borderWidth: Int, borderColor: Color,
                      id: String, origin: Point, rotation: Int, color: Color,
                      group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
   extends Shape(Circle, width, width, borderWidth, borderColor, id, origin, rotation, color, group, previousVersion, hidden, deleted)
+ */
