@@ -11,9 +11,9 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType, width: Int, height: Int, borderWidth: Int, borderColor: Color,
-                     id: String, origin: Point, rotation: Int, color: Color,
-                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean) extends Element {
+case class Shape(stype: ShapeType, id: String, width: Int, height: Int, borderWidth: Int, color: Color, borderColor: Color,
+                      origin: Point, rotation: Int,
+                     group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
