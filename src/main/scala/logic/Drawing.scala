@@ -32,8 +32,8 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
-  def paint(): StackPane = {
-    val pane = new StackPane
+  def paint(pane: StackPane): StackPane = {
+    pane.children.foreach(pane.children -= _)
     this.layers.foreach(pane.children += _.paint(width, height))
     pane
   }
