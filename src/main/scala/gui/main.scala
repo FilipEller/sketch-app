@@ -1,14 +1,14 @@
 package gui
 
+import logic._
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
-import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints}
+import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints, StackPane}
 // import scalafx.scene.layout.Pane
 import scalafx.scene.layout.GridPane
 import scalafx.scene.layout.VBox
 import scalafx.scene.control.{Button, CheckBox, Label, MenuBar, TextField}
 import scalafx.scene.paint.Color._
-import scalafx.scene.shape.Rectangle
 import scalafx.Includes._
 import scalafx.scene.text.Font
 import scalafx.scene.layout.BackgroundFill
@@ -43,15 +43,23 @@ object Main extends JFXApp {
   val bottomPanel = new HBox //Horizontal box is like VBox except children are laid in a row.
   val leftPanel = new VBox
   val rightPanel = new VBox
-  val canvas = new Canvas(1920, 1080)
+  val stackPane = new StackPane
+  val drawing = new Drawing(900, 600)
+
+  val layer = drawing.layers.head
+
+  val rectangle = Shape(Rectangle, "rectangle0", 100, 50, 2, rgb(100, 50, 160), rgb(160, 50, 80), Point(10, 20), 0)
+
+  layer.addElement(rectangle)
+
 
   //Add child components to grid
   //Method usage: add(child, columnIndex, rowIndex, columnSpan, rowSpan)
   root.add(leftPanel, 0, 1, 1, 2)
   root.add(rightPanel, 2, 1, 1, 2)
-  root.add(canvas, 1, 1, 1, 1)
   root.add(topPanel, 0, 0, 3, 1)
   root.add(bottomPanel, 1, 2, 1, 1)
+  root.add(drawing.paint(stackPane), 1, 1, 1, 1)
 
   //Define grid row and column size
   val column0 = new ColumnConstraints
