@@ -1,3 +1,3 @@
 package logic
 
-case class Point(val x: Int, val y: Int)
+case class Point(val x: Double, val y: Double)
