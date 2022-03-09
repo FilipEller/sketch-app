@@ -15,7 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DrawingController">
    <children>
       <MenuBar maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" style="-fx-background-color: #999999; -fx-border-color: #222222;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -41,7 +43,7 @@
       </MenuBar>
       <BorderPane prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <center>
-            <GridPane prefHeight="244.0" prefWidth="442.0" style="-fx-background-color: #111111;" BorderPane.alignment="CENTER">
+            <GridPane prefHeight="244.0" prefWidth="442.0" style="-fx-background-color: #111111;" BorderPane.alignment="CENTER" fx:id="drawingBackground">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="1292.2000732421875" minWidth="10.0" prefWidth="95.6" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="1544.8" minWidth="10.0" prefWidth="1450.8" />
@@ -53,7 +55,7 @@
                 <RowConstraints maxHeight="103.59995117187503" minHeight="0.0" prefHeight="64.79999999999995" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                 <!-- <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1"/> -->
                </children>
             </GridPane>
          </center>
@@ -76,7 +78,7 @@
          <left>
             <VBox alignment="TOP_CENTER" prefHeight="802.0" prefWidth="60.0" style="-fx-background-color: #333333; -fx-border-color: #222222;" styleClass="panel" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Select">
+                  <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Select" onAction="#handleSubmitButtonAction">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>

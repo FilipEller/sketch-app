@@ -1,9 +1,13 @@
 package gui
 
+import javafx.fxml.FXMLLoader
+import javafx.scene.layout.AnchorPane
 import logic._
 import scalafx.application.JFXApp
-import scalafx.scene.Scene
+import scalafx.application.JFXApp.PrimaryStage
+import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints, StackPane}
+import scalafxml.core.FXMLView
 // import scalafx.scene.layout.Pane
 import scalafx.scene.layout.GridPane
 import scalafx.scene.layout.VBox
@@ -23,28 +27,54 @@ object Main extends JFXApp {
   readable code.
   */
 
-  stage = new JFXApp.PrimaryStage {
-      title.value = "Sketch App"
-      width = 1920
-      height = 1080
+  //val resource = getClass.getResource("/AdoptionForm.fxml")
+  //val root: jfxs.Parent = jfxf.FXMLLoader.load(resource)
+/*
+  class TestController(input: TextField,
+                     create: Button,
+                     recentInputs: ListView[String]) {
+
+	// event handlers are simple public methods:
+	def onCreate(event: ActionEvent): Unit = {
+		println("creating")
+	  }
   }
 
-  /*
-  Create root gui component, add it to a Scene
-  and set the current window scene.
-  */
 
-  val root = new GridPane
+  trait UnitConverterInterface {
+  def setInitialValue(value: Double): Unit
+}
+
+@sfxml
+class UnitConverterPresenter(unit: Int
+                            )
+  extends UnitConverterInterface {
+
+  def setInitialValue(value: Double): Unit = {
+    println(value)
+  }
+}
+*/
+
+  // val resource = getClass.getResource("/AdoptionForm.fxml")
+  val loader = new FXMLLoader(getClass.getResource("/sketch-app-gui.fxml"))
+  //loader.load()
+  val root: AnchorPane = loader.load()
+
+  val controller = loader.getController[DrawingController]
+  controller.testFunction(2)
+
+
+  stage = new JFXApp.PrimaryStage {
+    title.value = "Sketch App"
+    width = 1920
+    height = 1080
+  }
+
   val scene = new Scene(root) //Scene acts as a container for the scene graph
   stage.scene = scene
 
-  //Create some components to fill the grid with
-  val topPanel = new HBox
-  val bottomPanel = new HBox //Horizontal box is like VBox except children are laid in a row.
-  val leftPanel = new VBox
-  val rightPanel = new VBox
-  val stackPane = new StackPane
-  val drawing = new Drawing(900, 600)
+  val drawing = new Drawing(500, 500)
 
   val layer = drawing.layers.head
 
@@ -52,9 +82,65 @@ object Main extends JFXApp {
 
   layer.addElement(rectangle)
 
+  controller.drawingPane = drawing.paint(new StackPane)
+
+  controller.testFunction(2)
+
+  //val root: jfxs.Parent = jfxf.FXMLLoader.load(resource)
+
+  /*
+  stage = new PrimaryStage() {
+    title = "FXML GridPane Demo"
+    scene = new Scene(root)
+  }
+
+   */
+
+
+
+
+
+
+  /*
+  val loader = new FXMLLoader(
+  getClass.getResource("unitconverter.fxml"),
+  // ...
+  )
+
+  loader.load()
+
+  val root = loader.getRoot[jfxs.Parent]
+
+
+
+
+
+   */
+
+  /*
+  Create root gui component, add it to a Scene
+  and set the current window scene.
+  */
+
+  //val root = new GridPane
+
+  //Create some components to fill the grid with
+  /*
+  val topPanel = new HBox
+  val bottomPanel = new HBox //Horizontal box is like VBox except children are laid in a row.
+  val leftPanel = new VBox
+  val rightPanel = new VBox
+  val stackPane = new StackPane
+  val drawing = new Drawing(900, 600)
+
+
+
+  */
+
 
   //Add child components to grid
   //Method usage: add(child, columnIndex, rowIndex, columnSpan, rowSpan)
+  /*
   root.add(leftPanel, 0, 1, 1, 2)
   root.add(rightPanel, 2, 1, 1, 2)
   root.add(topPanel, 0, 0, 3, 1)
@@ -76,12 +162,16 @@ object Main extends JFXApp {
   row1.percentHeight = 80
   row2.percentHeight = 3
 
-  root.columnConstraints = Array(column0, column1, column2) //Add constraints in order
-  root.rowConstraints = Array(row0, row1, row2)
+  //root.columnConstraints = Array(column0, column1, column2) //Add constraints in order
+  //root.rowConstraints = Array(row0, row1, row2)
 
+   */
+
+  /*
   leftPanel.background = new Background(Array(new BackgroundFill((Gray), CornerRadii.Empty, Insets.Empty))) //Set sideBox background color
   rightPanel.background = new Background(Array(new BackgroundFill((Gray), CornerRadii.Empty, Insets.Empty)))
   topPanel.background = new Background(Array(new BackgroundFill((Blue), CornerRadii.Empty, Insets.Empty)))
   bottomPanel.background = new Background(Array(new BackgroundFill((Blue), CornerRadii.Empty, Insets.Empty))) //Set bottomBox background color
+   */
 
 }
