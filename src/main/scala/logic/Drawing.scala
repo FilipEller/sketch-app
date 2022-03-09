@@ -9,7 +9,11 @@ import scala.collection.mutable
 
 class Drawing(val width: Int, val height: Int) {
 
-  val layers = mutable.Buffer[Layer](Layer("Layer 1"))
+  val backgroundLayer = Layer("Layer 1")
+  val background = Shape(Rectangle, "background", width, height, 0, rgb(255, 255, 255), rgb(0, 0, 0, 0), Point(0, 0), 0)
+  backgroundLayer.addElement(background)
+
+  val layers = mutable.Buffer[Layer](backgroundLayer)
 
   var config = new Configurations(layers.head, RectangleTool, rgb(0, 0, 0), rgb(255, 255, 255), 1, None, 12)  // Default settings
 
