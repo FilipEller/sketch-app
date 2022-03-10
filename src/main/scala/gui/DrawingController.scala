@@ -36,25 +36,25 @@ class DrawingController {
     val drawingPane = drawing.paint(new StackPane)
 
     // set event listeners to pane
-    drawingPane.setOnMouseDragEntered(this.draw)
-    drawingPane.setOnMouseDragOver(this.draw)
-    drawingPane.setOnMouseDragExited(this.draw)
+    drawingPane.setOnMousePressed(this.draw(_))
+    drawingPane.setOnMouseDragged(this.draw(_))
+    drawingPane.setOnMouseReleased(this.draw(_))
 
     drawingPane.setOnDragDetected(e => drawingPane.startFullDrag())
 
     drawingPane
   }
 
-  @FXML def draw(event: MouseDragEvent): Unit = {
+  @FXML def draw(event: MouseEvent): Unit = {
     println("drawing")
     config.activeTool.use(drawing, config, event)
-    println("elements of active layer: " + config.activeLayer.name + " " + config.activeLayer.elements.mkString("\n"))
-    println("elements of drawing's first layer:")
-    println(this.drawing.layers.head.elements.mkString("\n"))
+    println("elements of active layer: " + config.activeLayer.name + " " + config.activeLayer.elements.mkString(", "))
+    //println("elements of drawing's first layer:")
+    //println(this.drawing.layers.head.elements.mkString("\n"))
     drawingBackground.getChildren.clear()
     val drawingPane = getUpdatedCanvas
     drawingBackground.add(drawingPane, 1, 1, 1, 1)
-    println("children of drawing background: " + drawingBackground.getChildren)
+    // println("children of drawing background: " + drawingBackground.getChildren) // Should always be a single StackPane
   }
 
 
