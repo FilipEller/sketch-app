@@ -2,7 +2,7 @@ package logic
 
 import scalafx.scene.layout.StackPane
 import scalafx.Includes._
-import scalafx.scene.input.MouseEvent
+import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color.rgb
 
 import scala.collection.mutable
@@ -15,7 +15,7 @@ class Drawing(val width: Int, val height: Int) {
 
   val layers = mutable.Buffer[Layer](backgroundLayer)
 
-  var config = new Configurations(layers.head, RectangleTool, rgb(0, 0, 0), rgb(255, 255, 255), 1, None, 12)  // Default settings
+  var config = new Configurations(layers.head, RectangleTool, rgb(255, 50, 50), rgb(50, 255, 50), 1, None, 12)  // Default settings
 
   def addLayer(): Unit = {
     var index = this.layers.length + 1
@@ -48,13 +48,13 @@ class Drawing(val width: Int, val height: Int) {
   }
 
   def paint(pane: StackPane): StackPane = {
-    pane.children.foreach(pane.children -= _)
+    // pane.children.foreach(pane.children -= _) // makes sure pane is empty
     this.layers.foreach(pane.children += _.paint(width, height))
     pane
   }
 
-  def useTool(mouseEvent: MouseEvent, pane: StackPane) = {
-    this.config.activeTool.use(this, this.config, mouseEvent)
+  def useTool(event: MouseDragEvent, pane: StackPane) = {
+    this.config.activeTool.use(this, this.config, event)
     this.paint(pane)
   }
 
