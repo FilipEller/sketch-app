@@ -5,6 +5,7 @@ import javafx.scene.layout.AnchorPane
 import logic._
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
+import scalafx.geometry.Point2D
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints, StackPane}
 import scalafxml.core.FXMLView
@@ -77,7 +78,7 @@ class UnitConverterPresenter(unit: Int
   println("setting up drawing")
   val drawing = new Drawing(500, 500)
   val layer = drawing.layers.head
-  val rectangle = Shape(Rectangle, "rectangle0", 100, 50, 2, rgb(100, 50, 160), rgb(160, 50, 80), Point(10, 20), 0)
+  val rectangle = Shape(Rectangle, "rectangle0", 100, 50, 2, rgb(100, 50, 160), rgb(160, 50, 80), new Point2D(10, 20), 0)
   layer.addElement(rectangle)
 
   println("setting drawing and config to controller")

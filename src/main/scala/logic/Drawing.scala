@@ -2,6 +2,7 @@ package logic
 
 import scalafx.scene.layout.StackPane
 import scalafx.Includes._
+import scalafx.geometry.Point2D
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color.rgb
 
@@ -10,8 +11,9 @@ import scala.collection.mutable
 class Drawing(val width: Int, val height: Int) {
 
   val backgroundLayer = Layer("Layer 1")
-  val background = Shape(Rectangle, "background", width, height, 0, rgb(255, 255, 255), rgb(0, 0, 0, 0), Point(0, 0), 0)
+  val background = Shape(Rectangle, "background", width, height, 0, rgb(255, 255, 255), rgb(0, 0, 0, 0), new Point2D(0, 0), 0)
   backgroundLayer.addElement(background)
+  var currentImage = new StackPane
 
   val layers = mutable.Buffer[Layer](backgroundLayer)
 
@@ -50,6 +52,7 @@ class Drawing(val width: Int, val height: Int) {
   def paint(pane: StackPane): StackPane = {
     // pane.children.foreach(pane.children -= _) // makes sure pane is empty
     this.layers.foreach(pane.children += _.paint(width, height))
+    this.currentImage = pane
     pane
   }
 

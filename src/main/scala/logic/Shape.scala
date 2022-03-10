@@ -1,5 +1,6 @@
 package logic
 
+import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 
@@ -12,8 +13,8 @@ case object Circle extends ShapeType
 
 
 case class Shape(stype: ShapeType, id: String, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
-                      origin: Point, rotation: Int = 0,
-                     group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+                 origin: Point2D, rotation: Int = 0,
+                 group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
    override def toString: String = {
      s"$stype at $origin with size $width and $height colored $color"
@@ -41,7 +42,7 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
     }
   }
 
-  def move(newOrigin: Point): Element = {
+  def move(newOrigin: Point2D): Element = {
     /*this.stype match {
       case Rectangle => new Rectangle(width, height, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
       case Square => new Square(width, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)

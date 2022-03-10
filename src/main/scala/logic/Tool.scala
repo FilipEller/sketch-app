@@ -2,6 +2,7 @@ package logic
 
 import javafx.scene.input.MouseEvent
 import javafx.scene.input.MouseDragEvent
+import scalafx.geometry.Point2D
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
@@ -13,13 +14,13 @@ trait Tool {
 
 object RectangleTool extends Tool {
   // type, id, width, height, border width, color, border color, origin)
-  var currentElement: Element = Shape(Rectangle, "temp", 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), Point(0, 0))
-  var clickPoint = Point(0, 0)
+  var currentElement: Element = Shape(Rectangle, "temp", 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), new Point2D(0, 0))
+  var clickPoint = new Point2D(0, 0)
 
-  def getUpdated(event: MouseDragEvent, config: Configurations) = {
+  def getUpdated(drawing: Drawing, config: Configurations, event: MouseDragEvent) = {
     val width = abs(clickPoint.x - event.getX)
     val height = abs(clickPoint.y - event.getY)
-    val origin = Point(min(clickPoint.x, event.getX), min(clickPoint.y, event.getY))
+    val origin = new Point2D(min(clickPoint.x, event.getX), min(clickPoint.y, event.getY))
     Shape(Rectangle, "temp", width, height, 0, config.primaryColor, config.secondaryColor, origin)
   }
 
@@ -27,14 +28,14 @@ object RectangleTool extends Tool {
     event.getEventType match {
       case MouseDragEvent.MOUSE_DRAG_ENTERED => {
         println("MOUSE_DRAG_ENTERED")
-        this.clickPoint = Point(event.getX, event.getY)
+        this.clickPoint = new Point2D(drawing.currentImage.sceneToLocal(new scalafx.geometry.Point2D(event.getX, event.getY)))  // javafx.geometry.Point2D cast to Scalafx through making a new object
         println("clicked at " + clickPoint)
         this.currentElement = Shape(Rectangle, "temp", 0, 0, 0, config.primaryColor, config.secondaryColor, this.clickPoint)
       }
       case MouseDragEvent.MOUSE_DRAG_OVER => {
         println("MOUSE_DRAG_OVER")
         config.activeLayer.removeElement(this.currentElement)
-        this.currentElement = getUpdated(event, config)
+        this.currentElement = getUpdated(drawing, config, event)
         println("dragging at " + event.getX + ", " + event.getY)
         config.activeLayer.addElement(this.currentElement)
         /*val workingLayer = Layer("temp")
@@ -45,7 +46,7 @@ object RectangleTool extends Tool {
       case MouseDragEvent.MOUSE_DRAG_EXITED => {
         println("MOUSE_DRAG_EXITED")
         config.activeLayer.removeElement(this.currentElement)
-        this.currentElement = getUpdated(event, config)
+        this.currentElement = getUpdated(drawing, config, event)
         println("released at " + event.getX + ", " + event.getY)
         config.activeLayer.addElement(currentElement)
         // config.activeLayer.addElement(Shape(Rectangle, "test", 30, 40, 0, rgb(40, 255, 40), rgb(0, 0, 0, 0), Point(50, 50), 0)) // test rectangle
