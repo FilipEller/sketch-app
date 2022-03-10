@@ -30,16 +30,16 @@ object RectangleTool extends Tool {
   }
 
   def use(drawing: Drawing, config: Configurations, event: MouseEvent): Unit = {
-    val eventPoint = new Point2D(drawing.currentImage.screenToLocal(event.getScreenX - 324, event.getScreenY - 56))
+    val eventPoint = new Point2D(drawing.currentImage.screenToLocal(event.getScreenX - 324, event.getScreenY - 56)) // No idea where these Int literals come from
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
-        println("MOUSE_DRAG_ENTERED")
+        println("MOUSE_PRESSED")
         this.clickPoint = new Point2D(drawing.currentImage.screenToLocal(event.getScreenX - 324, event.getScreenY - 56))  // javafx.geometry.Point2D cast to Scalafx through making a new object
         println("clicked at " + clickPoint)
         this.currentElement = Shape(Rectangle, "temp", 0, 0, 0, config.primaryColor, config.secondaryColor, this.clickPoint)
       }
       case MouseEvent.MOUSE_DRAGGED => { // This is actually called when going over the border not when dragging
-        println("MOUSE_DRAG_OVER")
+        println("MOUSE_DRAGGED")
         config.activeLayer.removeElement(this.currentElement)
         this.currentElement = getUpdated(drawing, config, eventPoint)
         println("dragging at " + eventPoint)
@@ -50,12 +50,11 @@ object RectangleTool extends Tool {
         drawing.addLayer(workingLayer)*/
       }
       case MouseEvent.MOUSE_RELEASED => {
-        println("MOUSE_DRAG_RELEASED")
+        println("MOUSE_RELEASED")
         config.activeLayer.removeElement(this.currentElement)
         this.currentElement = getUpdated(drawing, config, eventPoint)
         println("released at " + eventPoint)
         config.activeLayer.addElement(currentElement)
-        // config.activeLayer.addElement(Shape(Rectangle, "test", 30, 40, 0, rgb(40, 255, 40), rgb(0, 0, 0, 0), Point(50, 50), 0)) // test rectangle
       }
       case _ => {
         println("unrecognized mouseDragEvent type: " + event.getEventType)

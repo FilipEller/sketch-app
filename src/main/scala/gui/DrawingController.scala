@@ -61,17 +61,7 @@ class DrawingController {
   @FXML def createCanvas(): Unit = {
     println("creating canvas")
     println(drawing)
-
     val drawingPane = getUpdatedCanvas
-
-    //drawingPane.addEventFilter(MouseEvent.MouseClicked, event => drawingPane.startFullDrag())
-
-    /*
-    drawingPane.setOnMouseDragged(draw(_))
-    drawingPane.setOnMouseReleased(draw(_))
-     */
-
-    // add pane to GUI
     drawingBackground.add(drawingPane, 1, 1, 1, 1)
   }
 

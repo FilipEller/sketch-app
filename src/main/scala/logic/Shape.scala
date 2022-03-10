@@ -42,48 +42,9 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
     }
   }
 
-  def move(newOrigin: Point2D): Element = {
-    /*this.stype match {
-      case Rectangle => new Rectangle(width, height, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
-      case Square => new Square(width, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
-      case Ellipse => new Ellipse(width, height, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
-      case Circle => new Circle(width, borderWidth, borderColor, id, newOrigin, rotation, color, group, Some(this), hidden, deleted)
-    }*/
+  def move(newOrigin: Point2D): Element = this.copy(origin = newOrigin)
 
-    this.copy(origin = newOrigin)
-  }
 
-  def rotate(angle: Int): Element = {
-    /*this.stype match {
-      case Rectangle => new Rectangle(width, height, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
-      case Square => new Square(width, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
-      case Ellipse => new Ellipse(width, height, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
-      case Circle => new Circle(width, borderWidth, borderColor, id, origin, rotation + angle, color, group, Some(this), hidden, deleted)
-    }*/
-
-    this.copy(rotation = this.rotation + angle)
-  }
+  def rotate(angle: Int): Element = this.copy(rotation = this.rotation + angle)
 
 }
-
-/*
- class Rectangle(width: Int, height: Int, borderWidth: Int, borderColor: Color,
-                     id: String, origin: Point, rotation: Int, color: Color,
-                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
-  extends Shape(Rectangle, width, height, borderWidth, borderColor, id, origin, rotation, color, group, previousVersion, hidden, deleted)
-
-class Square(width: Int, borderWidth: Int, borderColor: Color,
-                     id: String, origin: Point, rotation: Int, color: Color,
-                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
-  extends Shape(Square, width, width, borderWidth, borderColor, id, origin, rotation, color, group, previousVersion, hidden, deleted)
-
-class Ellipse(width: Int, height: Int, borderWidth: Int, borderColor: Color,
-                     id: String, origin: Point, rotation: Int, color: Color,
-                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
-  extends Shape(Ellipse, width, height, borderWidth, borderColor, id, origin, rotation, color, group, previousVersion, hidden, deleted)
-
-class Circle(width: Int, borderWidth: Int, borderColor: Color,
-                     id: String, origin: Point, rotation: Int, color: Color,
-                     group: Option[Long], previousVersion: Option[Element], hidden: Boolean, deleted: Boolean)
-  extends Shape(Circle, width, width, borderWidth, borderColor, id, origin, rotation, color, group, previousVersion, hidden, deleted)
- */

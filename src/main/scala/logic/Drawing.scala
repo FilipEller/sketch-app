@@ -50,7 +50,6 @@ class Drawing(val width: Int, val height: Int) {
   }
 
   def paint(pane: StackPane): StackPane = {
-    // pane.children.foreach(pane.children -= _) // makes sure pane is empty
     this.layers.foreach(pane.children += _.paint(width, height))
     this.currentImage = pane
     pane
