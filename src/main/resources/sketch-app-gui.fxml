@@ -78,7 +78,7 @@
          <left>
             <VBox alignment="TOP_CENTER" prefHeight="802.0" prefWidth="60.0" style="-fx-background-color: #333333; -fx-border-color: #222222;" styleClass="panel" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Select" onAction="#handleSubmitButtonAction">
+                  <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Select">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -96,7 +96,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Rectangle">
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Rectangle" onAction="#changeToRectangleTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
