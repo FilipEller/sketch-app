@@ -15,6 +15,10 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
                       origin: Point, rotation: Int = 0,
                      group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
+   override def toString: String = {
+     s"$stype at $origin with size $width and $height colored $color"
+   }
+
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
     g.fill = this.color
