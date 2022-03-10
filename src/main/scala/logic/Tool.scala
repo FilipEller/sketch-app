@@ -1,13 +1,14 @@
 package logic
 
 import javafx.scene.input.MouseEvent
+import javafx.scene.input.MouseDragEvent
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-import scala.math.min
+import scala.math.{abs, min}
 
 trait Tool {
-  def use(drawing: Drawing, config: Configurations, mouseEvent: MouseEvent): Unit
+  def use(drawing: Drawing, config: Configurations, event: MouseDragEvent): Unit
 }
 
 object RectangleTool extends Tool {
@@ -15,34 +16,42 @@ object RectangleTool extends Tool {
   var currentElement: Element = Shape(Rectangle, "temp", 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), Point(0, 0))
   var clickPoint = Point(0, 0)
 
-  def getUpdated(event: MouseEvent) = {
-    val width = clickPoint.x - event.getX
-    val height = clickPoint.y - event.getY
+  def getUpdated(event: MouseDragEvent, config: Configurations) = {
+    val width = abs(clickPoint.x - event.getX)
+    val height = abs(clickPoint.y - event.getY)
     val origin = Point(min(clickPoint.x, event.getX), min(clickPoint.y, event.getY))
-    Shape(Rectangle, "temp", width, height, 0, rgb(0, 0, 0), rgb(0, 0, 0), origin)
+    Shape(Rectangle, "temp", width, height, 0, config.primaryColor, config.secondaryColor, origin)
   }
 
-  def use(drawing: Drawing, config: Configurations, mouseEvent: MouseEvent) = {
-    mouseEvent.getEventType match {
-      case MouseEvent.MOUSE_CLICKED => {
-        println("clicked")
-        this.clickPoint = Point(mouseEvent.getX, mouseEvent.getY)
-        this.currentElement = Shape(Rectangle, "temp", 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0), this.clickPoint)
+  def use(drawing: Drawing, config: Configurations, event: MouseDragEvent) = {
+    event.getEventType match {
+      case MouseDragEvent.MOUSE_DRAG_ENTERED => {
+        println("MOUSE_DRAG_ENTERED")
+        this.clickPoint = Point(event.getX, event.getY)
+        println("clicked at " + clickPoint)
+        this.currentElement = Shape(Rectangle, "temp", 0, 0, 0, config.primaryColor, config.secondaryColor, this.clickPoint)
       }
-      case MouseEvent.MOUSE_DRAGGED => {
-        println("dragging")
+      case MouseDragEvent.MOUSE_DRAG_OVER => {
+        println("MOUSE_DRAG_OVER")
         config.activeLayer.removeElement(this.currentElement)
-        this.currentElement = getUpdated(mouseEvent)
+        this.currentElement = getUpdated(event, config)
+        println("dragging at " + event.getX + ", " + event.getY)
         config.activeLayer.addElement(this.currentElement)
         /*val workingLayer = Layer("temp")
         workingLayer.addElement(this.currentElement)
         drawing.removeLayer(
         drawing.addLayer(workingLayer)*/
       }
-      case MouseEvent.MOUSE_RELEASED => {
-        println("released")
-        this.currentElement = getUpdated(mouseEvent)
+      case MouseDragEvent.MOUSE_DRAG_EXITED => {
+        println("MOUSE_DRAG_EXITED")
+        config.activeLayer.removeElement(this.currentElement)
+        this.currentElement = getUpdated(event, config)
+        println("released at " + event.getX + ", " + event.getY)
         config.activeLayer.addElement(currentElement)
+        // config.activeLayer.addElement(Shape(Rectangle, "test", 30, 40, 0, rgb(40, 255, 40), rgb(0, 0, 0, 0), Point(50, 50), 0)) // test rectangle
+      }
+      case _ => {
+        println("unrecognized mouseDragEvent type: " + event.getEventType)
       }
     }
   }
