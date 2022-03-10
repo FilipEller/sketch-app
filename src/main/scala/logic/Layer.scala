@@ -11,10 +11,12 @@ case class Layer(var name: String) {
   var currentImage: Option[Canvas] = None
 
   def addElement(element: Element) = {
+    println("adding " + element + " to layer " + this.name)
     this.elements += element
   }
 
   def removeElement(element: Element) = {
+    println("removing " + element)
     this.elements -= element
   }
 
@@ -22,7 +24,7 @@ case class Layer(var name: String) {
     def repaint(width: Int, height: Int) = {
       val canvas = new Canvas(width, height)
       this.elements.foreach(_.paint(canvas))
-      currentImage = Some(canvas)
+      // currentImage = Some(canvas) // lets not try and do any optimizations for now. this probably does not work
       canvas
     }
     currentImage.getOrElse(repaint(width, height))
