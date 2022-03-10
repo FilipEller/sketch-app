@@ -56,15 +56,15 @@ class UnitConverterPresenter(unit: Int
 }
 */
 
-  // val resource = getClass.getResource("/AdoptionForm.fxml")
+  println("loading FXML")
   val loader = new FXMLLoader(getClass.getResource("/sketch-app-gui.fxml"))
-  //loader.load()
   val root: AnchorPane = loader.load()
 
+  println("getting Controller")
   val controller = loader.getController[DrawingController]
-  controller.testFunction(2)
+  controller.testFunction(1)
 
-
+  println("setting up stage")
   stage = new JFXApp.PrimaryStage {
     title.value = "Sketch App"
     width = 1920
@@ -74,17 +74,20 @@ class UnitConverterPresenter(unit: Int
   val scene = new Scene(root) //Scene acts as a container for the scene graph
   stage.scene = scene
 
+  println("setting up drawing")
   val drawing = new Drawing(500, 500)
-
   val layer = drawing.layers.head
-
   val rectangle = Shape(Rectangle, "rectangle0", 100, 50, 2, rgb(100, 50, 160), rgb(160, 50, 80), Point(10, 20), 0)
-
   layer.addElement(rectangle)
 
-  controller.drawingPane = drawing.paint(new StackPane)
+  println("setting drawing and config to controller")
+  controller.drawing = drawing
+  controller.config = drawing.config
 
   controller.testFunction(2)
+
+  println("calling createCanvas")
+  controller.createCanvas()
 
   //val root: jfxs.Parent = jfxf.FXMLLoader.load(resource)
 
