@@ -24,10 +24,10 @@ case class Layer(var name: String) {
     def repaint(width: Int, height: Int) = {
       val canvas = new Canvas(width, height)
       this.elements.foreach(_.paint(canvas))
-      // currentImage = Some(canvas) // lets not try and do any optimizations for now. just this does not work anyway
+      currentImage = Some(canvas) // lets not try and do any optimizations for now. just this does not work anyway
       canvas
     }
-    currentImage.getOrElse(repaint(width, height))
+    repaint(width, height) // currentImage.getOrElse(repaint(width, height))
   }
 
   def rename(newName: String) = {

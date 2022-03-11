@@ -9,7 +9,7 @@ import scalafx.scene.paint.Color.rgb
 import scala.math.{abs, min, max}
 
 trait Tool {
-  def use(drawing: Drawing, config: Configurations, event: MouseEvent): Unit
+  def use(drawing: Drawing, config: Configurations, event: MouseEvent, eventPoint: Point2D): Unit
 }
 
 object RectangleTool extends Tool {
@@ -29,12 +29,15 @@ object RectangleTool extends Tool {
     Shape(Rectangle, "temp", width, height, 0, config.primaryColor, config.secondaryColor, origin)
   }
 
-  def use(drawing: Drawing, config: Configurations, event: MouseEvent): Unit = {
-    val eventPoint = new Point2D(drawing.currentImage.screenToLocal(event.getScreenX - 324, event.getScreenY - 56)) // No idea where these Int literals come from
+  def use(drawing: Drawing, config: Configurations, event: MouseEvent, eventPoint: Point2D): Unit = {
+
+    println(drawing.currentImage.getLayoutBounds)
+    // val targetOffset = new Point2D(325, 56)
+     // No idea where these Int literals come from
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
         println("MOUSE_PRESSED")
-        this.clickPoint = new Point2D(drawing.currentImage.screenToLocal(event.getScreenX - 324, event.getScreenY - 56))  // javafx.geometry.Point2D cast to Scalafx through making a new object
+        this.clickPoint = eventPoint  // javafx.geometry.Point2D cast to Scalafx through making a new object
         println("clicked at " + clickPoint)
         this.currentElement = Shape(Rectangle, "temp", 0, 0, 0, config.primaryColor, config.secondaryColor, this.clickPoint)
       }
@@ -60,5 +63,6 @@ object RectangleTool extends Tool {
         println("unrecognized mouseDragEvent type: " + event.getEventType)
       }
     }
+    println(drawing.layers.head.currentImage.get.getLayoutBounds)
   }
 }

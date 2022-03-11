@@ -55,9 +55,11 @@ class Drawing(val width: Int, val height: Int) {
     pane
   }
 
+  /*
   def useTool(event: MouseDragEvent, pane: StackPane) = {
-    this.config.activeTool.use(this, this.config, event)
+    this.config.activeTool.use(this, this.config, event, )
     this.paint(pane)
   }
+   */
 
 }
