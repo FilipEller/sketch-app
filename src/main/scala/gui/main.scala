@@ -44,6 +44,6 @@ object Main extends JFXApp {
   layer.addElement(rectangle)
   controller.drawing = drawing
   controller.config = drawing.config
-  controller.createCanvas()
+  controller.newCreateCanvas()
 
 }

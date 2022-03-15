@@ -3,6 +3,7 @@ package logic
 import scalafx.scene.layout.StackPane
 import scalafx.Includes._
 import scalafx.geometry.Point2D
+import scalafx.scene.canvas.Canvas
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color.rgb
 
@@ -50,6 +51,9 @@ class Drawing(val width: Int, val height: Int) {
   }
 
   def paint(pane: StackPane): StackPane = {
+    println(pane.children)
+    pane.children.tail.foreach(pane.children -= _) // empties except for empty base canvas
+    println(pane.children)
     this.layers.foreach(pane.children += _.paint(width, height))
     this.currentImage = pane
     pane

@@ -43,21 +43,8 @@
       </MenuBar>
       <BorderPane prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <center>
-            <GridPane prefHeight="244.0" prefWidth="442.0" style="-fx-background-color: #111111;" BorderPane.alignment="CENTER" fx:id="drawingBackground">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1292.2000732421875" minWidth="10.0" prefWidth="95.6" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1544.8" minWidth="10.0" prefWidth="1450.8" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.20001220703125" minWidth="10.0" prefWidth="96.800048828125" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="673.6000122070312" minHeight="10.0" prefHeight="48.19996337890625" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="885.5999599456787" minHeight="10.0" prefHeight="808.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="103.59995117187503" minHeight="0.0" prefHeight="64.79999999999995" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                 <!-- <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1"/> -->
-               </children>
-            </GridPane>
+            <StackPane prefHeight="244.0" prefWidth="442.0" style="-fx-background-color: #111111;" BorderPane.alignment="CENTER" fx:id="drawingBackground">
+            </StackPane>
          </center>
          <right>
             <GridPane prefHeight="1000.0" prefWidth="214.0" style="-fx-background-color: #333333; -fx-border-color: #222222;" BorderPane.alignment="CENTER">
