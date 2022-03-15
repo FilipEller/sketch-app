@@ -26,7 +26,6 @@ object Main extends JFXApp {
   val loader = new FXMLLoader(getClass.getResource("/sketch-app-gui.fxml"))
   val root: AnchorPane = loader.load()
   val controller = loader.getController[DrawingController]
-  controller.testFunction(1)
 
   println("setting up stage")
   stage = new JFXApp.PrimaryStage {

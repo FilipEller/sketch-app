@@ -43,7 +43,7 @@
       </MenuBar>
       <BorderPane prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <center>
-            <StackPane prefHeight="244.0" prefWidth="442.0" style="-fx-background-color: #111111;" BorderPane.alignment="CENTER" fx:id="drawingBackground">
+            <StackPane prefHeight="244.0" prefWidth="442.0" style="-fx-background-color: #111111;" BorderPane.alignment="CENTER" fx:id="pane">
             </StackPane>
          </center>
          <right>
@@ -65,25 +65,12 @@
          <left>
             <VBox alignment="TOP_CENTER" prefHeight="802.0" prefWidth="60.0" style="-fx-background-color: #333333; -fx-border-color: #222222;" styleClass="panel" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Select">
+                  <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Select" onAction="#changeTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button layoutX="15.0" layoutY="11.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Transform">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="8.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Brush">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Rectangle" onAction="#changeToRectangleTool">
+                  <Button layoutX="15.0" layoutY="11.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Transform" onAction="#changeTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -91,7 +78,20 @@
                         <Font size="8.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Square">
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Brush" onAction="#changeTool">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Rectangle" onAction="#changeTool">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="8.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Square" onAction="#changeTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -99,7 +99,7 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Ellipse">
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Ellipse" onAction="#changeTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -107,12 +107,12 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button layoutX="15.0" layoutY="181.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Circle">
+                  <Button layoutX="15.0" layoutY="181.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Circle" onAction="#changeTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Text">
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="tool" text="Text" onAction="#changeTool">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
