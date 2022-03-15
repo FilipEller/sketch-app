@@ -11,8 +11,9 @@ import scalafx.scene.Node
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.control.Button
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
-import scalafx.scene.paint.Color.rgb
-import javafx.scene.control.ColorPicker
+import scalafx.scene.paint.Color.{Blue, White, rgb}
+import javafx.scene.control.{ColorPicker, ListView}
+import scalafx.collections.ObservableBuffer
 
 import scala.math
 
@@ -20,10 +21,11 @@ class DrawingController {
 
 
   @FXML var pane: javafx.scene.layout.StackPane = _
+  @FXML var layerView: javafx.scene.control.ListView[String] = _
   // @FXML var primaryColorPicker: javafx.scene.control.ColorPicker = _
 
   var drawing: Drawing = _
-  var baseCanvas: Node = _
+  var baseCanvas: Canvas = _
 
 
     @FXML def updateCanvas(): Unit = {
@@ -47,9 +49,15 @@ class DrawingController {
 
   @FXML def newCreateCanvas(): Unit = {
     println("initializing canvas")
-    pane.children += new Canvas(drawing.width, drawing.height)
-    this.baseCanvas = pane.children.head
 
+    this.baseCanvas = new Canvas(drawing.width, drawing.height)
+    pane.children += baseCanvas
+
+    val g = baseCanvas.graphicsContext2D
+    g.fill = White
+    g.fillRect(0, 0, this.drawing.width, this.drawing.height)
+
+    this.drawing.layers.foreach( l => this.layerView.getItems.add(l.name) )
     updateCanvas()
   }
 
@@ -101,5 +109,24 @@ class DrawingController {
   // activeBrush
   // selectedElement
   // fontSize
+
+  // Layers
+
+  @FXML protected def addLayer(event: ActionEvent) = {
+    println("adding layer")
+  }
+
+  @FXML protected def selectLayer(event: ActionEvent) = {
+    println("selecting layer")
+    // this.drawing.config.activeLayer = target
+  }
+
+  @FXML protected def removeLayer(event: ActionEvent) = {
+    println("removing layer")
+  }
+
+  @FXML protected def renameLayer(event: ActionEvent) = {
+    println("renaming layer")
+  }
 
 }

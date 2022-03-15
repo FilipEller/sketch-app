@@ -12,12 +12,8 @@ import scala.collection.mutable
 class Drawing(val width: Int, val height: Int) {
 
   val backgroundLayer = Layer("Layer 1")
-  val background = Shape(Rectangle, "background", width, height, 0, rgb(255, 255, 255), rgb(0, 0, 0, 0), new Point2D(0, 0), 0)
-  backgroundLayer.addElement(background)
   var currentImage = new StackPane
-
   val layers = mutable.Buffer[Layer](backgroundLayer)
-
   var config = new Configurations(layers.head, RectangleTool, rgb(0, 0, 0), rgb(0, 0, 0), 1, None, 12)  // Default settings
 
   def addLayer(): Unit = {

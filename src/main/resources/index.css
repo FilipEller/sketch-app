@@ -16,10 +16,11 @@
     -fx-text-fill: #ddd;
 }
 
-.tool-button {
+.button {
     -fx-text-fill: #ddd;
-    -fx-background-color: #555;
+    -fx-background-color: #666;
 }
+
 #menu-bar {
     -fx-background-color: #555;
 }
@@ -34,6 +35,6 @@
     -fx-margin: 5px;
 }
 
-.color-picker {
-    -fx-background-color: #777;
+#layer-view {
+    -fx-background-color: #333;
 }
