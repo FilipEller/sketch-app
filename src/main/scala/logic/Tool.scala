@@ -26,7 +26,7 @@ object RectangleTool extends Tool {
     println("width: " + width)
     println("height: " + height)
     println("origin: " + origin)
-    Shape(Rectangle, "temp", width, height, 0, config.primaryColor, config.secondaryColor, origin)
+    Shape(Rectangle, "temp", width, height, 3, config.primaryColor, config.secondaryColor, origin)
   }
 
   def use(drawing: Drawing, config: Configurations, event: MouseEvent, eventPoint: Point2D): Unit = {

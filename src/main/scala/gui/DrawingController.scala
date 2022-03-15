@@ -11,15 +11,18 @@ import scalafx.scene.Node
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.control.Button
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
-import scalafx.scene.paint.Color.Gray
+import scalafx.scene.paint.Color.rgb
+import javafx.scene.control.ColorPicker
+
+import scala.math
 
 class DrawingController {
 
 
   @FXML var pane: javafx.scene.layout.StackPane = _
+  // @FXML var primaryColorPicker: javafx.scene.control.ColorPicker = _
 
   var drawing: Drawing = _
-  var config: Configurations = _
   var baseCanvas: Node = _
 
 
@@ -37,8 +40,8 @@ class DrawingController {
 
   @FXML def draw(event: MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
-    config.activeTool.use(drawing, config, event, localPoint)
-    println("elements of active layer: " + config.activeLayer.name + " " + config.activeLayer.elements.mkString(", "))
+    drawing.config.activeTool.use(drawing, drawing.config, event, localPoint)
+    println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
   }
 
@@ -76,6 +79,27 @@ class DrawingController {
   // activeTool
   // primaryColor
   // secondaryColor
+
+  @FXML protected def changeColor(event: ActionEvent): Unit = {
+    println(event)
+    println(event.getTarget)
+    val picker = event.getTarget.asInstanceOf[ColorPicker]
+    val color = picker.getValue
+    val id = picker.getId
+    println(id)
+    println(color)
+    val red = math.round(color.getRed * 255).toInt
+    val green = math.round(color.getGreen * 255).toInt
+    val blue = math.round(color.getBlue * 255).toInt
+    val rgbColor = rgb(red, green, blue)
+    println(red, green, blue)
+    println(rgbColor)
+    id match {
+      case "primaryColorPicker" => drawing.config = drawing.config.copy(primaryColor = rgbColor)
+      case "secondaryColorPicker" => drawing.config = drawing.config.copy(secondaryColor = rgbColor)
+    }
+  }
+
   // activeBrush
   // selectedElement
   // fontSize

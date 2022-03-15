@@ -39,10 +39,7 @@ object Main extends JFXApp {
   println("setting up drawing")
   val drawing = new Drawing(500, 500)
   val layer = drawing.layers.head
-  val rectangle = Shape(Rectangle, "rectangle0", 100, 50, 2, rgb(100, 50, 160), rgb(160, 50, 80), new Point2D(0, 0), 0)
-  layer.addElement(rectangle)
   controller.drawing = drawing
-  controller.config = drawing.config
   controller.newCreateCanvas()
 
 }
