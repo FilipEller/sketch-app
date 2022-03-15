@@ -27,7 +27,8 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
       case Rectangle => g.fillRect(origin.x, origin.y, this.width, this.height)
       case Square => g.fillRect(origin.x, origin.y, this.width, this.width)
       case Ellipse => g.fillOval(origin.x, origin.y, this.width, this.height)
-      case Square => g.fillOval(origin.x, origin.y, this.width, this.width)
+      case Circle => g.fillOval(origin.x, origin.y, this.width, this.width)
+      case _ =>
     }
 
     if (this.borderWidth > 0) {
@@ -37,7 +38,8 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
         case Rectangle => g.strokeRect(origin.x, origin.y, this.width, this.height)
         case Square => g.strokeRect(origin.x, origin.y, this.width, this.width)
         case Ellipse => g.strokeOval(origin.x, origin.y, this.width, this.height)
-        case Square => g.strokeOval(origin.x, origin.y, this.width, this.width)
+        case Circle => g.strokeOval(origin.x, origin.y, this.width, this.width)
+        case _ =>
       }
     }
   }
