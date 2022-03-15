@@ -1,0 +1,34 @@
+.panel {
+    -fx-background-color: #333;
+    -fx-border-color: #222;
+}
+
+.control-panel {
+    -fx-background-color: #555;
+    -fx-background-radius: 7px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
+
+.control-panel .label {
+    -fx-text-fill: #ddd;
+}
+
+.tool-button {
+    -fx-text-fill: #ddd;
+    -fx-background-color: #555;
+}
+#menu-bar {
+    -fx-background-color: #555;
+}
+
+.menu .label {
+    -fx-text-fill: #ddd;
+    -fx-margin: 5px;
+}
+
+.color-picker {
+    -fx-background-color: #777;
+}
