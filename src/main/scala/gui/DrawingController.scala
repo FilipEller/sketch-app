@@ -4,7 +4,7 @@ import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
-import logic.{Configurations, Drawing, EllipseTool, RectangleTool}
+import logic.{Configurations, Drawing, EllipseTool, RectangleTool, SquareTool}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
@@ -66,7 +66,7 @@ class DrawingController {
       case "Transform" => RectangleTool
       case "Brush" => RectangleTool
       case "Rectangle" => RectangleTool
-      case "Square" => RectangleTool
+      case "Square" => SquareTool
       case "Ellipse" => EllipseTool
       case "Circle" => RectangleTool
       case "Text" => RectangleTool

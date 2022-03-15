@@ -18,9 +18,23 @@ abstract class DrawsShapes(stype: ShapeType) extends Tool {
   var clickPoint = new Point2D(0, 0)
 
   def getUpdated(drawing: Drawing, config: Configurations, eventPoint: Point2D) = {
-    val width = abs(clickPoint.x - max(0, eventPoint.x))
-    val height = abs(clickPoint.y - max(0, eventPoint.y))
-    val origin = new Point2D(min(abs(clickPoint.x), max(0, eventPoint.x)), min(abs(clickPoint.y), max(0, eventPoint.y)))
+    val (width: Double, height, origin) = this.stype match {
+      case s: ShapeType if s == Rectangle || s == Ellipse => {
+        val width = abs(clickPoint.x - max(0, eventPoint.x))
+        val height = abs(clickPoint.y - max(0, eventPoint.y))
+        val origin = new Point2D(min(abs(clickPoint.x), max(0, eventPoint.x)), min(abs(clickPoint.y), max(0, eventPoint.y)))
+        (width, height, origin)
+      }
+      case _ => { // Square and Circle
+        val xDiff =  max(0, eventPoint.x) - clickPoint.x
+        val yDiff = max(0, eventPoint.y) - clickPoint.y
+        val smallerDiff = if (abs(xDiff) > abs(yDiff)) xDiff else yDiff
+        val width = abs(smallerDiff)
+        val height = width
+        val origin = new Point2D(max(0, min(clickPoint.x, clickPoint.x + xDiff.sign * width)), max(0, min(clickPoint.y, clickPoint.y + yDiff.sign * height)))
+        (width, height, origin)
+      }
+    }
     Shape(this.stype, "temp", width, height, 3, config.primaryColor, config.secondaryColor, origin)
   }
 
@@ -55,6 +69,12 @@ abstract class DrawsShapes(stype: ShapeType) extends Tool {
 }
 
 object RectangleTool extends DrawsShapes(Rectangle) {
+  def use(drawing: Drawing, config: Configurations, event: MouseEvent, eventPoint: Point2D): Unit = {
+    this.drawShape(drawing, config, event, eventPoint)
+  }
+}
+
+object SquareTool extends DrawsShapes(Square) {
   def use(drawing: Drawing, config: Configurations, event: MouseEvent, eventPoint: Point2D): Unit = {
     this.drawShape(drawing, config, event, eventPoint)
   }
