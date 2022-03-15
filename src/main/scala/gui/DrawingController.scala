@@ -4,7 +4,7 @@ import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
-import logic.{Configurations, Drawing, RectangleTool}
+import logic.{Configurations, Drawing, EllipseTool, RectangleTool}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
@@ -34,7 +34,7 @@ class DrawingController {
       canvas.setOnMousePressed(this.draw(_))
       canvas.setOnMouseDragged(this.draw(_))
       canvas.setOnMouseReleased(this.draw(_))
-      canvas.setOnDragDetected(e => canvas.startFullDrag())
+      // canvas.setOnDragDetected(e => canvas.startFullDrag())
     })
   }
 
@@ -56,7 +56,7 @@ class DrawingController {
 
   // Configurations
 
-
+  // activeTool
   @FXML protected def changeTool(event: ActionEvent): Unit = {
     val button: scalafx.scene.control.Button = new Button(event.getTarget.asInstanceOf[javafx.scene.control.Button])
     val label = button.getText
@@ -67,7 +67,7 @@ class DrawingController {
       case "Brush" => RectangleTool
       case "Rectangle" => RectangleTool
       case "Square" => RectangleTool
-      case "Ellipse" => RectangleTool
+      case "Ellipse" => EllipseTool
       case "Circle" => RectangleTool
       case "Text" => RectangleTool
       case _ => RectangleTool
@@ -75,11 +75,7 @@ class DrawingController {
     drawing.config = drawing.config.copy(activeTool = targetTool)
   }
 
-  // activeLayer
-  // activeTool
-  // primaryColor
-  // secondaryColor
-
+  // Colors
   @FXML protected def changeColor(event: ActionEvent): Unit = {
     println(event)
     println(event.getTarget)
@@ -91,8 +87,9 @@ class DrawingController {
     val red = math.round(color.getRed * 255).toInt
     val green = math.round(color.getGreen * 255).toInt
     val blue = math.round(color.getBlue * 255).toInt
-    val rgbColor = rgb(red, green, blue)
-    println(red, green, blue)
+    val opacity = color.getOpacity
+    val rgbColor = rgb(red, green, blue, opacity)
+    println(red, green, blue, opacity)
     println(rgbColor)
     id match {
       case "primaryColorPicker" => drawing.config = drawing.config.copy(primaryColor = rgbColor)
@@ -100,6 +97,7 @@ class DrawingController {
     }
   }
 
+  // activeLayer
   // activeBrush
   // selectedElement
   // fontSize

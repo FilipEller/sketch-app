@@ -21,10 +21,10 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@index.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DrawingController">
     <MenuBar id="menu-bar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" style="-fx-color: #ffffff;" styleClass="menu" text="File">
-            <MenuItem id="new" mnemonicParsing="false" text="New" />
-            <MenuItem id="open" mnemonicParsing="false" text="Open" />
-            <MenuItem id="save" mnemonicParsing="false" text="Save" />
-            <MenuItem id="saveas" mnemonicParsing="false" text="Save as..." />
+            <MenuItem id="new" styleClass="menu-item" mnemonicParsing="false" text="New" />
+            <MenuItem id="open" styleClass="menu-item" mnemonicParsing="false" text="Open" />
+            <MenuItem id="save" styleClass="menu-item" mnemonicParsing="false" text="Save" />
+            <MenuItem id="saveas" styleClass="menu-item" mnemonicParsing="false" text="Save as..." />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Delete" />

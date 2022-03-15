@@ -29,6 +29,11 @@
     -fx-margin: 5px;
 }
 
+.menu-item .label {
+    -fx-text-fill: #000;
+    -fx-margin: 5px;
+}
+
 .color-picker {
     -fx-background-color: #777;
 }
