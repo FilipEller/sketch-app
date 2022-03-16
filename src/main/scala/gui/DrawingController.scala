@@ -42,11 +42,13 @@ class DrawingController {
   }
 
   def updateLayerView(): Unit = {
+    val selectedLayer = this.layerView.getSelectionModel.getSelectedItem
     this.layerView.getItems.clear()
     this.drawing.layers.reverse.foreach( l => this.layerView.getItems.add(l.name) )
+    this.layerView.getSelectionModel.select(selectedLayer)
   }
 
-  def selectLayer(ov: ObservableValue[_ <: String], old_val: String, new_val: String) = {
+  def selectLayer(new_val: String) = {
     println("selecting " + new_val)
     val layer = this.drawing.findLayer(new_val)
     this.drawing.config = this.drawing.config.copy(activeLayer = layer.getOrElse(this.drawing.config.activeLayer))
@@ -55,8 +57,9 @@ class DrawingController {
   def initializeLayerView(): Unit = {
     import javafx.beans.value.ChangeListener
     this.layerView.getSelectionModel.selectedItemProperty.addListener(new ChangeListener[String]() {
-      override def changed(observableValue: ObservableValue[_ <: String], t: String, t1: String): Unit = {
-        selectLayer(observableValue, t, t1)
+      override def changed(observableValue: ObservableValue[_ <: String], old_val: String, new_val: String): Unit = {
+        // new_val is null after
+        selectLayer(new_val)
       }
     })
     updateLayerView()
@@ -142,12 +145,15 @@ class DrawingController {
   }
 
 
-
+// Bug: If all layers are removed, drawing no longer works even after readding layers.
   @FXML protected def removeLayer(event: ActionEvent) = {
     println("removing layer")
-    val layerName = "Layer 1"
+    val layerIndex = this.layerView.getSelectionModel.getSelectedIndex
+    val layerName = this.layerView.getSelectionModel.getSelectedItem
+    println(layerName)
     val layer = this.drawing.removeLayer(layerName)
     updateLayerView()
+    this.layerView.getSelectionModel.select(math.max(layerIndex, 0)) // select the layer under the removed one
   }
 
   @FXML protected def renameLayer(event: ActionEvent) = {
