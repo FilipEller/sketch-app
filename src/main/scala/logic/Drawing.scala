@@ -43,6 +43,8 @@ class Drawing(val width: Int, val height: Int) {
 
   def removeLayer(name: String): Unit = {
     val layer = this.findLayer(name)
+    // should also change config's selected layer if removed was selected
+    // though Controller already makes sure another layer is selected
     layer.foreach(removeLayer)
   }
 
@@ -64,11 +66,8 @@ class Drawing(val width: Int, val height: Int) {
     pane
   }
 
-  /*
-  def useTool(event: MouseDragEvent, pane: StackPane) = {
-    this.config.activeTool.use(this, this.config, event, )
-    this.paint(pane)
+  def useTool(event: MouseEvent, localPoint: Point2D) = {
+    this.config.activeTool.use(this, event, localPoint)
   }
-   */
 
 }

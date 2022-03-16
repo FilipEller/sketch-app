@@ -15,7 +15,6 @@ import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView}
 import scalafx.collections.ObservableBuffer
-
 import scala.math
 
 class DrawingController {
@@ -23,21 +22,19 @@ class DrawingController {
 
   @FXML var pane: javafx.scene.layout.StackPane = _
   @FXML var layerView: javafx.scene.control.ListView[String] = _
-  // @FXML var primaryColorPicker: javafx.scene.control.ColorPicker = _
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
 
 
   @FXML def updateCanvas(): Unit = {
-    pane.children.tail.foreach(pane.children -= _) // empties background except for empty base canvas
+    pane.children.tail.foreach(pane.children -= _) // empties background except for white base canvas
     drawing.paint(this.pane)
 
     pane.children.tail.foreach(canvas => {
       canvas.setOnMousePressed(this.draw(_))
       canvas.setOnMouseDragged(this.draw(_))
       canvas.setOnMouseReleased(this.draw(_))
-      // canvas.setOnDragDetected(e => canvas.startFullDrag())
     })
   }
 
@@ -58,7 +55,11 @@ class DrawingController {
     import javafx.beans.value.ChangeListener
     this.layerView.getSelectionModel.selectedItemProperty.addListener(new ChangeListener[String]() {
       override def changed(observableValue: ObservableValue[_ <: String], old_val: String, new_val: String): Unit = {
-        // new_val is null after
+        /*
+        new_val is null after a layer is removed
+        Drawing.findLayer returns Option so this will not cause an error
+        Controller's removeLayer also selects another layer
+        */
         selectLayer(new_val)
       }
     })
@@ -68,7 +69,7 @@ class DrawingController {
 
   @FXML def draw(event: MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
-    drawing.config.activeTool.use(drawing, drawing.config, event, localPoint)
+    this.drawing.useTool(event, localPoint)
     println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
   }
@@ -144,8 +145,7 @@ class DrawingController {
     updateLayerView()
   }
 
-
-// Bug: If all layers are removed, drawing no longer works even after readding layers.
+  // Bug: If all layers are removed, drawing no longer works even after readding layers.
   @FXML protected def removeLayer(event: ActionEvent) = {
     println("removing layer")
     val layerIndex = this.layerView.getSelectionModel.getSelectedIndex
@@ -156,6 +156,7 @@ class DrawingController {
     this.layerView.getSelectionModel.select(math.max(layerIndex, 0)) // select the layer under the removed one
   }
 
+  // not implemented
   @FXML protected def renameLayer(event: ActionEvent) = {
     println("renaming layer")
     // dialogue for new name
