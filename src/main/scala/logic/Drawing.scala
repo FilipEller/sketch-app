@@ -33,8 +33,17 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
+  def findLayer(name: String): Option[Layer] = {
+    this.layers.find(_.name == name)
+  }
+
   def removeLayer(layer: Layer): Unit = {
     this.layers -= layer
+  }
+
+  def removeLayer(name: String): Unit = {
+    val layer = this.findLayer(name)
+    layer.foreach(removeLayer)
   }
 
   def renameLayer(layer: Layer, newName: String) = {

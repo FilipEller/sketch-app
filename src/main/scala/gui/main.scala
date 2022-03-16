@@ -40,6 +40,6 @@ object Main extends JFXApp {
   val drawing = new Drawing(500, 500)
   val layer = drawing.layers.head
   controller.drawing = drawing
-  controller.newCreateCanvas()
+  controller.initController()
 
 }

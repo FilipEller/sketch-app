@@ -1,5 +1,6 @@
 package gui
 
+import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
@@ -28,7 +29,7 @@ class DrawingController {
   var baseCanvas: Canvas = _
 
 
-    @FXML def updateCanvas(): Unit = {
+  @FXML def updateCanvas(): Unit = {
     pane.children.tail.foreach(pane.children -= _) // empties background except for empty base canvas
     drawing.paint(this.pane)
 
@@ -40,6 +41,28 @@ class DrawingController {
     })
   }
 
+  def updateLayerView(): Unit = {
+    this.layerView.getItems.clear()
+    this.drawing.layers.reverse.foreach( l => this.layerView.getItems.add(l.name) )
+  }
+
+  def selectLayer(ov: ObservableValue[_ <: String], old_val: String, new_val: String) = {
+    println("selecting " + new_val)
+    val layer = this.drawing.findLayer(new_val)
+    this.drawing.config = this.drawing.config.copy(activeLayer = layer.getOrElse(this.drawing.config.activeLayer))
+  }
+
+  def initializeLayerView(): Unit = {
+    import javafx.beans.value.ChangeListener
+    this.layerView.getSelectionModel.selectedItemProperty.addListener(new ChangeListener[String]() {
+      override def changed(observableValue: ObservableValue[_ <: String], t: String, t1: String): Unit = {
+        selectLayer(observableValue, t, t1)
+      }
+    })
+    updateLayerView()
+    layerView.getSelectionModel.select(0)
+  }
+
   @FXML def draw(event: MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     drawing.config.activeTool.use(drawing, drawing.config, event, localPoint)
@@ -47,7 +70,7 @@ class DrawingController {
     updateCanvas()
   }
 
-  @FXML def newCreateCanvas(): Unit = {
+  def initController(): Unit = {
     println("initializing canvas")
 
     this.baseCanvas = new Canvas(drawing.width, drawing.height)
@@ -57,7 +80,7 @@ class DrawingController {
     g.fill = White
     g.fillRect(0, 0, this.drawing.width, this.drawing.height)
 
-    this.drawing.layers.foreach( l => this.layerView.getItems.add(l.name) )
+    initializeLayerView()
     updateCanvas()
   }
 
@@ -114,19 +137,23 @@ class DrawingController {
 
   @FXML protected def addLayer(event: ActionEvent) = {
     println("adding layer")
+    this.drawing.addLayer()
+    updateLayerView()
   }
 
-  @FXML protected def selectLayer(event: ActionEvent) = {
-    println("selecting layer")
-    // this.drawing.config.activeLayer = target
-  }
+
 
   @FXML protected def removeLayer(event: ActionEvent) = {
     println("removing layer")
+    val layerName = "Layer 1"
+    val layer = this.drawing.removeLayer(layerName)
+    updateLayerView()
   }
 
   @FXML protected def renameLayer(event: ActionEvent) = {
     println("renaming layer")
+    // dialogue for new name
+    updateLayerView()
   }
 
 }

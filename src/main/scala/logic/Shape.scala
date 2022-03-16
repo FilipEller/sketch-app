@@ -22,6 +22,7 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
 
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
+    // rotation not implemented
     g.fill = this.color
     this.stype match {
       case Rectangle => g.fillRect(origin.x, origin.y, this.width, this.height)

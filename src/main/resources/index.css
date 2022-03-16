@@ -13,12 +13,20 @@
 }
 
 .control-panel .label {
-    -fx-text-fill: #ddd;
+    -fx-text-fill: #fff;
 }
 
 .button {
-    -fx-text-fill: #ddd;
+    -fx-text-fill: #fff;
     -fx-background-color: #666;
+}
+
+.button:hover {
+  -fx-background-color: #606060;
+}
+
+.button:pressed {
+  -fx-background-color: #505050;
 }
 
 #menu-bar {

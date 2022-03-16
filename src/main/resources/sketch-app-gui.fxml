@@ -250,24 +250,24 @@
                </GridPane>
                <VBox alignment="CENTER" maxHeight="300.0" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
-                     <ListView id="layer-view" VBox.vgrow="ALWAYS" fx:id="layerView"/>
+                     <ListView id="layer-view" VBox.vgrow="ALWAYS" fx:id="layerView" />
                      <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
                         <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS" onAction="#addLayer">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Remove" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Remove" HBox.hgrow="ALWAYS" onAction="#removeLayer">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="200.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Rename" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Rename" HBox.hgrow="ALWAYS" onAction="#renameLayer">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
