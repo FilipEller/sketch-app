@@ -1,0 +1,19 @@
+16.3.2022
+
+The project is making good progress.
+Currently, the user can draw (using ShapeTool object) rectangles, squares, ellipses and circles (of Shape class)
+from the GUI (which I've made with Scene Builder / FXML and CSS)
+and the drawing (Drawing class) can be organized on multiple layers (Layer class).
+
+Initially I was having a bit of trouble with Git.
+I was tracking some environment dependent Idea and SBT files,
+which caused issues because I'm working on two computers using different OSs.
+Now I've got it fixed.
+
+Understanding JavaFX components and learning to use Scene Builder took quite a while,
+and I had some trouble connecting a ScalaFX app and controller with FXML.
+I have figured out that too now.
+
+I'm on schedule progresswise, although timewise I have used
+10 more hours than I had planned to get to this point.
+I've used 30 hours, but my schedule says only 20 hours would have been needed.
