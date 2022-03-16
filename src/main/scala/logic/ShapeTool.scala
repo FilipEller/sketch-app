@@ -6,7 +6,7 @@ import scalafx.scene.paint.Color.rgb
 
 import scala.math.{abs, max, min}
 
-abstract class ShapeTool(stype: ShapeType) extends Tool {
+sealed class ShapeTool(stype: ShapeType) extends Tool {
   // type, id, width, height, border width, color, border color, origin)
   var currentElement = Shape(this.stype, "temp", 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), new Point2D(0, 0))
   var clickPoint = new Point2D(0, 0)
@@ -33,7 +33,7 @@ abstract class ShapeTool(stype: ShapeType) extends Tool {
     this.currentElement = this.currentElement.copy(width = width, height = height, origin = origin)
   }
 
-  def drawShape(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
+  def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
     val config = drawing.config
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
@@ -60,26 +60,10 @@ abstract class ShapeTool(stype: ShapeType) extends Tool {
   }
 }
 
-object RectangleTool extends ShapeTool(Rectangle) {
-  def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
-    this.drawShape(drawing, event, eventPoint)
-  }
-}
+object RectangleTool extends ShapeTool(Rectangle)
 
-object SquareTool extends ShapeTool(Square) {
-  def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
-    this.drawShape(drawing, event, eventPoint)
-  }
-}
+object SquareTool extends ShapeTool(Square)
 
-object EllipseTool extends ShapeTool(Ellipse) {
-  def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
-    this.drawShape(drawing, event, eventPoint)
-  }
-}
+object EllipseTool extends ShapeTool(Ellipse)
 
-object CircleTool extends ShapeTool(Circle) {
-  def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
-    this.drawShape(drawing, event, eventPoint)
-  }
-}
+object CircleTool extends ShapeTool(Circle)
