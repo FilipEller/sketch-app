@@ -5,7 +5,7 @@ import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
-import logic.{CircleTool, Configurations, Drawing, EllipseTool, RectangleTool, SquareTool}
+import logic.{CircleTool, Configurations, Drawing, EllipseTool, RectangleTool, SquareTool, BrushTool}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
@@ -99,7 +99,7 @@ class DrawingController {
     val targetTool = label match {
       case "Select" => RectangleTool
       case "Transform" => RectangleTool
-      case "Brush" => RectangleTool
+      case "Brush" => BrushTool
       case "Rectangle" => RectangleTool
       case "Square" => SquareTool
       case "Ellipse" => EllipseTool
