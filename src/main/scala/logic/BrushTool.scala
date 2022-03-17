@@ -44,4 +44,8 @@ object BrushTool extends Tool {
       }
     }
   }
+
+  def useAnyway(drawing: Drawing): Unit = {
+    println("brushing with tool")
+  }
 }

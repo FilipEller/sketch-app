@@ -5,7 +5,7 @@ import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
-import logic.{CircleTool, Configurations, Drawing, EllipseTool, RectangleTool, SquareTool, BrushTool}
+import logic.{BrushTool, CircleTool, Configurations, Drawing, EllipseTool, RectangleTool, SquareTool}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
@@ -14,7 +14,11 @@ import scalafx.scene.control.Button
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView}
+import scalafx.animation
+import scalafx.animation.AnimationTimer
 import scalafx.collections.ObservableBuffer
+
+import java.util.Timer
 import scala.math
 
 class DrawingController {
@@ -25,6 +29,8 @@ class DrawingController {
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
+
+  var mousePressed = false
 
 
   @FXML def updateCanvas(): Unit = {
@@ -69,6 +75,7 @@ class DrawingController {
 
   @FXML def draw(event: MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
+    mousePressed = event.isPrimaryButtonDown
     this.drawing.useTool(event, localPoint)
     println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
@@ -88,6 +95,15 @@ class DrawingController {
     updateCanvas()
   }
 
+  val timer = AnimationTimer(
+    time => {
+      if(mousePressed) {
+        println("pressing")
+        BrushTool.useAnyway(this.drawing)
+      }
+    }
+  )
+
 
   // Configurations
 
@@ -99,7 +115,10 @@ class DrawingController {
     val targetTool = label match {
       case "Select" => RectangleTool
       case "Transform" => RectangleTool
-      case "Brush" => BrushTool
+      case "Brush" => {
+        timer.start()
+        BrushTool
+      }
       case "Rectangle" => RectangleTool
       case "Square" => SquareTool
       case "Ellipse" => EllipseTool

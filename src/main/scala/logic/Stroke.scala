@@ -19,7 +19,12 @@ case class Stroke(id: String, color: Color, origin: Point2D, path: Vector[Point2
     )
     // rotation not implemented
     g.fill = gradient
-    this.path.foreach(point => g.fillOval(point.x, point.y, this.brush.size, this.brush.size))
+    // this.path.foreach(point => g.fillOval(point.x, point.y, this.brush.size, this.brush.size))
+    for (i <- 0 until this.path.length - 1) {
+      val start = path(i)
+      val end = path(i + 1)
+
+    }
   }
 
   def move(newOrigin: Point2D) = this.copy(origin = newOrigin)
