@@ -17,7 +17,7 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
                  group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
    override def toString: String = {
-     s"$stype at $origin with size $width and $height colored $color"
+     s"$stype" // at $origin with size $width and $height colored $color"
    }
 
   def paint(canvas: Canvas): Unit = {
@@ -45,9 +45,9 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
     }
   }
 
-  def move(newOrigin: Point2D): Element = this.copy(origin = newOrigin)
+  def move(newOrigin: Point2D) = this.copy(origin = newOrigin)
 
 
-  def rotate(angle: Int): Element = this.copy(rotation = this.rotation + angle)
+  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle)
 
 }
