@@ -37,7 +37,7 @@ object Main extends JFXApp {
   stage.scene = scene
 
   println("setting up drawing")
-  val drawing = new Drawing(1280, 720)
+  val drawing = new Drawing(1000, 600)
   val layer = drawing.layers.head
   controller.drawing = drawing
   controller.initController()

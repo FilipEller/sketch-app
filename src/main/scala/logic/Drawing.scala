@@ -14,7 +14,7 @@ class Drawing(val width: Int, val height: Int) {
   val backgroundLayer = Layer("Layer 1")
   var currentImage = new StackPane
   val layers = mutable.Buffer[Layer](backgroundLayer)
-  var config = new Configurations(layers.head, RectangleTool, rgb(0, 0, 0), rgb(0, 0, 0), new Brush(10, 50), None, 12)  // Default settings
+  var config = new Configurations(layers.head, RectangleTool, rgb(0, 0, 0), rgb(0, 0, 0), new Brush(30, 50), None, 12)  // Default settings
 
   def addLayer(): Unit = {
     var index = this.layers.length + 1

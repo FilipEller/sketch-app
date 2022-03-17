@@ -154,6 +154,7 @@ class DrawingController {
     val layer = this.drawing.removeLayer(layerName)
     updateLayerView()
     this.layerView.getSelectionModel.select(math.max(layerIndex, 0)) // select the layer under the removed one
+    updateCanvas()
   }
 
   // not implemented
