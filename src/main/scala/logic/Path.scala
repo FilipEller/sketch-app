@@ -1,10 +1,17 @@
 package logic
 
+import logic.Path.bresenhamLine
 import scalafx.geometry.Point2D
 
 import scala.math.abs
 
 class Path(points: Seq[Point2D]) extends Seq[Point2D] {
+
+  def :+ (point: Point2D) = {
+    val end = this.points.last
+    val newPoints = this.points ++ bresenhamLine(end.x, end.y, point.x, point.y) :+ point
+    new Path(newPoints)
+  }
 
   def apply(index: Int) = this.points(index)
   def length = this.points.length
@@ -30,7 +37,7 @@ object Path {
     var finished = (x == x1 && y == y1)
 
     while (!finished) {
-      println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y),")
+      println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
       path = path :+ new Point2D(x, y)
       val e2 = 2 * error
       if (e2 >= Dy) {
@@ -63,6 +70,11 @@ object Path {
 
   def apply(point: Point2D): Path = {
     new Path(Seq(point))
+  }
+
+  def apply(point1: Point2D, point2: Point2D) = {
+    val points = bresenhamLine(point1.x, point1.y, point2.x, point2.y) :+ point2
+    new Path(points)
   }
 
 }

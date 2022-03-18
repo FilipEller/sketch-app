@@ -16,7 +16,7 @@ object BrushTool extends Tool {
     val originX = min(this.currentElement.origin.x, eventPoint.x)
     val originY = min(this.currentElement.origin.y, eventPoint.y)
     val origin = new Point2D(originX, originY)
-    this.currentElement = this.currentElement.copy(path = Path(this.currentElement.path :+ eventPoint), origin = origin)
+    this.currentElement = this.currentElement.copy(path = this.currentElement.path :+ eventPoint, origin = origin)
   }
 
   def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
