@@ -70,4 +70,9 @@ class Drawing(val width: Int, val height: Int) {
     this.config.activeTool.use(this, event, localPoint)
   }
 
+  def select(point: Point2D) = {
+    val selected = this.layers.map(_.select(point)).find(_.isDefined).flatten
+    this.config = this.config.copy(selectedElement = selected)
+  }
+
 }

@@ -19,4 +19,6 @@ abstract class Element {
   def move(newOrigin: Point2D): Element
   def rotate(angle: Int): Element
 
+  def collidesWith(point: Point2D): Boolean
+
 }

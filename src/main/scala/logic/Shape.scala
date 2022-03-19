@@ -20,6 +20,15 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
      s"$stype" // at $origin with size $width and $height colored $color"
    }
 
+  def collidesWith(point: Point2D): Boolean = {
+    this.stype match { // does not take rotation into account yet
+      case s if s == Rectangle || s == Square => point.x >= this.origin.x && point.x <= this.origin.x + this.width && point.y >= this.origin.y && point.y <= this.origin.y + this.height
+      case Ellipse => false
+      case Circle => false
+      case _ => false
+    }
+  }
+
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
     // rotation not implemented

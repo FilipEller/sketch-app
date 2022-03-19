@@ -1,5 +1,6 @@
 package logic
 
+import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 
 import scala.collection.mutable.Buffer
@@ -33,5 +34,8 @@ case class Layer(var name: String) {
   def rename(newName: String) = {
     this.name = newName
   }
+
+  def select(point: Point2D) =
+    this.elements.find(_.collidesWith(point))
 
 }
