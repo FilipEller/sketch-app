@@ -14,9 +14,9 @@ case class Stroke(id: String, color: Color, origin: Point2D, path: Path, brush: 
 
   def paint(canvas: Canvas): Unit = { // there's a problem with drawing less opaque brush strokes.
     val g = canvas.graphicsContext2D  // Brush images are painted too closely for the opacity to have much effect, but painting them further apart would leave each brush image distinctly visible.
-    val opacity = math.pow(this.color.opacity, 1.5) / (this.brush.hardness / 100.0 * 0.3 * this.brush.size) // this is fixing opacity with brush size 30 but other sizes have to be tested. With this 5 % opacity is actually invisible though.
+    val targetOpacity = math.pow(this.color.opacity, 1.5) / (this.brush.hardness / 100.0 * 0.3 * this.brush.size) // this is fixing opacity with brush size 30 but other sizes have to be tested. With this 5 % opacity is actually invisible though.
+    val opacity = if (targetOpacity > 1) 1 else if (targetOpacity < 0.01) 0.01 else targetOpacity
     val usedColor = new Color(this.color.opacity(opacity))
-    println(usedColor.opacity)
     val gradient = new RadialGradient( // this should take brush hardness into account somewhere.
        0, 0,  // focus angle, focus distance
        0.5, 0.5,  // center x, y
@@ -28,7 +28,6 @@ case class Stroke(id: String, color: Color, origin: Point2D, path: Path, brush: 
     // rotation not implemented
     g.fill = gradient
     this.path.foreach(point => g.fillOval(point.x - 0.5 * this.brush.size, point.y - 0.5 * this.brush.size, this.brush.size, this.brush.size))
-    g.setGlobalAlpha(1)
   }
 
   def move(newOrigin: Point2D) = this.copy(origin = newOrigin)

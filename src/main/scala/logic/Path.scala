@@ -37,7 +37,7 @@ object Path {
     var finished = (x == x1 && y == y1)
 
     while (!finished) {
-      println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
+      // println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
       path = path :+ new Point2D(x, y)
       val e2 = 2 * error
       if (e2 >= Dy) {
