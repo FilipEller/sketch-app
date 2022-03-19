@@ -5,7 +5,7 @@ import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
-import logic.{BrushTool, CircleTool, Configurations, Drawing, EllipseTool, RectangleTool, SquareTool}
+import logic.{BrushTool, CircleTool, Configurations, Drawing, EllipseTool, LineTool, RectangleTool, SquareTool}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
@@ -95,30 +95,19 @@ class DrawingController {
     updateCanvas()
   }
 
-  val timer = AnimationTimer(
-    time => {
-      if(mousePressed) {
-        println("pressing")
-        BrushTool.useAnyway(this.drawing)
-      }
-    }
-  )
-
 
   // Configurations
 
   // activeTool
   @FXML protected def changeTool(event: ActionEvent): Unit = {
     val button: scalafx.scene.control.Button = new Button(event.getTarget.asInstanceOf[javafx.scene.control.Button])
-    val label = button.getText
+    val label = button.getId
     println("button pressed: " + label)
     val targetTool = label match {
       case "Select" => RectangleTool
       case "Transform" => RectangleTool
-      case "Brush" => {
-        timer.start()
-        BrushTool
-      }
+      case "Brush" => BrushTool
+      case "Line" => LineTool
       case "Rectangle" => RectangleTool
       case "Square" => SquareTool
       case "Ellipse" => EllipseTool

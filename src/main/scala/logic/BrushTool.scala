@@ -7,16 +7,18 @@ import scalafx.scene.paint.Color.rgb
 
 import scala.math.min
 
-object BrushTool extends Tool {
+sealed abstract class StrokeTool extends Tool {
 
   var currentElement = Stroke( "temp", rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100))
   var clickPoint = new Point2D(0, 0)
+
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
 
   def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Unit = {
     val originX = min(this.currentElement.origin.x, eventPoint.x)
     val originY = min(this.currentElement.origin.y, eventPoint.y)
     val origin = new Point2D(originX, originY)
-    this.currentElement = this.currentElement.copy(path = this.currentElement.path :+ eventPoint, origin = origin)
+    setCurrentElement(eventPoint, origin)
   }
 
   def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
@@ -47,5 +49,17 @@ object BrushTool extends Tool {
 
   def useAnyway(drawing: Drawing): Unit = {
     println("brushing with tool")
+  }
+}
+
+object BrushTool extends StrokeTool {
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D) = {
+    this.currentElement = this.currentElement.copy(path = this.currentElement.path :+ eventPoint, origin = origin)
+  }
+}
+
+object LineTool extends StrokeTool {
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D) = {
+    this.currentElement = this.currentElement.copy(path = Path(this.currentElement.path.head, eventPoint), origin = origin)
   }
 }
