@@ -49,7 +49,7 @@
                 <BorderPane.margin>
                     <Insets />
                 </BorderPane.margin>
-                <Button layoutX="15.0" layoutY="16.0" mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Select">
+                <Button layoutX="15.0" layoutY="16.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Select" id="Select">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -61,7 +61,7 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button layoutX="15.0" layoutY="11.0" mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Transform">
+                <Button layoutX="15.0" layoutY="11.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Transform" id="Transform">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -73,7 +73,7 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Brush">
+                <Button onAction="#changeTool" mnemonicParsing="true" prefHeight="50.0" prefWidth="50.0" text="_Brush" id="Brush">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -82,7 +82,16 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Rectangle">
+                <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Line" id="Line">
+                    <VBox.margin>
+                        <Insets top="5.0" />
+                    </VBox.margin>
+               <styleClass>
+                  <String fx:value="button" />
+                  <String fx:value="tool-button" />
+               </styleClass>
+                </Button>
+                <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Rectangle" id="Rectangle">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -94,7 +103,7 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Square">
+                <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Square" id="Square">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -106,7 +115,7 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Ellipse">
+                <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Ellipse" id="Ellipse">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -118,7 +127,7 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button layoutX="15.0" layoutY="181.0" mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Circle">
+                <Button layoutX="15.0" layoutY="181.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Circle" id="Circle">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -127,7 +136,7 @@
                   <String fx:value="tool-button" />
                </styleClass>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Text">
+                <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Text" id="Text">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
