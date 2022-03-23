@@ -33,9 +33,8 @@ case class Stroke(id: String, color: Color, origin: Point2D, path: Path, brush: 
     this.path.foreach(point => g.fillOval(point.x - 0.5 * this.brush.size, point.y - 0.5 * this.brush.size, this.brush.size, this.brush.size))
   }
 
-  def move(newOrigin: Point2D) = this.copy(origin = newOrigin)
-
-  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle)
+  def move(newOrigin: Point2D) = this.copy(origin = newOrigin, previousVersion = Some(this))
+  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
   def collidesWith(point: Point2D): Boolean = // only takes the bounding box into account
     (point.x >= this.origin.x - 0.5 * this.brush.size

@@ -1,11 +1,15 @@
 package gui
 
+import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import logic._
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.Point2D
+import scalafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints, StackPane}
 import scalafxml.core.FXMLView
@@ -41,5 +45,38 @@ object Main extends JFXApp {
   val layer = drawing.layers.head
   controller.drawing = drawing
   controller.initController()
+
+  // this is a bit funny place for this
+  // considering other event handler are in DrawingController
+  def write(event: KeyEvent): Unit = {
+    println("writing")
+    println(event.getCode)
+    this.drawing.config.selectedElement match {
+      case Some(textBox: TextBox) => {
+        val layer = this.drawing.config.activeLayer
+        if (layer.contains(textBox)) {
+          layer.removeElement(textBox)
+
+          val newText = {
+            event.code match {
+              case KeyCode.BackSpace => textBox.text.dropRight(1)
+              case KeyCode.Space => textBox.text + " "
+              case KeyCode.Enter => textBox.text + "\n"
+              case _ => textBox.text + event.text
+            }
+          }
+          val element = textBox.copy(text = newText)
+          layer.addElement(element)
+          this.drawing.config = this.drawing.config.copy(selectedElement = Some(element))
+          this.controller.updateCanvas()
+        }
+      }
+      case _ =>
+    }
+  }
+
+  scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler[KeyEvent] {
+    def handle(event: KeyEvent): Unit = write(event)
+  })
 
 }

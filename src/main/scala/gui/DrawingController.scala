@@ -110,8 +110,8 @@ class DrawingController {
       case "Square" => SquareTool
       case "Ellipse" => EllipseTool
       case "Circle" => CircleTool
-      case "Text" => RectangleTool
-      case _ => RectangleTool
+      case "Text" => TextTool
+      case _ => SelectionTool
     }
     drawing.config = drawing.config.copy(activeTool = targetTool)
   }

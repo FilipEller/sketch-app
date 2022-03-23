@@ -21,6 +21,8 @@ case class Layer(var name: String) {
     this.elements -= element
   }
 
+  def contains(element: Element) = this.elements.contains(element)
+
   def paint(width: Int, height: Int): Canvas = {
     def repaint(width: Int, height: Int) = {
       val canvas = new Canvas(width, height)
@@ -41,7 +43,7 @@ case class Layer(var name: String) {
   }
 
   def addToGroup(element: Element, group: ElementGroup): Unit = {
-    if (this.elements.contains(element) && this.elements.contains(group)) {
+    if (this.contains(element) && this.contains(group)) {
       this.elements -= element
       this.elements -= group
       this.elements += group.addElement(element)
@@ -51,7 +53,7 @@ case class Layer(var name: String) {
   }
 
   def removeElementGroup(group: ElementGroup): Unit = {
-    if (this.elements.contains(group)) {
+    if (this.contains(group)) {
       group.elements.foreach( this.elements += _ )
       this.elements -= group
     } else {
@@ -60,7 +62,7 @@ case class Layer(var name: String) {
   }
 
     def removeFromGroup(element: Element, group: ElementGroup): Unit = {
-    if (this.elements.contains(element) && this.elements.contains(group)) {
+    if (this.contains(element) && this.contains(group)) {
       this.elements += element
       this.elements -= group
       this.elements += group.removeElement(element)

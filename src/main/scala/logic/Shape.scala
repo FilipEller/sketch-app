@@ -67,9 +67,7 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
     }
   }
 
-  def move(newOrigin: Point2D) = this.copy(origin = newOrigin)
-
-
-  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle)
+  def move(newOrigin: Point2D) = this.copy(origin = newOrigin, previousVersion = Some(this))
+  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
 }
