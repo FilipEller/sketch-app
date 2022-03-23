@@ -35,5 +35,39 @@ case class Layer(var name: String) {
     this.name = newName
   }
 
-  def select(point: Point2D) = this.elements.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
+  def addElementGroup(group: ElementGroup): Unit = {
+    group.elements.foreach( this.elements -= _ )
+    this.elements += group
+  }
+
+  def addToGroup(element: Element, group: ElementGroup): Unit = {
+    if (this.elements.contains(element) && this.elements.contains(group)) {
+      this.elements -= element
+      this.elements -= group
+      this.elements += group.addElement(element)
+    } else {
+      throw new Exception("group or element does not belong in this layer")
+    }
+  }
+
+  def removeElementGroup(group: ElementGroup): Unit = {
+    if (this.elements.contains(group)) {
+      group.elements.foreach( this.elements += _ )
+      this.elements -= group
+    } else {
+      throw new Exception("group does not belong in this layer")
+    }
+  }
+
+    def removeFromGroup(element: Element, group: ElementGroup): Unit = {
+    if (this.elements.contains(element) && this.elements.contains(group)) {
+      this.elements += element
+      this.elements -= group
+      this.elements += group.removeElement(element)
+    } else {
+      throw new Exception("group or element does not belong in this layer")
+    }
+  }
+
+  def select(point: Point2D): Option[Element] = this.elements.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
 }

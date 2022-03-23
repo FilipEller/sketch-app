@@ -1,11 +1,11 @@
 package gui
 
-import javafx.beans.value.{ChangeListener, ObservableValue}
+import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.event.ActionEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
-import logic.{BrushTool, CircleTool, Configurations, Drawing, EllipseTool, LineTool, RectangleTool, SquareTool}
+import logic._
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
@@ -14,11 +14,9 @@ import scalafx.scene.control.Button
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView}
-import scalafx.animation
 import scalafx.animation.AnimationTimer
 import scalafx.collections.ObservableBuffer
 
-import java.util.Timer
 import scala.math
 
 class DrawingController {
@@ -104,7 +102,7 @@ class DrawingController {
     val label = button.getId
     println("button pressed: " + label)
     val targetTool = label match {
-      case "Select" => RectangleTool
+      case "Select" => SelectionTool
       case "Transform" => RectangleTool
       case "Brush" => BrushTool
       case "Line" => LineTool

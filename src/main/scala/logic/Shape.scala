@@ -16,18 +16,22 @@ case object Circle extends ShapeType
 
 case class Shape(stype: ShapeType, id: String, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
                  origin: Point2D, rotation: Int = 0,
-                 group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
-   override def toString: String = {
-     s"$stype" // at $origin with size $width and $height colored $color"
-   }
+  val center = new Point2D(this.origin.x + this.width, this.origin.y + this.height)
+
+  override def toString: String = {
+    s"$stype" // at $origin with size $width and $height colored $color"
+  }
 
   def collidesWith(point: Point2D): Boolean = {
     this.stype match { // does not take rotation into account yet
-      case s if s == Rectangle || s == Square => {
-        point.x >= this.origin.x && point.x <= this.origin.x + this.width && point.y >= this.origin.y && point.y <= this.origin.y + this.height
-      }
-      case Ellipse => false // https://www.geeksforgeeks.org/check-if-a-point-is-inside-outside-or-on-the-ellipse/
+      case s if s == Rectangle || s == Square => (point.x >= this.origin.x
+        && point.x <= this.origin.x + this.width
+        && point.y >= this.origin.y
+        && point.y <= this.origin.y + this.height)
+      case Ellipse => pow((point.x - this.center.x) / (this.width / 2), 2) + pow((point.y - this.center.y) / (this.height / 2), 2) <= 1
+        // https://www.geeksforgeeks.org/check-if-a-point-is-inside-outside-or-on-the-ellipse/
       case Circle => {
         val middle = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
         val xDiff = point.x - middle.x

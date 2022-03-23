@@ -8,7 +8,10 @@ import scalafx.scene.paint.{Color, CycleMethod, RadialGradient, Stop}
 import scala.math.abs
 
 case class Stroke(id: String, color: Color, origin: Point2D, path: Path, brush: Brush,
-                 rotation: Int = 0, group: Option[Long] = None, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+                 rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+
+  val width = this.path.map( p => this.origin.x - p.x).max
+  val height = this.path.map( p => this.origin.y - p.y).max
 
   override def toString: String = "Stroke"
 
@@ -33,4 +36,13 @@ case class Stroke(id: String, color: Color, origin: Point2D, path: Path, brush: 
   def move(newOrigin: Point2D) = this.copy(origin = newOrigin)
 
   def rotate(angle: Int) = this.copy(rotation = this.rotation + angle)
+
+  def collidesWith(point: Point2D): Boolean = // only takes the bounding box into account
+    (point.x >= this.origin.x - 0.5 * this.brush.size
+      && point.x <= this.origin.x + this.width + 0.5 * this.brush.size
+      && point.y >= this.origin.y - 0.5 * this.brush.size
+      && point.y <= this.origin.y + this.height + 0.5 * this.brush.size)
+      // does not take rotation into account yet
+
+
 }

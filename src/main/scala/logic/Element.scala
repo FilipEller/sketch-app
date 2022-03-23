@@ -10,7 +10,6 @@ abstract class Element {
   def origin: Point2D
   def rotation: Int
   def color: Color
-  def group: Option[Long]
   def previousVersion: Option[Element]
   def hidden: Boolean
   def deleted: Boolean
