@@ -35,7 +35,5 @@ case class Layer(var name: String) {
     this.name = newName
   }
 
-  def select(point: Point2D) =
-    this.elements.find(_.collidesWith(point))
-
+  def select(point: Point2D) = this.elements.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
 }

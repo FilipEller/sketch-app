@@ -4,6 +4,8 @@ import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 
+import scala.math.{pow, sqrt}
+
 abstract class ShapeType
 
 case object Rectangle extends ShapeType
@@ -22,9 +24,16 @@ case class Shape(stype: ShapeType, id: String, width: Double, height: Double, bo
 
   def collidesWith(point: Point2D): Boolean = {
     this.stype match { // does not take rotation into account yet
-      case s if s == Rectangle || s == Square => point.x >= this.origin.x && point.x <= this.origin.x + this.width && point.y >= this.origin.y && point.y <= this.origin.y + this.height
-      case Ellipse => false
-      case Circle => false
+      case s if s == Rectangle || s == Square => {
+        point.x >= this.origin.x && point.x <= this.origin.x + this.width && point.y >= this.origin.y && point.y <= this.origin.y + this.height
+      }
+      case Ellipse => false // https://www.geeksforgeeks.org/check-if-a-point-is-inside-outside-or-on-the-ellipse/
+      case Circle => {
+        val middle = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
+        val xDiff = point.x - middle.x
+        val yDiff = point.y - middle.y
+        sqrt(pow(xDiff, 2) + pow(yDiff, 2)) <= 0.5 * this.width
+      }
       case _ => false
     }
   }

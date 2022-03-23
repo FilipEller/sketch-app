@@ -42,10 +42,12 @@ class Drawing(val width: Int, val height: Int) {
   }
 
   def removeLayer(name: String): Unit = {
-    val layer = this.findLayer(name)
-    // should also change config's selected layer if removed was selected
-    // though Controller already makes sure another layer is selected
-    layer.foreach(removeLayer)
+    if (this.layers.length > 1) {
+      val layer = this.findLayer(name)
+      // should also change config's selected layer if removed was selected
+      // though Controller already makes sure another layer is selected
+      layer.foreach(removeLayer)
+    }
   }
 
   def renameLayer(layer: Layer, newName: String) = {
@@ -71,7 +73,7 @@ class Drawing(val width: Int, val height: Int) {
   }
 
   def select(point: Point2D) = {
-    val selected = this.layers.map(_.select(point)).find(_.isDefined).flatten
+    val selected = this.layers.to(LazyList).filter(!_.hidden).map(_.select(point)).find(_.isDefined).flatten
     this.config = this.config.copy(selectedElement = selected)
   }
 

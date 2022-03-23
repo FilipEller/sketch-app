@@ -22,7 +22,7 @@ import java.util.Timer
 import scala.math
 
 class DrawingController {
-
+  // this should be split into multiple objects whose methods are called from here.
 
   @FXML var pane: javafx.scene.layout.StackPane = _
   @FXML var layerView: javafx.scene.control.ListView[String] = _
@@ -161,7 +161,7 @@ class DrawingController {
     println(layerName)
     val layer = this.drawing.removeLayer(layerName)
     updateLayerView()
-    this.layerView.getSelectionModel.select(math.max(layerIndex, 0)) // select the layer under the removed one
+    this.layerView.getSelectionModel.select(math.min(this.drawing.layers.length - 1, math.max(layerIndex, 0))) // select the layer under the removed one
     updateCanvas()
   }
 
