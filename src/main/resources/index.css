@@ -43,6 +43,10 @@
     -fx-margin: 5px;
 }
 
-#layer-view {
+.list {
     -fx-background-color: #333;
+}
+
+#background {
+    -fx-background-color: #181818;
 }

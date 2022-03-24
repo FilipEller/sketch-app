@@ -6,7 +6,7 @@ import scalafx.scene.canvas.Canvas
 
 abstract class Element {
 
-  def id: String
+  def name: String
   def origin: Point2D
   def rotation: Int
   def color: Color

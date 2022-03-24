@@ -14,7 +14,7 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType, id: String, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
+case class Shape(stype: ShapeType, name: String, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
                  origin: Point2D, rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 

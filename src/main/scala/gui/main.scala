@@ -29,7 +29,7 @@ object Main extends JFXApp {
   println("loading FXML")
   val loader = new FXMLLoader(getClass.getResource("/sketch-app-gui.fxml"))
   val root: AnchorPane = loader.load()
-  val controller = loader.getController[DrawingController]
+  val controller = loader.getController[Controller]
 
   println("setting up stage")
   stage = new JFXApp.PrimaryStage {
@@ -51,8 +51,8 @@ object Main extends JFXApp {
   def write(event: KeyEvent): Unit = {
     println("writing")
     println(event.getCode)
-    this.drawing.config.selectedElement match {
-      case Some(textBox: TextBox) => {
+    this.drawing.config.selectedElements(0) match {
+      case textBox: TextBox => {
         val layer = this.drawing.config.activeLayer
         if (layer.contains(textBox)) {
           layer.removeElement(textBox)
@@ -67,7 +67,7 @@ object Main extends JFXApp {
           }
           val element = textBox.copy(text = newText)
           layer.addElement(element)
-          this.drawing.config = this.drawing.config.copy(selectedElement = Some(element))
+          this.drawing.config = this.drawing.config.copy(selectedElements = this.drawing.config.selectedElements.filter( el => el != textBox) :+ element)
           this.controller.updateCanvas()
         }
       }

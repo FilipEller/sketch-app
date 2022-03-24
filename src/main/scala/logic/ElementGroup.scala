@@ -4,7 +4,7 @@ import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 
-case class ElementGroup(val elements: Vector[Element], id: String, color: Color,
+case class ElementGroup(val elements: Vector[Element], id: String, name: String, color: Color,
                  origin: Point2D, rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   def addElement(element: Element) = {

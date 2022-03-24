@@ -5,7 +5,7 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-case class TextBox(text: String, id: String, width: Double, height: Double, fontSize: Double, color: Color,
+case class TextBox(text: String, name: String, width: Double, height: Double, fontSize: Double, color: Color,
                  origin: Point2D, rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 

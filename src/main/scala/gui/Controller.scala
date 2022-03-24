@@ -19,11 +19,13 @@ import scalafx.collections.ObservableBuffer
 
 import scala.math
 
-class DrawingController {
+class Controller {
   // this should be split into multiple objects whose methods are called from here.
 
   @FXML var pane: javafx.scene.layout.StackPane = _
   @FXML var layerView: javafx.scene.control.ListView[String] = _
+  @FXML var groupView: javafx.scene.control.ListView[String] = _
+  @FXML var selectedView: javafx.scene.control.ListView[String] = _
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
@@ -31,14 +33,14 @@ class DrawingController {
   var mousePressed = false
 
 
-  @FXML def updateCanvas(): Unit = {
+  def updateCanvas(): Unit = {
     pane.children.tail.foreach(pane.children -= _) // empties background except for white base canvas
     drawing.paint(this.pane)
 
     pane.children.tail.foreach(canvas => {
-      canvas.setOnMousePressed(this.draw(_))
-      canvas.setOnMouseDragged(this.draw(_))
-      canvas.setOnMouseReleased(this.draw(_))
+      canvas.setOnMousePressed(this.useTool(_))
+      canvas.setOnMouseDragged(this.useTool(_))
+      canvas.setOnMouseReleased(this.useTool(_))
     })
   }
 
@@ -71,11 +73,17 @@ class DrawingController {
     layerView.getSelectionModel.select(0)
   }
 
-  @FXML def draw(event: MouseEvent): Unit = {
+  def updateSelectedView(): Unit = {
+    this.selectedView.getItems.clear()
+    this.drawing.config.selectedElements.reverse.foreach( e => this.selectedView.getItems.add(e.name) )
+  }
+
+  def useTool(event: MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     mousePressed = event.isPrimaryButtonDown
     this.drawing.useTool(event, localPoint)
-    println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
+    this.updateSelectedView()
+    // println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
   }
 
@@ -98,44 +106,12 @@ class DrawingController {
 
   // activeTool
   @FXML protected def changeTool(event: ActionEvent): Unit = {
-    val button: scalafx.scene.control.Button = new Button(event.getTarget.asInstanceOf[javafx.scene.control.Button])
-    val label = button.getId
-    println("button pressed: " + label)
-    val targetTool = label match {
-      case "Select" => SelectionTool
-      case "Transform" => RectangleTool
-      case "Brush" => BrushTool
-      case "Line" => LineTool
-      case "Rectangle" => RectangleTool
-      case "Square" => SquareTool
-      case "Ellipse" => EllipseTool
-      case "Circle" => CircleTool
-      case "Text" => TextTool
-      case _ => SelectionTool
-    }
-    drawing.config = drawing.config.copy(activeTool = targetTool)
+    ConfigControls.changeTool(event, this.drawing)
   }
 
   // Colors
   @FXML protected def changeColor(event: ActionEvent): Unit = {
-    println(event)
-    println(event.getTarget)
-    val picker = event.getTarget.asInstanceOf[ColorPicker]
-    val color = picker.getValue
-    val id = picker.getId
-    println(id)
-    println(color)
-    val red = math.round(color.getRed * 255).toInt
-    val green = math.round(color.getGreen * 255).toInt
-    val blue = math.round(color.getBlue * 255).toInt
-    val opacity = color.getOpacity
-    val rgbColor = rgb(red, green, blue, opacity)
-    println(red, green, blue, opacity)
-    println(rgbColor)
-    id match {
-      case "primaryColorPicker" => drawing.config = drawing.config.copy(primaryColor = rgbColor)
-      case "secondaryColorPicker" => drawing.config = drawing.config.copy(secondaryColor = rgbColor)
-    }
+    ConfigControls.changeColor(event, this.drawing)
   }
 
   // activeLayer

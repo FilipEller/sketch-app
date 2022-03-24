@@ -61,7 +61,7 @@ case class Layer(var name: String) {
     }
   }
 
-    def removeFromGroup(element: Element, group: ElementGroup): Unit = {
+  def removeFromGroup(element: Element, group: ElementGroup): Unit = {
     if (this.contains(element) && this.contains(group)) {
       this.elements += element
       this.elements -= group

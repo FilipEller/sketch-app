@@ -8,8 +8,8 @@ object SelectionTool extends Tool {
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
         val target = drawing.config.activeLayer.select(eventPoint)
-        drawing.config = drawing.config.copy(selectedElement = target)
-        println("selected " + drawing.config.selectedElement)
+        target.foreach(e => drawing.config = drawing.config.copy(selectedElements = Vector(e)))
+        println("selected " + drawing.config.selectedElements)
       }
       case _ =>
     }
