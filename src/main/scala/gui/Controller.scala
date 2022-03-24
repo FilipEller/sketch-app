@@ -16,6 +16,7 @@ import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView}
 import scalafx.animation.AnimationTimer
 import scalafx.collections.ObservableBuffer
+import javafx.beans.value.ChangeListener
 
 import scala.math
 
@@ -26,6 +27,9 @@ class Controller {
   @FXML var layerView: javafx.scene.control.ListView[String] = _
   @FXML var groupView: javafx.scene.control.ListView[String] = _
   @FXML var selectedView: javafx.scene.control.ListView[String] = _
+
+  @FXML var borderCheckBox: javafx.scene.control.CheckBox = _
+  @FXML var fillCheckBox: javafx.scene.control.CheckBox = _
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
@@ -58,7 +62,6 @@ class Controller {
   }
 
   def initializeLayerView(): Unit = {
-    import javafx.beans.value.ChangeListener
     this.layerView.getSelectionModel.selectedItemProperty.addListener(new ChangeListener[String]() {
       override def changed(observableValue: ObservableValue[_ <: String], old_val: String, new_val: String): Unit = {
         /*
@@ -71,6 +74,16 @@ class Controller {
     })
     updateLayerView()
     layerView.getSelectionModel.select(0)
+  }
+
+  def handleBorderCheckBox(event: ActionEvent): Unit = {
+    println("border check box is " + borderCheckBox.isSelected)
+    this.drawing.config = this.drawing.config.copy(useBorder = borderCheckBox.isSelected)
+  }
+
+  def handleFillCheckBox(event: ActionEvent): Unit = {
+    println("fill check box is " + fillCheckBox.isSelected)
+    this.drawing.config = this.drawing.config.copy(useFill = fillCheckBox.isSelected)
   }
 
   def updateSelectedView(): Unit = {
@@ -98,6 +111,8 @@ class Controller {
     g.fillRect(0, 0, this.drawing.width, this.drawing.height)
 
     initializeLayerView()
+    this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
+    this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
     updateCanvas()
   }
 

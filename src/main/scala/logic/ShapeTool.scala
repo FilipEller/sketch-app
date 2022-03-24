@@ -2,6 +2,7 @@ package logic
 
 import javafx.scene.input.MouseEvent
 import scalafx.geometry.Point2D
+import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
 import scala.math.{abs, max, min}
@@ -39,7 +40,9 @@ class ShapeTool(stype: ShapeType) extends Tool {
       case MouseEvent.MOUSE_PRESSED => {
         println("MOUSE_PRESSED")
         this.clickPoint = eventPoint
-        this.currentElement = Shape(this.stype, "temp", 0, 0, 3, config.secondaryColor, config.primaryColor, this.clickPoint)
+        val fillColor = new Color(config.secondaryColor.opacity(if (config.useFill) config.secondaryColor.opacity else 0))
+        val borderColor = new Color(config.primaryColor.opacity(if (config.useBorder) config.primaryColor.opacity else 0 ))
+        this.currentElement = Shape(this.stype, "temp", 0, 0, 3, fillColor, borderColor, this.clickPoint)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         println("MOUSE_DRAGGED")

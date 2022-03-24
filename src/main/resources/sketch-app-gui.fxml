@@ -246,7 +246,7 @@
                            <children>
                               <Label text="Border">
                                  <graphic>
-                                    <CheckBox mnemonicParsing="false" selected="true" />
+                                    <CheckBox mnemonicParsing="false" selected="true" fx:id="borderCheckBox" />
                                  </graphic>
                               </Label>
                            </children>
@@ -255,7 +255,7 @@
                            <children>
                               <Label text="Fill">
                                  <graphic>
-                                    <CheckBox mnemonicParsing="false" />
+                                    <CheckBox mnemonicParsing="false" fx:id="fillCheckBox" />
                                  </graphic>
                               </Label>
                            </children>
