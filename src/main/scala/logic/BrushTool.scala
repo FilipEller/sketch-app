@@ -9,7 +9,7 @@ import scala.math.min
 
 sealed abstract class StrokeTool extends Tool {
 
-  var currentElement = Stroke( "temp", rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100))
+  var currentElement = new Stroke(rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100), "")
   var clickPoint = new Point2D(0, 0)
 
   def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
@@ -27,7 +27,7 @@ sealed abstract class StrokeTool extends Tool {
       case MouseEvent.MOUSE_PRESSED => {
         println("MOUSE_PRESSED")
         this.clickPoint = eventPoint
-        this.currentElement = Stroke("temp", config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
+        this.currentElement = Stroke(config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         println("MOUSE_DRAGGED")

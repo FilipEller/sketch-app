@@ -9,7 +9,7 @@ import scala.math.{abs, max, min}
 
 class ShapeTool(stype: ShapeType) extends Tool {
   // type, id, width, height, border width, color, border color, origin)
-  var currentElement = Shape(this.stype, "temp", 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), new Point2D(0, 0))
+  var currentElement = new Shape(this.stype, 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), new Point2D(0, 0), "")
   var clickPoint = new Point2D(0, 0)
 
   def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Unit = {
@@ -42,7 +42,7 @@ class ShapeTool(stype: ShapeType) extends Tool {
         this.clickPoint = eventPoint
         val fillColor = new Color(config.secondaryColor.opacity(if (config.useFill) config.secondaryColor.opacity else 0))
         val borderColor = new Color(config.primaryColor.opacity(if (config.useBorder) config.primaryColor.opacity else 0 ))
-        this.currentElement = Shape(this.stype, "temp", 0, 0, 3, fillColor, borderColor, this.clickPoint)
+        this.currentElement = Shape(this.stype, 0, 0, 3, fillColor, borderColor, this.clickPoint)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         println("MOUSE_DRAGGED")

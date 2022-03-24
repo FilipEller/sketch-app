@@ -77,12 +77,10 @@ class Controller {
   }
 
   def handleBorderCheckBox(event: ActionEvent): Unit = {
-    println("border check box is " + borderCheckBox.isSelected)
     this.drawing.config = this.drawing.config.copy(useBorder = borderCheckBox.isSelected)
   }
 
   def handleFillCheckBox(event: ActionEvent): Unit = {
-    println("fill check box is " + fillCheckBox.isSelected)
     this.drawing.config = this.drawing.config.copy(useFill = fillCheckBox.isSelected)
   }
 

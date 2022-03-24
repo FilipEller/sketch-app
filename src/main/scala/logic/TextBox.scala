@@ -5,8 +5,8 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-case class TextBox(text: String, name: String, width: Double, height: Double, fontSize: Double, color: Color,
-                 origin: Point2D, rotation: Int = 0,
+case class TextBox(text: String, width: Double, height: Double, fontSize: Double, color: Color,
+                 origin: Point2D, name: String, rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   def paint(canvas: Canvas): Unit = {
@@ -28,4 +28,26 @@ case class TextBox(text: String, name: String, width: Double, height: Double, fo
         && point.x <= this.origin.x + this.width
         && point.y >= this.origin.y
         && point.y <= this.origin.y + this.height)
+}
+
+object TextBox {
+
+  var strokeCount = 0
+
+  def apply(text: String, width: Double, height: Double, fontSize: Double, color: Color,
+                 origin: Point2D, name: String = "", rotation: Int = 0,
+                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
+
+    val nameToUse = {
+      if (name == "") {
+        strokeCount += 1
+        s"Stroke $strokeCount"
+      } else {
+        name
+      }
+    }
+
+    new TextBox(text, width, height, fontSize, color, origin, nameToUse, rotation, previousVersion, hidden, deleted)
+  }
+
 }

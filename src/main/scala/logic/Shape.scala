@@ -6,7 +6,7 @@ import scalafx.scene.paint.Color
 
 import scala.math.{pow, sqrt}
 
-abstract class ShapeType
+abstract sealed class ShapeType
 
 case object Rectangle extends ShapeType
 case object Square extends ShapeType
@@ -14,8 +14,8 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType, name: String, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
-                 origin: Point2D, rotation: Int = 0,
+case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
+                 origin: Point2D, name: String, rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   val center = new Point2D(this.origin.x + this.width, this.origin.y + this.height)
@@ -69,5 +69,46 @@ case class Shape(stype: ShapeType, name: String, width: Double, height: Double, 
 
   def move(newOrigin: Point2D) = this.copy(origin = newOrigin, previousVersion = Some(this))
   def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
+
+}
+
+object Shape {
+
+  var rectangleCount = 0
+  var squareCount = 0
+  var circleCount = 0
+  var ellipseCount = 0
+
+  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
+                 origin: Point2D, name: String = "", rotation: Int = 0,
+                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
+
+    val nameToUse = {
+      if (name == "") {
+        stype match {
+          case Rectangle => {
+            rectangleCount += 1
+            s"Rectangle $rectangleCount"
+          }
+          case Square => {
+            squareCount += 1
+            s"Square $squareCount"
+          }
+          case Circle => {
+            circleCount += 1
+            s"Circle $circleCount"
+          }
+          case Ellipse => {
+            ellipseCount += 1
+            s"Ellipse $ellipseCount"
+          }
+        }
+      } else {
+        name
+      }
+    }
+
+    new Shape(stype, width, height, borderWidth, color, borderColor, origin, nameToUse, rotation, previousVersion, hidden, deleted)
+  }
 
 }
