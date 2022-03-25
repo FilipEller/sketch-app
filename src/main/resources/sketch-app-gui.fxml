@@ -168,7 +168,7 @@
                      <children>
                         <Label text="Brush size">
                            <graphic>
-                              <Slider blockIncrement="1.0" max="500.0" value="10.0" />
+                              <Slider blockIncrement="1.0" majorTickUnit="100.0" max="100.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0" fx:id="slider" onMouseReleased="#handleSliderEvent"/>
                            </graphic>
                         </Label>
                      </children>
@@ -177,7 +177,7 @@
                      <children>
                         <Label text="Hardness">
                            <graphic>
-                              <Slider blockIncrement="1.0" value="50.0" />
+                              <Slider blockIncrement="1.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="50.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -186,7 +186,7 @@
                      <children>
                         <Label text="Border width">
                            <graphic>
-                              <Slider blockIncrement="1.0" min="1.0" value="2.0" />
+                              <Slider blockIncrement="1.0" min="1.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -195,7 +195,7 @@
                      <children>
                         <Label text="Font size">
                            <graphic>
-                              <Slider blockIncrement="1.0" min="1.0" value="12.0" />
+                              <Slider blockIncrement="1.0" min="1.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -246,7 +246,7 @@
                            <children>
                               <Label text="Border">
                                  <graphic>
-                                    <CheckBox mnemonicParsing="false" selected="true" fx:id="borderCheckBox" />
+                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" selected="true" />
                                  </graphic>
                               </Label>
                            </children>
@@ -255,7 +255,7 @@
                            <children>
                               <Label text="Fill">
                                  <graphic>
-                                    <CheckBox mnemonicParsing="false" fx:id="fillCheckBox" />
+                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" />
                                  </graphic>
                               </Label>
                            </children>

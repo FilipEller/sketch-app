@@ -3,6 +3,7 @@ package gui
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.event.ActionEvent
+import javafx.scene.input.MouseEvent
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
 import javafx.scene.layout.StackPane
 import logic._
@@ -10,13 +11,14 @@ import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
 import scalafx.scene.canvas.Canvas
-import scalafx.scene.control.Button
-import scalafx.scene.input.{MouseDragEvent, MouseEvent}
+import scalafx.scene.control.{Button, Slider}
+import scalafx.scene.input.{MouseDragEvent}
 import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView}
 import scalafx.animation.AnimationTimer
 import scalafx.collections.ObservableBuffer
 import javafx.beans.value.ChangeListener
+import javafx.scene.input.DragEvent
 
 import scala.math
 
@@ -30,6 +32,7 @@ class Controller {
 
   @FXML var borderCheckBox: javafx.scene.control.CheckBox = _
   @FXML var fillCheckBox: javafx.scene.control.CheckBox = _
+  @FXML var slider: javafx.scene.control.Slider = _
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
@@ -89,7 +92,7 @@ class Controller {
     this.drawing.config.selectedElements.reverse.foreach( e => this.selectedView.getItems.add(e.name) )
   }
 
-  def useTool(event: MouseEvent): Unit = {
+  def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     mousePressed = event.isPrimaryButtonDown
     this.drawing.useTool(event, localPoint)
@@ -111,6 +114,7 @@ class Controller {
     initializeLayerView()
     this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
     this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
+    // this.slider.setOnMouseReleased(this.handleSliderEvent(_))
     updateCanvas()
   }
 
@@ -157,6 +161,13 @@ class Controller {
     println("renaming layer")
     // dialogue for new name
     updateLayerView()
+  }
+
+  @FXML protected def handleSliderEvent(event: javafx.scene.input.MouseEvent): Unit = {
+    println("Sliding")
+    val newSize = this.slider.getValue.ceil.toInt
+    val newBrush = this.drawing.config.activeBrush.copy(size = newSize)
+    this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
   }
 
 }

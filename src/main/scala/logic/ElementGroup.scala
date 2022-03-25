@@ -20,9 +20,12 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
   def move(newOrigin: Point2D) = {
     val xDiff = newOrigin.x - this.origin.x
     val yDiff = newOrigin.y - this.origin.y
-    // cant make element copies with new origin. maybe save offset to elementgroup and give that as parameter
-    // to a new paint method of element
-    this.copy(origin = newOrigin)
+    val newElements = this.elements.map {
+      case e: Shape => e.copy(origin = new Point2D(e.origin.x + xDiff, e.origin.y + yDiff))
+      case e if e.isInstanceOf[Stroke] => e
+      case e if e.isInstanceOf[TextBox] => e
+    }
+    this.copy(origin = newOrigin, elements = newElements)
   }
 
   def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
