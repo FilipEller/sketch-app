@@ -28,6 +28,10 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
     this.copy(origin = newOrigin, elements = newElements)
   }
 
+  def move(xDiff:  Double, yDiff:  Double): Element = {
+    this
+  }
+
   def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
   def paint(canvas: Canvas) = {

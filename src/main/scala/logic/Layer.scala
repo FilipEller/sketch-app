@@ -71,5 +71,14 @@ case class Layer(var name: String) {
     }
   }
 
+  def updateElement(element: Element): Unit = {
+    element.previousVersion.foreach( this.removeElement(_) )
+    this.addElement(element)
+  }
+
+  def updateElements(elements: Seq[Element]): Unit = {
+    elements.foreach( this.updateElement(_) )
+  }
+
   def select(point: Point2D): Option[Element] = this.elements.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
 }

@@ -16,6 +16,7 @@ abstract class Element {
 
   def paint(canvas: Canvas): Unit
   def move(newOrigin: Point2D): Element
+  def move(xDiff: Double, yDiff: Double): Element
   def rotate(angle: Int): Element
 
   def collidesWith(point: Point2D): Boolean

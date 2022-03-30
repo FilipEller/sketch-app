@@ -15,7 +15,7 @@ object ConfigControls {
     println("button pressed: " + label)
     val targetTool = label match {
       case "Select" => SelectionTool
-      case "Transform" => RectangleTool
+      case "Transform" => TransformTool
       case "Brush" => BrushTool
       case "Line" => LineTool
       case "Rectangle" => RectangleTool
