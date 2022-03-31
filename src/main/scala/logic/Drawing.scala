@@ -74,6 +74,10 @@ class Drawing(val width: Int, val height: Int) {
 
     println(pane.children)
     this.layers.foreach(pane.children += _.paint(width, height))
+    val selections = this.config.selectedElements.map( e => new Shape(Rectangle, e.width, e.height, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), e.origin, "temp") )
+    val canvas = new Canvas(width, height)
+    selections.foreach(_.paint(canvas))
+    pane.children += canvas
     this.currentImage = pane
     pane
   }

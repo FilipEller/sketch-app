@@ -8,6 +8,8 @@ abstract class Element {
 
   def name: String
   def origin: Point2D
+  def width: Double
+  def height: Double
   def rotation: Int
   def color: Color
   def previousVersion: Option[Element]

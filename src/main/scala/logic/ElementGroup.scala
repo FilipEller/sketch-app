@@ -7,6 +7,9 @@ import scalafx.scene.paint.Color
 case class ElementGroup(val elements: Vector[Element], id: String, name: String, color: Color,
                  origin: Point2D, rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
+  val width = 100
+  val height = 100
+
   def addElement(element: Element) = {
     val newGroup = this.copy(elements = this.elements :+ element, previousVersion = Some(this))
     newGroup

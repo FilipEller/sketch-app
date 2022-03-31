@@ -16,6 +16,10 @@ case class Layer(var name: String) {
     this.elements += element
   }
 
+  def addElementAtIndex(element: Element, index: Int) = {
+    this.elements.insert(index, element)
+  }
+
   def removeElement(element: Element) = {
     println("removing " + element)
     this.elements -= element
@@ -48,7 +52,7 @@ case class Layer(var name: String) {
       this.elements -= group
       this.elements += group.addElement(element)
     } else {
-      throw new Exception("group or element does not belong in this layer")
+      throw new Exception("group or element does not belong to this layer")
     }
   }
 
@@ -57,7 +61,7 @@ case class Layer(var name: String) {
       group.elements.foreach( this.elements += _ )
       this.elements -= group
     } else {
-      throw new Exception("group does not belong in this layer")
+      throw new Exception("group does not belong to this layer")
     }
   }
 
@@ -72,8 +76,9 @@ case class Layer(var name: String) {
   }
 
   def updateElement(element: Element): Unit = {
+    val index = element.previousVersion.map( e => this.elements.indexOf(e) ).getOrElse(this.elements.length - 1)
     element.previousVersion.foreach( this.removeElement(_) )
-    this.addElement(element)
+    this.addElementAtIndex(element, index)
   }
 
   def updateElement(oldElement: Element, newElement: Element): Unit = {
@@ -85,5 +90,5 @@ case class Layer(var name: String) {
     elements.foreach( this.updateElement(_) )
   }
 
-  def select(point: Point2D): Option[Element] = this.elements.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
+  def select(point: Point2D): Option[Element] = this.elements.reverse.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
 }
