@@ -1,3 +1,38 @@
+31.3.2022
+
+During the last two weeks I have implemented functionality for drawing paint strokes and writing text on a drawing,
+as well as selecting and moving elements of the drawing. The GUI has also seen a lot of progress, but all parts of it do not
+work quite yet with the program.
+
+I have not had any major problems since my last report,
+although working with ScalaFX is still rather painful.
+
+I am still on schedule. Between 16.3. and today, I have used some 20 hours on this project.
+According to my schedule only 13 hours would have been needed, though.
+
+I should start working on file management next, but a requirement in A Plus is puzzling me.
+It says "Serialization may not be used in saving files."
+According to Wikipedia serialization is the process of translating an object into a format and reconstructed later,
+which apparently means that I can't, for example, save a rectangle in JSON like this:
+{
+  "type": "rectangle",
+  "colour": [61, 106, 173, 100],
+  "border-colour": [0, 0, 0, 100],
+  "hidden": false,
+  "border": 3,
+  "rotation": 170,
+  "origin": [82, 23],
+  "width": 1920,
+  "height": 1080
+}
+This had been, however, the way I had planned to do file management (see my technical plan).
+I don't quite see what alternatives to serialization I have apart from saving the drawing as an image,
+which in part seems contradictory to the requirement of using "some text-based format".
+
+Could you provide me with some tips on this matter, Tuan?
+Should we have a Zoom meeting about this?
+
+
 16.3.2022
 
 The project is making good progress.
