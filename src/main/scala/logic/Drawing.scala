@@ -69,15 +69,18 @@ class Drawing(val width: Int, val height: Int) {
   def fillColor: Color = new Color(this.config.secondaryColor.opacity(if (this.config.useFill) this.config.secondaryColor.opacity else 0))
   def borderColor: Color = new Color(config.primaryColor.opacity(if (config.useBorder) config.primaryColor.opacity else 0 ))
 
-  def paint(pane: StackPane): StackPane = {
-    println(pane.children)
-
-    println(pane.children)
-    this.layers.foreach(pane.children += _.paint(width, height))
-    val selections = this.config.selectedElements.map( e => new Shape(Rectangle, e.width, e.height, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), e.origin, "temp") )
+  def paintSelection(pane: StackPane) = {
+    val selections = this.config.selectedElements
+                      .map( e => new Shape(Rectangle, e.width, e.height, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), e.origin, "selection") )
     val canvas = new Canvas(width, height)
     selections.foreach(_.paint(canvas))
     pane.children += canvas
+  }
+
+  def paint(pane: StackPane): StackPane = {
+    println(pane.children)
+    this.layers.foreach(pane.children += _.paint(width, height))
+    this.paintSelection(pane)
     this.currentImage = pane
     pane
   }
