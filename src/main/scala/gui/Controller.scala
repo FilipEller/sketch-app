@@ -32,7 +32,10 @@ class Controller {
 
   @FXML var borderCheckBox: javafx.scene.control.CheckBox = _
   @FXML var fillCheckBox: javafx.scene.control.CheckBox = _
-  @FXML var slider: javafx.scene.control.Slider = _
+  @FXML var brushSizeSlider: javafx.scene.control.Slider = _
+  @FXML var hardnessSlider: javafx.scene.control.Slider = _
+  @FXML var borderWidthSlider: javafx.scene.control.Slider = _
+  @FXML var fontSizeSlider: javafx.scene.control.Slider = _
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
@@ -52,7 +55,8 @@ class Controller {
   def updateLayerView(): Unit = {
     val selectedLayer = this.layerView.getSelectionModel.getSelectedItem
     this.layerView.getItems.clear()
-    this.drawing.layers.reverse.foreach( l => this.layerView.getItems.add(l.name) )
+    this.drawing.layers.reverse
+      .foreach( l => this.layerView.getItems.add(l.name) )
     this.layerView.getSelectionModel.select(selectedLayer)
   }
 
@@ -85,9 +89,36 @@ class Controller {
     this.drawing.config = this.drawing.config.copy(useFill = fillCheckBox.isSelected)
   }
 
+  @FXML protected def changeBrushSize(event: javafx.scene.input.MouseEvent): Unit = {
+    println("Sliding")
+    val newSize = this.brushSizeSlider.getValue.ceil.toInt
+    val newBrush = this.drawing.config.activeBrush.copy(size = newSize)
+    this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
+  }
+
+  @FXML protected def changeHardness(event: javafx.scene.input.MouseEvent): Unit = {
+    println("Sliding")
+    val newHardness = this.hardnessSlider.getValue.ceil.toInt
+    val newBrush = this.drawing.config.activeBrush.copy(hardness = newHardness)
+    this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
+  }
+
+  def changeBorderWidth(event: javafx.scene.input.MouseEvent): Unit = {
+    println("Sliding")
+    val newBorderWidth = this.borderWidthSlider.getValue.ceil.toInt
+    this.drawing.config = this.drawing.config.copy(borderWidth = newBorderWidth)
+  }
+
+  def changefontSize(event: javafx.scene.input.MouseEvent): Unit = {
+    println("Sliding")
+    val newFontSize = this.fontSizeSlider.getValue.ceil.toInt
+    this.drawing.config = this.drawing.config.copy(fontSize = newFontSize)
+  }
+
   def updateSelectedView(): Unit = {
     this.selectedView.getItems.clear()
-    this.drawing.config.selectedElements.reverse.foreach( e => this.selectedView.getItems.add(e.name) )
+    this.drawing.config.selectedElements.reverse
+      .foreach( e => this.selectedView.getItems.add(e.name) )
   }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
@@ -111,7 +142,7 @@ class Controller {
     initializeLayerView()
     this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
     this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
-    // this.slider.setOnMouseReleased(this.handleSliderEvent(_))
+    // this.brushSizeSlider.setOnMouseReleased(this.changeBrushSize(_))
     updateCanvas()
   }
 
@@ -156,13 +187,6 @@ class Controller {
     println("renaming layer")
     // dialogue for new name
     updateLayerView()
-  }
-
-  @FXML protected def handleSliderEvent(event: javafx.scene.input.MouseEvent): Unit = {
-    println("Sliding")
-    val newSize = this.slider.getValue.ceil.toInt
-    val newBrush = this.drawing.config.activeBrush.copy(size = newSize)
-    this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
   }
 
 }

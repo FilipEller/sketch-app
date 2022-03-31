@@ -9,5 +9,6 @@ case class Configurations(activeLayer: Layer,
                           useBorder: Boolean,
                           useFill: Boolean,
                           activeBrush: Brush,
+                          borderWidth: Int,
                           selectedElements: Vector[Element],
                           fontSize: Int)
