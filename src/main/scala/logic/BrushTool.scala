@@ -12,9 +12,9 @@ sealed abstract class StrokeTool extends Tool {
   var currentElement = new Stroke(rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100), "")
   var clickPoint = new Point2D(0, 0)
 
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Element
 
-  def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Unit = {
+  def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
     val originX = min(this.currentElement.origin.x, eventPoint.x)
     val originY = min(this.currentElement.origin.y, eventPoint.y)
     val origin = new Point2D(originX, originY)
@@ -31,35 +31,29 @@ sealed abstract class StrokeTool extends Tool {
       }
       case MouseEvent.MOUSE_DRAGGED => {
         println("MOUSE_DRAGGED")
-        config.activeLayer.removeElement(this.currentElement)
-        updateCurrentElement(drawing, eventPoint)
-        config.activeLayer.addElement(this.currentElement)
+        config.activeLayer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
       }
       case MouseEvent.MOUSE_RELEASED => {
         println("MOUSE_RELEASED")
-        config.activeLayer.removeElement(this.currentElement)
-        updateCurrentElement(drawing, eventPoint)
-        config.activeLayer.addElement(currentElement)
+        config.activeLayer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
       }
       case _ => {
         println("unrecognized mouseEvent type: " + event.getEventType)
       }
     }
   }
-
-  def useAnyway(drawing: Drawing): Unit = {
-    println("brushing with tool")
-  }
 }
 
 object BrushTool extends StrokeTool {
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D) = {
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Element = {
     this.currentElement = this.currentElement.copy(path = this.currentElement.path :+ eventPoint, origin = origin)
+    this.currentElement
   }
 }
 
 object LineTool extends StrokeTool {
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D) = {
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Element = {
     this.currentElement = this.currentElement.copy(path = Path(this.currentElement.path.head, eventPoint), origin = origin)
+    this.currentElement
   }
 }

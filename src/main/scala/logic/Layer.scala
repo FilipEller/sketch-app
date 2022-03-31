@@ -76,6 +76,11 @@ case class Layer(var name: String) {
     this.addElement(element)
   }
 
+  def updateElement(oldElement: Element, newElement: Element): Unit = {
+    this.removeElement(oldElement)
+    this.addElement(newElement)
+  }
+
   def updateElements(elements: Seq[Element]): Unit = {
     elements.foreach( this.updateElement(_) )
   }

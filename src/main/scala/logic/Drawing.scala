@@ -5,6 +5,7 @@ import scalafx.Includes._
 import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.input.{MouseDragEvent, MouseEvent}
+import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
 import scala.collection.mutable
@@ -58,6 +59,15 @@ class Drawing(val width: Int, val height: Int) {
       false
     }
   }
+
+  def moveSelected(xDiff: Double, yDiff: Double) = {
+    val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
+    this.config = this.config.copy(selectedElements = newElements)
+    this.config.activeLayer.updateElements(newElements)
+  }
+
+  def fillColor: Color = new Color(this.config.secondaryColor.opacity(if (this.config.useFill) this.config.secondaryColor.opacity else 0))
+  def borderColor: Color = new Color(config.primaryColor.opacity(if (config.useBorder) config.primaryColor.opacity else 0 ))
 
   def paint(pane: StackPane): StackPane = {
     println(pane.children)

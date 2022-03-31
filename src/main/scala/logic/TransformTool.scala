@@ -9,11 +9,9 @@ object TransformTool extends Tool {
 
   def move(drawing: Drawing, eventPoint: Point2D): Unit = {
     if (this.isActive) {
-          val xDiff = eventPoint.x - lastPoint.x
-          val yDiff = eventPoint.y - lastPoint.y
-          val newElements = drawing.config.selectedElements.map( _.move(xDiff, yDiff) )
-          drawing.config = drawing.config.copy(selectedElements = newElements)
-          drawing.config.activeLayer.updateElements(newElements)
+      val xDiff = eventPoint.x - lastPoint.x
+      val yDiff = eventPoint.y - lastPoint.y
+      drawing.moveSelected(xDiff, yDiff)
     }
   }
 

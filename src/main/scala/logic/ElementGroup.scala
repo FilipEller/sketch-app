@@ -28,9 +28,7 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
     this.copy(origin = newOrigin, elements = newElements)
   }
 
-  def move(xDiff:  Double, yDiff:  Double): Element = {
-    this
-  }
+  def move(xDiff: Double, yDiff: Double) = this.move(new Point2D(this.origin.x + xDiff, this.origin.y + yDiff))
 
   def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
