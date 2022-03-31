@@ -37,8 +37,6 @@ class Controller {
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
 
-  var mousePressed = false
-
 
   def updateCanvas(): Unit = {
     pane.children.tail.foreach(pane.children -= _) // empties background except for white base canvas
@@ -94,7 +92,6 @@ class Controller {
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
-    mousePressed = event.isPrimaryButtonDown
     this.drawing.useTool(event, localPoint)
     this.updateSelectedView()
     // println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
@@ -131,9 +128,7 @@ class Controller {
     ConfigControls.changeColor(event, this.drawing)
   }
 
-  // activeLayer
   // activeBrush
-  // selectedElement
   // fontSize
 
   // Layers

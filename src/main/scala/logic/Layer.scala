@@ -17,6 +17,7 @@ case class Layer(var name: String) {
   }
 
   def addElementAtIndex(element: Element, index: Int) = {
+    println("adding " + element + " to layer " + this.name)
     this.elements.insert(index, element)
   }
 
@@ -75,20 +76,33 @@ case class Layer(var name: String) {
     }
   }
 
-  def updateElement(element: Element): Unit = {
-    val index = element.previousVersion.map( e => this.elements.indexOf(e) ).getOrElse(this.elements.length - 1)
+  def updateElement(element: Element): Element = {
+    val index = element.previousVersion
+                  .map( e => this.elements.indexOf(e) )
+                  .map( i => math.max(0, i) )
+                  .getOrElse(this.elements.length - 1)
     element.previousVersion.foreach( this.removeElement(_) )
     this.addElementAtIndex(element, index)
+    element
   }
 
-  def updateElement(oldElement: Element, newElement: Element): Unit = {
+  def updateElement(oldElement: Element, newElement: Element): Element = {
     this.removeElement(oldElement)
     this.addElement(newElement)
+    newElement
   }
 
-  def updateElements(elements: Seq[Element]): Unit = {
-    elements.foreach( this.updateElement(_) )
+  def updateElements(elements: Vector[Element]): Vector[Element] = {
+    elements.map( this.updateElement(_) )
   }
 
-  def select(point: Point2D): Option[Element] = this.elements.reverse.to(LazyList).filter(!_.hidden).find(_.collidesWith(point))
+  def restoreElement(element: Element): Unit = {
+    val index = math.max(0, this.elements.indexOf(element))
+    this.removeElement(element)
+    element.previousVersion.foreach( this.addElementAtIndex(_, index) )
+  }
+
+  def select(point: Point2D): Option[Element] = this.elements.reverse.to(LazyList)
+                                                  .filter(!_.hidden)
+                                                  .find(_.collidesWith(point))
 }

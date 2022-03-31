@@ -6,8 +6,18 @@ object ActionHistory {
 
   val actions: Stack[Element] = Stack()
 
-  def add(element: Element)  = this.actions.push(element)
+  def add(element: Element): Unit = {
+    this.actions.push(element)
+    println("doing... history: " + this.actions)
+  }
 
-  def undo() = this.actions.pop()
+  def undo(): Option[Element] = {
+    println("undoing... history: " + this.actions)
+    if (this.actions.nonEmpty) {
+      Some(this.actions.pop())
+    } else {
+      None
+    }
+  }
 
 }

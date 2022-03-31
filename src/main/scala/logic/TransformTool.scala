@@ -7,12 +7,15 @@ object TransformTool extends Tool {
   var isActive = false
   var lastPoint = new Point2D(0, 0)
 
-  def move(drawing: Drawing, eventPoint: Point2D): Unit = {
-    if (this.isActive) {
-      val xDiff = eventPoint.x - lastPoint.x
-      val yDiff = eventPoint.y - lastPoint.y
-      drawing.moveSelected(xDiff, yDiff)
-    }
+  def move(drawing: Drawing, eventPoint: Point2D): Vector[Element] = {
+    val xDiff = eventPoint.x - lastPoint.x
+    val yDiff = eventPoint.y - lastPoint.y
+    val updatedElements = drawing.moveSelected(xDiff, yDiff)
+    updatedElements.foreach( ActionHistory.add(_) )
+    updatedElements
+    // currently moving makes a long chain of previous versions because each little movement creates new elements.
+    // thus undoing has to go through all the same versions
+    // fixing this would need enforcing a previous version while moving an element.
   }
 
   def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
@@ -24,13 +27,16 @@ object TransformTool extends Tool {
       }
       case MouseEvent.MOUSE_DRAGGED => {
         println("MOUSE_DRAGGED")
-        this.move(drawing, eventPoint)
-        this.lastPoint = eventPoint
+        if (this.isActive) {
+          this.move(drawing, eventPoint)
+          this.lastPoint = eventPoint
+        }
       }
       case MouseEvent.MOUSE_RELEASED => {
         println("MOUSE_RELEASED")
-        this.move(drawing, eventPoint)
-        this.lastPoint = eventPoint
+        if (this.isActive) {
+          this.move(drawing, eventPoint)
+        }
         this.isActive = false
       }
       case _ => {

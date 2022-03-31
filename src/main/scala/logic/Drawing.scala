@@ -60,10 +60,11 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
-  def moveSelected(xDiff: Double, yDiff: Double) = {
+  def moveSelected(xDiff: Double, yDiff: Double): Vector[Element] = {
     val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
     this.config = this.config.copy(selectedElements = newElements)
-    this.config.activeLayer.updateElements(newElements)
+    this.config.activeLayer
+      .updateElements(newElements)
   }
 
   def fillColor: Color = new Color(this.config.secondaryColor.opacity(if (this.config.useFill) this.config.secondaryColor.opacity else 0))
@@ -89,8 +90,26 @@ class Drawing(val width: Int, val height: Int) {
     this.config.activeTool.use(this, event, localPoint)
   }
 
+  def undo() = {
+    val elementOption = ActionHistory.undo()
+    elementOption match {
+      case Some(element: Element) => {
+        this.config = this.config.copy(selectedElements = this.config.selectedElements.filter( _ != element ))
+        this.layers.filter( _.contains(element) )
+          .foreach( _.restoreElement(element) )
+      }
+      case _ => {
+        println("history is empty")
+      }
+    }
+
+  }
+
   def select(point: Point2D) = {
-    val selected = this.layers.to(LazyList).filter(!_.hidden).map(_.select(point)).find(_.isDefined).flatten
+    val selected = this.layers.to(LazyList)
+                      .filter(!_.hidden)
+                      .map(_.select(point))
+                      .find(_.isDefined).flatten
     selected.foreach( e => this.config = this.config.copy(selectedElements = Vector(e)) )
   }
 

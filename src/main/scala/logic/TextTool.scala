@@ -16,6 +16,8 @@ object TextTool extends ShapeTool(Rectangle) {
       case MouseEvent.MOUSE_RELEASED => {
         val rectangle = this.currentElement
         val newElement = TextBox("Lorem ipsum", rectangle.width, rectangle.height, 12, originalConfig.primaryColor, rectangle.origin)
+        ActionHistory.undo()
+        ActionHistory.add(newElement)
         drawing.config.activeLayer.updateElement(rectangle, newElement)
         drawing.config = drawing.config.copy(selectedElements = Vector(newElement))
       }
