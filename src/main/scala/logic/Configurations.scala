@@ -10,5 +10,5 @@ case class Configurations(activeLayer: Layer,
                           useFill: Boolean,
                           activeBrush: Brush,
                           borderWidth: Int,
-                          selectedElements: Vector[Element],
+                          selectedElements: Seq[Element],
                           fontSize: Int)

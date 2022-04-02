@@ -7,7 +7,7 @@ object TransformTool extends Tool {
   var isActive = false
   var lastPoint = new Point2D(0, 0)
 
-  def move(drawing: Drawing, eventPoint: Point2D): Vector[Element] = {
+  def move(drawing: Drawing, eventPoint: Point2D): Seq[Element] = {
     val xDiff = eventPoint.x - lastPoint.x
     val yDiff = eventPoint.y - lastPoint.y
     val updatedElements = drawing.moveSelected(xDiff, yDiff)

@@ -60,7 +60,7 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
-  def moveSelected(xDiff: Double, yDiff: Double): Vector[Element] = {
+  def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
     val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
     this.config = this.config.copy(selectedElements = newElements)
     this.config.activeLayer

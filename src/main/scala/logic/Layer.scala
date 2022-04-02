@@ -92,7 +92,7 @@ case class Layer(var name: String) {
     newElement
   }
 
-  def updateElements(elements: Vector[Element]): Vector[Element] = {
+  def updateElements(elements: Seq[Element]): Seq[Element] = {
     elements.map( this.updateElement(_) )
   }
 
