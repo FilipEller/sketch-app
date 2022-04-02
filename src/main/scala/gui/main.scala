@@ -53,6 +53,7 @@ object Main extends JFXApp {
     event.code match {
       case KeyCode.Z if event.isControlDown => {
         this.drawing.undo()
+        this.controller.updateSelectedView()
         this.controller.updateCanvas()
       }
       case _ =>
