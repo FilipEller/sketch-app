@@ -36,6 +36,7 @@ sealed abstract class StrokeTool extends Tool {
       case MouseEvent.MOUSE_RELEASED => {
         println("MOUSE_RELEASED")
         config.activeLayer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        ActionHistory.add(this.currentElement)
       }
       case _ => {
         println("unrecognized mouseEvent type: " + event.getEventType)
