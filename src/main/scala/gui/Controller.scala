@@ -118,6 +118,8 @@ class Controller {
   @FXML protected def makeGroup(event: javafx.scene.input.MouseEvent): Unit = {
     println("making group")
     this.drawing.groupSelected()
+    updateSelectedView()
+    updateCanvas()
   }
 
   def updateSelectedView(): Unit = {
@@ -129,7 +131,7 @@ class Controller {
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     this.drawing.useTool(event, localPoint)
-    this.updateSelectedView()
+    updateSelectedView()
     // println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
   }

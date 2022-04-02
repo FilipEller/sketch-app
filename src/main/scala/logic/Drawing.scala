@@ -124,6 +124,7 @@ class Drawing(val width: Int, val height: Int) {
     this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
     val group = ElementGroup(this.config.selectedElements)
     this.config.activeLayer.addElement(group)
+    this.config = this.config.copy(selectedElements = Seq(group))
     group
   }
 

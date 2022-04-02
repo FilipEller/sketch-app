@@ -8,8 +8,8 @@ import scalafx.scene.paint.Color.rgb
 case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, name: String,
                         rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
-  val width = 100
-  val height = 100
+  val width = this.elements.map( e => e.origin.x + e.width ).max - this.origin.x
+  val height = this.elements.map( e => e.origin.y + e.height ).max - this.origin.y
 
   def addElement(element: Element) = {
     val newGroup = this.copy(elements = this.elements :+ element, previousVersion = Some(this))
@@ -30,7 +30,7 @@ case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, n
       case e: TextBox => e.move(xDiff, yDiff)
       case e: Element => e
     }
-    this.copy(origin = newOrigin, elements = newElements)
+    this.copy(origin = newOrigin, elements = newElements, previousVersion = Some(this))
   }
 
   override def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
@@ -50,7 +50,7 @@ object ElementGroup {
   def nameToUse(name: String) = {
     if (name == "") {
       groupCount += 1
-      s"Stroke $groupCount"
+      s"Group $groupCount"
     } else {
       name
     }
