@@ -103,16 +103,21 @@ class Controller {
     this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
   }
 
-  def changeBorderWidth(event: javafx.scene.input.MouseEvent): Unit = {
+  @FXML protected def changeBorderWidth(event: javafx.scene.input.MouseEvent): Unit = {
     println("Sliding")
     val newBorderWidth = this.borderWidthSlider.getValue.ceil.toInt
     this.drawing.config = this.drawing.config.copy(borderWidth = newBorderWidth)
   }
 
-  def changeFontSize(event: javafx.scene.input.MouseEvent): Unit = {
+  @FXML protected def changeFontSize(event: javafx.scene.input.MouseEvent): Unit = {
     println("Sliding")
     val newFontSize = this.fontSizeSlider.getValue.ceil.toInt
     this.drawing.config = this.drawing.config.copy(fontSize = newFontSize)
+  }
+
+  @FXML protected def makeGroup(event: javafx.scene.input.MouseEvent): Unit = {
+    println("making group")
+    this.drawing.groupSelected()
   }
 
   def updateSelectedView(): Unit = {
@@ -142,7 +147,6 @@ class Controller {
     initializeLayerView()
     this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
     this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
-    // this.brushSizeSlider.setOnMouseReleased(this.changeBrushSize(_))
     updateCanvas()
   }
 

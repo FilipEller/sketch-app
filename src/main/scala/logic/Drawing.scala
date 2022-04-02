@@ -60,13 +60,6 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
-  def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
-    val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
-    this.config = this.config.copy(selectedElements = newElements)
-    this.config.activeLayer
-      .updateElements(newElements)
-  }
-
   def fillColor: Color = {
     val opacity = if (this.config.useFill) this.config.secondaryColor.opacity else 0
     new Color(this.config.secondaryColor.opacity(opacity))
@@ -110,7 +103,6 @@ class Drawing(val width: Int, val height: Int) {
         println("history is empty")
       }
     }
-
   }
 
   def select(point: Point2D) = {
@@ -119,6 +111,20 @@ class Drawing(val width: Int, val height: Int) {
                       .map(_.select(point))
                       .find(_.isDefined).flatten
     selected.foreach( e => this.config = this.config.copy(selectedElements = Vector(e)) )
+  }
+
+  def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
+    val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
+    this.config = this.config.copy(selectedElements = newElements)
+    this.config.activeLayer
+      .updateElements(newElements)
+  }
+
+  def groupSelected(): Element = {
+    this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
+    val group = ElementGroup(this.config.selectedElements)
+    this.config.activeLayer.addElement(group)
+    group
   }
 
 }

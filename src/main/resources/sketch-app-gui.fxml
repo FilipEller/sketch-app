@@ -307,7 +307,7 @@
                      <ListView id="selected-view" fx:id="selectedView" prefHeight="150.0" styleClass="list" VBox.vgrow="NEVER" />
                      <HBox prefHeight="36.0" prefWidth="228.0">
                         <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" text="Group">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" text="Group" onMouseClicked="#makeGroup">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />

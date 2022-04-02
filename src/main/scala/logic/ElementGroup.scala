@@ -3,9 +3,10 @@ package logic
 import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
+import scalafx.scene.paint.Color.rgb
 
-case class ElementGroup(val elements: Vector[Element], id: String, name: String, color: Color,
-                 origin: Point2D, rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, name: String,
+                        rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   val width = 100
   val height = 100
@@ -40,5 +41,33 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
 
   def collidesWith(point: Point2D): Boolean = this.elements.exists( _.collidesWith(point) )
 
+}
 
+object ElementGroup {
+
+  var groupCount = 0
+  
+  def nameToUse(name: String) = {
+    if (name == "") {
+      groupCount += 1
+      s"Stroke $groupCount"
+    } else {
+      name
+    }
+  }
+
+  def apply(elements: Seq[Element], origin: Point2D, color: Color, name: String = "", rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false): ElementGroup = {
+    new ElementGroup(elements, origin, color, nameToUse(name), rotation, previousVersion, hidden, deleted)
+  }
+  
+  def apply(elements: Seq[Element]): ElementGroup = {
+    
+    val originX = elements.map( _.origin.x ).min
+    val originY = elements.map( _.origin.y ).min
+    val origin = new Point2D(originX, originY)
+
+    val color = elements.headOption.map( _.color ).getOrElse(rgb(0, 0, 0))
+
+    ElementGroup(elements, origin, color)
+  }
 }
