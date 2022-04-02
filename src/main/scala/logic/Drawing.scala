@@ -94,7 +94,8 @@ class Drawing(val width: Int, val height: Int) {
     val elementOption = ActionHistory.undo()
     elementOption match {
       case Some(element: Element) => {
-        this.config = this.config.copy(selectedElements = this.config.selectedElements.filter( _ != element ))
+        this.config = this.config.copy(selectedElements = Seq())
+        element.previousVersion.foreach( e => this.config = this.config.copy(selectedElements = Seq(e)) )
         this.layers.filter( _.contains(element) )
           .foreach( _.restoreElement(element) )
       }
