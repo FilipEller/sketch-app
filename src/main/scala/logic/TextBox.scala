@@ -4,6 +4,7 @@ import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
+import scalafx.scene.text.Font
 
 case class TextBox(text: String, width: Double, height: Double, fontSize: Double, color: Color,
                  origin: Point2D, name: String, rotation: Int = 0,
@@ -14,7 +15,7 @@ case class TextBox(text: String, width: Double, height: Double, fontSize: Double
     // rotation not implemented
     g.fill = this.color
     g.setLineWidth(1)
-    // g.font = OTHER FONTS NOT IMPLEMENTED
+    g.font = new Font("Poppins", fontSize)
     g.fillText(this.text, origin.x + 1, origin.y + fontSize, this.width)
     // g.fill = rgb(0, 0, 0)
     // g.strokeRect(origin.x, origin.y, this.width, this.height)

@@ -168,7 +168,7 @@
                      <children>
                         <Label text="Brush size">
                            <graphic>
-                              <Slider blockIncrement="1.0" majorTickUnit="100.0" max="100.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0" fx:id="brushSizeSlider" onMouseReleased="#changeBrushSize"/>
+                              <Slider blockIncrement="1.0" majorTickUnit="100.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0" fx:id="brushSizeSlider" onMouseReleased="#changeBrushSize"/>
                            </graphic>
                         </Label>
                      </children>
@@ -186,7 +186,7 @@
                      <children>
                         <Label text="Border width">
                            <graphic>
-                              <Slider blockIncrement="1.0" min="1.0" max="100.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0" fx:id="borderWidthSlider" onMouseReleased="#changeBorderWidth"/>
+                              <Slider blockIncrement="1.0" min="1.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0" fx:id="borderWidthSlider" onMouseReleased="#changeBorderWidth"/>
                            </graphic>
                         </Label>
                      </children>
@@ -195,7 +195,7 @@
                      <children>
                         <Label text="Font size">
                            <graphic>
-                              <Slider blockIncrement="1.0" min="1.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0" fx:id="fontSizeSlider" onMouseReleased="#changefontSize"/>
+                              <Slider blockIncrement="1.0" min="5.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0" fx:id="fontSizeSlider" onMouseReleased="#changeFontSize"/>
                            </graphic>
                         </Label>
                      </children>

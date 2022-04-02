@@ -12,7 +12,7 @@ import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.control.{Button, Slider}
-import scalafx.scene.input.{MouseDragEvent}
+import scalafx.scene.input.MouseDragEvent
 import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView}
 import scalafx.animation.AnimationTimer
@@ -109,7 +109,7 @@ class Controller {
     this.drawing.config = this.drawing.config.copy(borderWidth = newBorderWidth)
   }
 
-  def changefontSize(event: javafx.scene.input.MouseEvent): Unit = {
+  def changeFontSize(event: javafx.scene.input.MouseEvent): Unit = {
     println("Sliding")
     val newFontSize = this.fontSizeSlider.getValue.ceil.toInt
     this.drawing.config = this.drawing.config.copy(fontSize = newFontSize)
