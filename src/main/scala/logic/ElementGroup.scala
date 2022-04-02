@@ -20,7 +20,7 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
     newGroup
   }
 
-  def move(newOrigin: Point2D) = {
+  override def move(newOrigin: Point2D) = {
     val xDiff = newOrigin.x - this.origin.x
     val yDiff = newOrigin.y - this.origin.y
     val newElements = this.elements.map {
@@ -32,9 +32,7 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
     this.copy(origin = newOrigin, elements = newElements)
   }
 
-  def move(xDiff: Double, yDiff: Double) = this.move(new Point2D(this.origin.x + xDiff, this.origin.y + yDiff))
-
-  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
+  override def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
   def paint(canvas: Canvas) = {
     this.elements.foreach( _.paint(canvas) )

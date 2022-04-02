@@ -67,8 +67,15 @@ class Drawing(val width: Int, val height: Int) {
       .updateElements(newElements)
   }
 
-  def fillColor: Color = new Color(this.config.secondaryColor.opacity(if (this.config.useFill) this.config.secondaryColor.opacity else 0))
-  def borderColor: Color = new Color(config.primaryColor.opacity(if (config.useBorder) config.primaryColor.opacity else 0 ))
+  def fillColor: Color = {
+    val opacity = if (this.config.useFill) this.config.secondaryColor.opacity else 0
+    new Color(this.config.secondaryColor.opacity(opacity))
+  }
+  def borderColor: Color = {
+    val opacity =if (config.useBorder) config.primaryColor.opacity else 0
+    new Color(config.primaryColor.opacity(opacity))
+  }
+
 
   def paintSelection(pane: StackPane) = {
     val selections = this.config.selectedElements

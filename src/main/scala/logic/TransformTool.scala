@@ -39,6 +39,7 @@ object TransformTool extends Tool {
             case e: Shape => e.copy(previousVersion = Some(x._2))
             case e: Stroke => e.copy(previousVersion = Some(x._2))
             case e: TextBox => e.copy(previousVersion = Some(x._2))
+            case e: ElementGroup => e.copy(previousVersion = Some(x._2))
             case e: Element => e
           })
           movedElements.zip(elementsToUse).foreach( x => drawing.config.activeLayer.updateElement(x._1, x._2) )

@@ -17,10 +17,26 @@ abstract class Element {
   def deleted: Boolean
 
   def paint(canvas: Canvas): Unit
-  def move(newOrigin: Point2D): Element
-  def move(xDiff: Double, yDiff: Double): Element
-  def rotate(angle: Int): Element
-
   def collidesWith(point: Point2D): Boolean
+
+  def move(newOrigin: Point2D): Element = {
+    this match {
+      case e: Shape => e.copy(origin = newOrigin, previousVersion = Some(this))
+      case e: Stroke => e.copy(origin = newOrigin, previousVersion = Some(this))
+      case e: TextBox => e.copy(origin = newOrigin, previousVersion = Some(this))
+      case e: Element => e
+    }
+  }
+
+  def move(xDiff: Double, yDiff: Double): Element = this.move(new Point2D(this.origin.x + xDiff, this.origin.y + yDiff))
+
+  def rotate(angle: Int): Element = {
+    this match {
+      case e: Shape => e.copy(rotation = this.rotation + angle, previousVersion = Some(this))
+      case e: Stroke => e.copy(rotation = this.rotation + angle, previousVersion = Some(this))
+      case e: TextBox => e.copy(rotation = this.rotation + angle, previousVersion = Some(this))
+      case e: Element => e
+    }
+  }
 
 }

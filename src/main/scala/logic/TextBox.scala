@@ -20,9 +20,6 @@ case class TextBox(text: String, width: Double, height: Double, fontSize: Double
     // g.strokeRect(origin.x, origin.y, this.width, this.height)
   }
 
-  def move(newOrigin: Point2D) = this.copy(origin = newOrigin, previousVersion = Some(this))
-  def move(xDiff: Double, yDiff: Double) = this.move(new Point2D(this.origin.x + xDiff, this.origin.y + yDiff))
-  def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
   def collidesWith(point: Point2D): Boolean =
     (point.x >= this.origin.x
