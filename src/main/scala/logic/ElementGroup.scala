@@ -24,9 +24,10 @@ case class ElementGroup(val elements: Vector[Element], id: String, name: String,
     val xDiff = newOrigin.x - this.origin.x
     val yDiff = newOrigin.y - this.origin.y
     val newElements = this.elements.map {
-      case e: Shape => e.copy(origin = new Point2D(e.origin.x + xDiff, e.origin.y + yDiff))
-      case e if e.isInstanceOf[Stroke] => e
-      case e if e.isInstanceOf[TextBox] => e
+      case e: Shape => e.move(xDiff, yDiff)
+      case e: Stroke => e.move(xDiff, yDiff)
+      case e: TextBox => e.move(xDiff, yDiff)
+      case e: Element => e
     }
     this.copy(origin = newOrigin, elements = newElements)
   }
