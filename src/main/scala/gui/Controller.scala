@@ -115,23 +115,61 @@ class Controller {
     this.drawing.config = this.drawing.config.copy(fontSize = newFontSize)
   }
 
-  @FXML protected def makeGroup(event: javafx.scene.input.MouseEvent): Unit = {
-    println("making group")
-    this.drawing.groupSelected()
-    updateSelectedView()
-    updateCanvas()
-  }
-
   def updateSelectedView(): Unit = {
     this.selectedView.getItems.clear()
     this.drawing.config.selectedElements.reverse
       .foreach( e => this.selectedView.getItems.add(e.name) )
   }
 
+  def updateSelectedProperties(): Unit = {
+    println("update")
+    drawing.config.selectedElements.headOption match {
+      case Some(e: Element) => {
+        borderCheckBox.setSelected(e match {
+          case shape: Shape => shape.borderColor.opacity > 0
+          case _ => true
+        } )
+        fillCheckBox.setSelected(e match {
+          case shape: Shape => shape.color.opacity > 0
+          case _ => false
+        } )
+        brushSizeSlider.setValue(e match {
+          case stroke: Stroke => stroke.brush.size
+          case _ => 30
+        } )
+        hardnessSlider.setValue(e match {
+          case stroke: Stroke => stroke.brush.hardness
+          case _ => 50
+        } )
+        borderWidthSlider.setValue(e match {
+          case shape: Shape => shape.borderWidth
+          case _ => 3
+        } )
+        fontSizeSlider.setValue(e match {
+          case textBox: TextBox => textBox.fontSize
+          case _ => 12
+        } )
+      }
+      case None =>
+    }
+  }
+
+  def updateSelected(): Unit = {
+    updateSelectedView()
+    updateSelectedProperties()
+  }
+
+  @FXML protected def makeGroup(event: javafx.scene.input.MouseEvent): Unit = {
+    println("making group")
+    this.drawing.groupSelected()
+    updateSelected()
+    updateCanvas()
+  }
+
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     this.drawing.useTool(event, localPoint)
-    updateSelectedView()
+    updateSelected()
     // println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
   }

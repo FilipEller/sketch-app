@@ -15,7 +15,17 @@ class Drawing(val width: Int, val height: Int) {
   val backgroundLayer = Layer("Layer 1")
   var currentImage = new StackPane
   val layers = mutable.Buffer[Layer](backgroundLayer)
-  var config = new Configurations(layers.head, RectangleTool, rgb(0, 0, 0), rgb(255, 255, 255), true, false, new Brush(30, 50), 3, Vector(), 12)  // Default settings
+  var config =                        // Default settings
+    new Configurations(layers.head,   // active layer
+      RectangleTool,                  // active tool
+      rgb(0, 0, 0),                   // primary color
+      rgb(255, 255, 255),             // secondary color
+      true,                           // use border
+      false,                          // use fill
+      new Brush(30, 50),              // active brush
+      3,                              // border width
+      Vector(),                       // selected elements
+      12)                             // font size
 
   def addLayer(): Unit = {
     var index = this.layers.length + 1
@@ -72,7 +82,18 @@ class Drawing(val width: Int, val height: Int) {
 
   def paintSelection(pane: StackPane) = {
     val selections = this.config.selectedElements
-                      .map( e => new Shape(Rectangle, e.width, e.height, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), e.origin, "selection") )
+                      .map( e =>
+                        new Shape(
+                          Rectangle,
+                          e.width,
+                          e.height,
+                          2,
+                          rgb(0, 0, 0, 0),
+                          rgb(255, 230, 0), // bright yellow
+                          e.origin,
+                          "selection"
+                        )
+                      )
     val canvas = new Canvas(width, height)
     selections.foreach(_.paint(canvas))
     pane.children += canvas
