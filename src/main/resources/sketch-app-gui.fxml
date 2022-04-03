@@ -11,6 +11,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,7 +25,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@index.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@index.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
     <MenuBar id="menu-bar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" style="-fx-color: #ffffff;" styleClass="menu" text="File">
             <MenuItem id="new" mnemonicParsing="false" styleClass="menu-item" text="New" />
@@ -32,7 +34,8 @@
             <MenuItem id="saveas" mnemonicParsing="false" styleClass="menu-item" text="Save as..." />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Delete" />
+            <MenuItem mnemonicParsing="false" text="Undo (Ctrl+Z)" />
+         <MenuItem mnemonicParsing="false" text="Delete (Backspace)" />
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" text="About" />
@@ -51,7 +54,7 @@
                 <BorderPane.margin>
                     <Insets />
                 </BorderPane.margin>
-                <Button id="Select" layoutX="15.0" layoutY="16.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Select">
+                <Button id="Select" layoutX="15.0" layoutY="16.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -62,8 +65,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_hand_cursor_24px_1.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Transform" layoutX="15.0" layoutY="11.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Transform">
+                <Button id="Transform" layoutX="15.0" layoutY="11.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -74,8 +84,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_resize_horizontal_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Brush" mnemonicParsing="true" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Brush">
+                <Button id="Brush" mnemonicParsing="true" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -83,8 +100,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_squiggly_line_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Line" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Line">
+                <Button id="Line" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -92,8 +116,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_line_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Rectangle" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Rectangle">
+                <Button id="Rectangle" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -104,8 +135,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_rectangle_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Square" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Square">
+                <Button id="Ellipse" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -116,8 +154,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_ellipse_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Ellipse" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Ellipse">
+                <Button id="Square" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -128,8 +173,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_unchecked_checkbox_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Circle" layoutX="15.0" layoutY="181.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="_Circle">
+                <Button id="Circle" layoutX="15.0" layoutY="181.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -137,8 +189,15 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_360_degrees_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button id="Text" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Text">
+                <Button id="Text" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -146,6 +205,13 @@
                   <String fx:value="button" />
                   <String fx:value="tool-button" />
                </styleClass>
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../../../../../AppData/Local/Temp/icons8_text_24px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
             </VBox>
         </left>
@@ -168,7 +234,7 @@
                      <children>
                         <Label text="Brush size">
                            <graphic>
-                              <Slider blockIncrement="1.0" majorTickUnit="100.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0" fx:id="brushSizeSlider" onMouseReleased="#changeBrushSize"/>
+                              <Slider fx:id="brushSizeSlider" blockIncrement="1.0" onMouseReleased="#changeBrushSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -177,7 +243,7 @@
                      <children>
                         <Label text="Hardness">
                            <graphic>
-                              <Slider blockIncrement="1.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="50.0" fx:id="hardnessSlider" onMouseReleased="#changeHardness"/>
+                              <Slider fx:id="hardnessSlider" blockIncrement="1.0" minorTickCount="4" onMouseReleased="#changeHardness" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="50.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -186,7 +252,7 @@
                      <children>
                         <Label text="Border width">
                            <graphic>
-                              <Slider blockIncrement="1.0" min="1.0" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0" fx:id="borderWidthSlider" onMouseReleased="#changeBorderWidth"/>
+                              <Slider fx:id="borderWidthSlider" blockIncrement="1.0" onMouseReleased="#changeBorderWidth" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -195,7 +261,7 @@
                      <children>
                         <Label text="Font size">
                            <graphic>
-                              <Slider blockIncrement="1.0" min="5.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0" fx:id="fontSizeSlider" onMouseReleased="#changeFontSize"/>
+                              <Slider fx:id="fontSizeSlider" blockIncrement="1.0" min="5.0" minorTickCount="4" onMouseReleased="#changeFontSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0" />
                            </graphic>
                         </Label>
                      </children>
@@ -264,50 +330,18 @@
                   </VBox>
                </children>
                 </GridPane>
-            <GridPane styleClass="control-panel" HBox.hgrow="ALWAYS">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="345.0">
-                     <children>
-                        <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Undo">
-                           <font>
-                              <Font size="12.0" />
-                           </font>
-                           <styleClass>
-                              <String fx:value="button" />
-                              <String fx:value="tool-button" />
-                           </styleClass>
-                        </Button>
-                        <Button onAction="#changeTool" prefHeight="50.0" prefWidth="50.0" text="Redo">
-                           <font>
-                              <Font size="12.0" />
-                           </font>
-                           <styleClass>
-                              <String fx:value="button" />
-                              <String fx:value="tool-button" />
-                           </styleClass>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </GridPane>
             </HBox>
         </top>
       <right>
          <VBox prefHeight="929.0" prefWidth="250.0" styleClass="panel" BorderPane.alignment="CENTER">
             <children>
-               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="248.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
+               <VBox alignment="TOP_CENTER" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
                      <Label text="Selected Elements" />
-                     <ListView id="selected-view" fx:id="selectedView" prefHeight="150.0" styleClass="list" VBox.vgrow="NEVER" />
+                     <ListView id="selected-view" fx:id="selectedView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox prefHeight="36.0" prefWidth="228.0">
                         <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" text="Group" onMouseClicked="#makeGroup">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" onMouseClicked="#makeGroup" text="Group">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
@@ -335,59 +369,12 @@
                            <Insets bottom="7.0" top="7.0" />
                         </padding>
                      </HBox>
-                     <HBox prefHeight="100.0" prefWidth="200.0">
-                        <children>
-                           <VBox prefHeight="100.0" prefWidth="230.0">
-                              <children>
-                                 <Label prefHeight="17.0" text="Primary Color" />
-                                 <ColorPicker id="primaryColorPicker" onAction="#changeColor">
-                                    <value>
-                                       <Color />
-                                    </value>
-                                    <styleClass>
-                                       <String fx:value="button" />
-                                       <String fx:value="color-picker" />
-                                    </styleClass>
-                                 </ColorPicker>
-                                 <Label prefHeight="17.0" text="Secondary Color" />
-                                 <ColorPicker id="secondaryColorPicker" onAction="#changeColor">
-                                    <styleClass>
-                                       <String fx:value="button" />
-                                       <String fx:value="color-picker" />
-                                    </styleClass>
-                                 </ColorPicker>
-                              </children>
-                           </VBox>
-                           <VBox layoutX="110.0" layoutY="10.0">
-                              <children>
-                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="79.0">
-                                    <children>
-                                       <Label text="Border">
-                                          <graphic>
-                                             <CheckBox mnemonicParsing="false" selected="true" />
-                                          </graphic>
-                                       </Label>
-                                    </children>
-                                 </HBox>
-                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                    <children>
-                                       <Label text="Fill">
-                                          <graphic>
-                                             <CheckBox mnemonicParsing="false" />
-                                          </graphic>
-                                       </Label>
-                                    </children>
-                                 </HBox>
-                              </children>
-                           </VBox>
-                        </children>
-                     </HBox>
                   </children>
                </VBox>
-               <VBox alignment="TOP_CENTER" maxHeight="300.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="248.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
+               <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
                      <Label text="Groups" />
-                     <ListView id="group-view" fx:id="groupView" prefHeight="150.0" prefWidth="228.0" styleClass="list" VBox.vgrow="ALWAYS" />
+                     <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
                         <children>
                            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addLayer" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
@@ -420,7 +407,7 @@
                      </HBox>
                   </children>
                </VBox>
-               <VBox alignment="CENTER" maxHeight="300.0" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel">
+               <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
                      <Label text="Layers" />
                      <ListView id="layer-view" fx:id="layerView" styleClass="list" VBox.vgrow="ALWAYS" />
