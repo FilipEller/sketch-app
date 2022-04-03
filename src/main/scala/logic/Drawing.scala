@@ -81,19 +81,12 @@ class Drawing(val width: Int, val height: Int) {
 
 
   def paintSelection(pane: StackPane) = {
-    val selections = this.config.selectedElements
-                      .map( e =>
-                        new Shape(
-                          Rectangle,
-                          e.width,
-                          e.height,
-                          2,
-                          rgb(0, 0, 0, 0),
-                          rgb(255, 230, 0), // bright yellow
-                          e.origin,
-                          "selection"
-                        )
-                      )
+    val selections =
+      this.config.selectedElements.map( {
+        case e: Shape => new Shape(Rectangle, e.width + e.borderWidth, e.height + e.borderWidth, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), new Point2D(e.origin.x - 0.5 * e.borderWidth, e.origin.y - 0.5 * e.borderWidth), "selection")
+        case e: Stroke => new Shape(Rectangle, e.width, e.height, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), new Point2D(e.origin.x - 0.5 * e.brush.size, e.origin.y - 0.5 * e.brush.size), "selection")
+        case e: Element => new Shape(Rectangle, e.width, e.height, 2, rgb(0, 0, 0, 0), rgb(255, 230, 0), e.origin, "selection")
+      } )
     val canvas = new Canvas(width, height)
     selections.foreach(_.paint(canvas))
     pane.children += canvas

@@ -10,8 +10,8 @@ import scala.math.abs
 case class Stroke(color: Color, origin: Point2D, path: Path, brush: Brush, name: String,
                  rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
-  val width = this.path.map( p => this.origin.x - p.x).max
-  val height = this.path.map( p => this.origin.y - p.y).max
+  val width = this.path.map( p => p.x - this.origin.x).max + this.brush.size
+  val height = this.path.map( p => p.y - this.origin.y).max + this.brush.size
 
   override def toString: String = "Stroke"
 
@@ -36,9 +36,9 @@ case class Stroke(color: Color, origin: Point2D, path: Path, brush: Brush, name:
 
   def collidesWith(point: Point2D): Boolean = // only takes the bounding box into account
     (point.x >= this.origin.x - 0.5 * this.brush.size
-      && point.x <= this.origin.x + this.width + 0.5 * this.brush.size
+      && point.x <= this.origin.x - 0.5 * this.brush.size + this.width
       && point.y >= this.origin.y - 0.5 * this.brush.size
-      && point.y <= this.origin.y + this.height + 0.5 * this.brush.size)
+      && point.y <= this.origin.y - 0.5 * this.brush.size + this.height)
       // does not take rotation into account yet
 
 }
