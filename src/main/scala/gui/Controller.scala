@@ -90,29 +90,61 @@ class Controller {
   }
 
   @FXML protected def changeBrushSize(event: javafx.scene.input.MouseEvent): Unit = {
-    println("Sliding")
     val newSize = this.brushSizeSlider.getValue.ceil.toInt
     val newBrush = this.drawing.config.activeBrush.copy(size = newSize)
-    this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
+    if (drawing.config.selectedElements.nonEmpty) {
+      val newElements = drawing.config.selectedElements.map( {
+        case stroke: Stroke => stroke.copy(brush = newBrush, previousVersion = Some(stroke))
+        case e: Element => e
+      })
+      drawing.updateSelected(newElements)
+      updateCanvas()
+    } else {
+      this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
+    }
   }
 
   @FXML protected def changeHardness(event: javafx.scene.input.MouseEvent): Unit = {
-    println("Sliding")
     val newHardness = this.hardnessSlider.getValue.ceil.toInt
     val newBrush = this.drawing.config.activeBrush.copy(hardness = newHardness)
-    this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
+    if (drawing.config.selectedElements.nonEmpty) {
+      val newElements = drawing.config.selectedElements.map( {
+        case stroke: Stroke => stroke.copy(brush = newBrush, previousVersion = Some(stroke))
+        case e: Element => e
+      })
+      drawing.updateSelected(newElements)
+      updateCanvas()
+    } else {
+      this.drawing.config = this.drawing.config.copy(activeBrush = newBrush)
+    }
   }
 
   @FXML protected def changeBorderWidth(event: javafx.scene.input.MouseEvent): Unit = {
-    println("Sliding")
     val newBorderWidth = this.borderWidthSlider.getValue.ceil.toInt
-    this.drawing.config = this.drawing.config.copy(borderWidth = newBorderWidth)
+    if (drawing.config.selectedElements.nonEmpty) {
+      val newElements = drawing.config.selectedElements.map( {
+        case shape: Shape => shape.copy(borderWidth = newBorderWidth, previousVersion = Some(shape))
+        case e: Element => e
+      })
+      drawing.updateSelected(newElements)
+      updateCanvas()
+    } else {
+      this.drawing.config = this.drawing.config.copy(borderWidth = newBorderWidth)
+    }
   }
 
   @FXML protected def changeFontSize(event: javafx.scene.input.MouseEvent): Unit = {
-    println("Sliding")
     val newFontSize = this.fontSizeSlider.getValue.ceil.toInt
-    this.drawing.config = this.drawing.config.copy(fontSize = newFontSize)
+    if (drawing.config.selectedElements.nonEmpty) {
+      val newElements = drawing.config.selectedElements.map( {
+        case textBox: TextBox => textBox.copy(fontSize = newFontSize, previousVersion = Some(textBox))
+        case e: Element => e
+      })
+      drawing.updateSelected(newElements)
+      updateCanvas()
+    } else {
+      this.drawing.config = this.drawing.config.copy(fontSize = newFontSize)
+    }
   }
 
   def updateSelectedView(): Unit = {
@@ -122,7 +154,6 @@ class Controller {
   }
 
   def updateSelectedProperties(): Unit = {
-    println("update")
     drawing.config.selectedElements.headOption match {
       case Some(e: Element) => {
         borderCheckBox.setSelected(e match {
@@ -150,7 +181,14 @@ class Controller {
           case _ => 12
         } )
       }
-      case None =>
+      case None => {
+        borderCheckBox.setSelected(drawing.config.useBorder)
+        fillCheckBox.setSelected(drawing.config.useFill)
+        brushSizeSlider.setValue(drawing.config.activeBrush.size)
+        hardnessSlider.setValue(drawing.config.activeBrush.hardness)
+        borderWidthSlider.setValue(drawing.config.borderWidth)
+        fontSizeSlider.setValue(drawing.config.fontSize)
+      }
     }
   }
 

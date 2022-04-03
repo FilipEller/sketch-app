@@ -141,6 +141,12 @@ class Drawing(val width: Int, val height: Int) {
       .updateElements(newElements)
   }
 
+  def updateSelected(elements: Seq[Element]): Unit = {
+    this.config.activeLayer.updateElements(elements)
+    this.config = this.config.copy(selectedElements = elements)
+    elements.foreach(ActionHistory.add)
+  }
+
   def groupSelected(): Element = {
     this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
     val group = ElementGroup(this.config.selectedElements)
