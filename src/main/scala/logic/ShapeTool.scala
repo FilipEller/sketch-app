@@ -13,21 +13,21 @@ class ShapeTool(stype: ShapeType) extends Tool {
   var clickPoint = new Point2D(0, 0)
 
   def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
-    val xDiff =  min(max(0, eventPoint.x) - clickPoint.x, drawing.width - clickPoint.x) // does not yet completely take care of not drawing over the lines with square and circle
-    val yDiff = min(max(0, eventPoint.y) - clickPoint.y, drawing.height - clickPoint.y)
+    val xDiff = eventPoint.x - clickPoint.x
+    val yDiff = eventPoint.y - clickPoint.y
 
     val (width: Double, height, origin) = this.stype match {
       case s: ShapeType if s == Rectangle || s == Ellipse => {
-        val width = abs(xDiff) // takes care of not drawing over the lines. But should it?
+        val width = abs(xDiff)
         val height = abs(yDiff)
-        val origin = new Point2D(min(abs(clickPoint.x), max(0, eventPoint.x)), min(abs(clickPoint.y), max(0, eventPoint.y)))
+        val origin = new Point2D(min(clickPoint.x, eventPoint.x), min(clickPoint.y, eventPoint.y))
         (width, height, origin)
       }
       case _ => { // Square and Circle
         val smallerDiff = if (abs(xDiff) > abs(yDiff)) xDiff else yDiff
         val width = abs(smallerDiff)
         val height = width
-        val origin = new Point2D(max(0, min(clickPoint.x, clickPoint.x + xDiff.sign * width)), max(0, min(clickPoint.y, clickPoint.y + yDiff.sign * height)))
+        val origin = new Point2D(min(clickPoint.x, clickPoint.x + xDiff.sign * width), min(clickPoint.y, clickPoint.y + yDiff.sign * height))
         (width, height, origin)
       }
     }
