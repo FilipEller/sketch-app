@@ -9,7 +9,7 @@ object SelectionTool extends Tool {
       case MouseEvent.MOUSE_PRESSED => {
         val target = drawing.config.activeLayer.select(eventPoint)
         if (event.isShiftDown) {
-          target.foreach( e => drawing.config = drawing.config.copy(selectedElements = drawing.config.selectedElements :+ e))
+          target.foreach( e => drawing.config = drawing.config.copy(selectedElements = drawing.config.selectedElements.filter( _ != e) :+ e))
         } else {
           drawing.config = drawing.config.copy(selectedElements = target.toSeq)
         }
