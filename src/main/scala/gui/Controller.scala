@@ -157,7 +157,7 @@ class Controller {
     drawing.config.selectedElements.headOption match {
       case Some(e: Element) => {
         borderCheckBox.setSelected(e match {
-          case shape: Shape => shape.borderColor.opacity > 0
+          case shape: Shape => shape.color.opacity > 0
           case _ => true
         } )
         fillCheckBox.setSelected(e match {

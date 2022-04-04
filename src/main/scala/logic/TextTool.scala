@@ -9,7 +9,7 @@ object TextTool extends ShapeTool(Rectangle) {
 
   override def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
     val originalConfig = drawing.config
-    drawing.config = drawing.config.copy(primaryColor = rgb(0, 0, 0, 0), secondaryColor = rgb(0, 0, 0))
+    drawing.config = drawing.config.copy(primaryColor = rgb(0, 0, 0), secondaryColor = rgb(0, 0, 0, 0))
     super.use(drawing, event, eventPoint)
     drawing.config = originalConfig
     event.getEventType match {

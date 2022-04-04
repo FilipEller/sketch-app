@@ -41,7 +41,7 @@ class ShapeTool(stype: ShapeType) extends Tool {
       case MouseEvent.MOUSE_PRESSED => {
         println("MOUSE_PRESSED")
         this.clickPoint = eventPoint
-        this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, drawing.fillColor, drawing.borderColor, this.clickPoint)
+        this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, drawing.borderColor, drawing.fillColor, this.clickPoint)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         println("MOUSE_DRAGGED")

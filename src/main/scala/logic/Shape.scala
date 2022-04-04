@@ -14,11 +14,11 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
+case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, fillColor: Color,
                  origin: Point2D, name: String, rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
-  val center = new Point2D(this.origin.x + this.width, this.origin.y + this.height)
+  val center = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
 
   override def toString: String = {
     s"$stype" // at $origin with size $width and $height colored $color"
@@ -26,16 +26,15 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
 
   def collidesWith(point: Point2D): Boolean = {
     this.stype match { // does not take rotation into account yet
-      case s if s == Rectangle || s == Square => (point.x >= this.origin.x - 0.5 * this.borderWidth
+      case s: ShapeType if s == Rectangle || s == Square => (point.x >= this.origin.x - 0.5 * this.borderWidth
         && point.x <= this.origin.x + this.width + 0.5 * this.borderWidth
         && point.y >= this.origin.y - 0.5 * this.borderWidth
         && point.y <= this.origin.y + this.height + 0.5 * this.borderWidth)
       case Ellipse => pow((point.x - this.center.x) / ((this.width + this.borderWidth) / 2), 2) + pow((point.y - this.center.y) / ((this.height + this.borderWidth) / 2), 2) <= 1
         // https://www.geeksforgeeks.org/check-if-a-point-is-inside-outside-or-on-the-ellipse/
       case Circle => {
-        val middle = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
-        val xDiff = point.x - middle.x
-        val yDiff = point.y - middle.y
+        val xDiff = point.x - this.center.x
+        val yDiff = point.y - this.center.y
         sqrt(pow(xDiff, 2) + pow(yDiff, 2)) <= 0.5 * (this.width + this.borderWidth)
       }
       case _ => false
@@ -45,7 +44,7 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
     // rotation not implemented
-    g.fill = this.color
+    g.fill = this.fillColor
     this.stype match {
       case Rectangle => g.fillRect(origin.x, origin.y, this.width, this.height)
       case Square => g.fillRect(origin.x, origin.y, this.width, this.width)
@@ -55,7 +54,7 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
     }
 
     if (this.borderWidth > 0) {
-      g.stroke = this.borderColor
+      g.stroke = this.color
       g.setLineWidth(borderWidth)
       this.stype match {
         case Rectangle => g.strokeRect(origin.x, origin.y, this.width, this.height)
