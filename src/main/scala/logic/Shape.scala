@@ -26,17 +26,17 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
 
   def collidesWith(point: Point2D): Boolean = {
     this.stype match { // does not take rotation into account yet
-      case s if s == Rectangle || s == Square => (point.x >= this.origin.x
-        && point.x <= this.origin.x + this.width
-        && point.y >= this.origin.y
-        && point.y <= this.origin.y + this.height)
-      case Ellipse => pow((point.x - this.center.x) / (this.width / 2), 2) + pow((point.y - this.center.y) / (this.height / 2), 2) <= 1
+      case s if s == Rectangle || s == Square => (point.x >= this.origin.x - 0.5 * this.borderWidth
+        && point.x <= this.origin.x + this.width + 0.5 * this.borderWidth
+        && point.y >= this.origin.y - 0.5 * this.borderWidth
+        && point.y <= this.origin.y + this.height + 0.5 * this.borderWidth)
+      case Ellipse => pow((point.x - this.center.x) / ((this.width + this.borderWidth) / 2), 2) + pow((point.y - this.center.y) / ((this.height + this.borderWidth) / 2), 2) <= 1
         // https://www.geeksforgeeks.org/check-if-a-point-is-inside-outside-or-on-the-ellipse/
       case Circle => {
         val middle = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
         val xDiff = point.x - middle.x
         val yDiff = point.y - middle.y
-        sqrt(pow(xDiff, 2) + pow(yDiff, 2)) <= 0.5 * this.width
+        sqrt(pow(xDiff, 2) + pow(yDiff, 2)) <= 0.5 * (this.width + this.borderWidth)
       }
       case _ => false
     }
