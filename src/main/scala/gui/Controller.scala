@@ -30,6 +30,8 @@ class Controller {
   @FXML var groupView: javafx.scene.control.ListView[String] = _
   @FXML var selectedView: javafx.scene.control.ListView[String] = _
 
+  @FXML var primaryColorPicker: javafx.scene.control.ColorPicker = _
+  @FXML var secondaryColorPicker: javafx.scene.control.ColorPicker = _
   @FXML var borderCheckBox: javafx.scene.control.CheckBox = _
   @FXML var fillCheckBox: javafx.scene.control.CheckBox = _
   @FXML var brushSizeSlider: javafx.scene.control.Slider = _
@@ -147,6 +149,44 @@ class Controller {
     }
   }
 
+  @FXML protected def changeColor(event: ActionEvent, drawing: Drawing): Unit = {
+    println(event)
+    println(event.getTarget)
+    val picker = event.getTarget.asInstanceOf[ColorPicker]
+    val color = picker.getValue
+    val id = picker.getId
+    val red = math.round(color.getRed * 255).toInt
+    val green = math.round(color.getGreen * 255).toInt
+    val blue = math.round(color.getBlue * 255).toInt
+    val opacity = color.getOpacity
+    val rgbColor = rgb(red, green, blue, opacity)
+    if (drawing.config.selectedElements.nonEmpty) {
+      val newElements = id match {
+        case "primaryColorPicker" => {
+          drawing.config.selectedElements.map({
+            case e: Shape => e.copy(color = rgbColor)
+            case e: Stroke => e.copy(color = rgbColor)
+            case e: TextBox => e.copy(color = rgbColor)
+            case e: Element => e
+          })
+        }
+        case "secondaryColorPicker" => {
+          drawing.config.selectedElements.map({
+            case e: Shape => e.copy(fillColor = rgbColor)
+            case e: Element => e
+          })
+        }
+      }
+      drawing.updateSelected(newElements)
+      updateCanvas()
+    } else {
+      id match {
+        case "primaryColorPicker" => drawing.config = drawing.config.copy(primaryColor = rgbColor)
+        case "secondaryColorPicker" => drawing.config = drawing.config.copy(secondaryColor = rgbColor)
+      }
+    }
+  }
+
   def updateSelectedView(): Unit = {
     this.selectedView.getItems.clear()
     this.drawing.config.selectedElements.reverse
@@ -180,6 +220,13 @@ class Controller {
           case textBox: TextBox => textBox.fontSize
           case _ => 12
         } )
+        primaryColorPicker.setValue(e match {
+          case element: Element => element.color
+        } )
+        secondaryColorPicker.setValue(e match {
+          case shape: Shape => shape.fillColor
+          case _ => White
+        } )
       }
       case None => {
         borderCheckBox.setSelected(drawing.config.useBorder)
@@ -188,6 +235,8 @@ class Controller {
         hardnessSlider.setValue(drawing.config.activeBrush.hardness)
         borderWidthSlider.setValue(drawing.config.borderWidth)
         fontSizeSlider.setValue(drawing.config.fontSize)
+        primaryColorPicker.setValue(drawing.config.primaryColor)
+        secondaryColorPicker.setValue(drawing.config.secondaryColor)
       }
     }
   }
@@ -208,7 +257,6 @@ class Controller {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     this.drawing.useTool(event, localPoint)
     updateSelected()
-    // println("elements of active layer: " + drawing.config.activeLayer.name + " " + drawing.config.activeLayer.elements.mkString(", "))
     updateCanvas()
   }
 
@@ -237,9 +285,6 @@ class Controller {
   }
 
   // Colors
-  @FXML protected def changeColor(event: ActionEvent): Unit = {
-    ConfigControls.changeColor(event, this.drawing)
-  }
 
   // activeBrush
   // fontSize

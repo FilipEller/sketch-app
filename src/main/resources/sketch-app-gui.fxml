@@ -284,7 +284,7 @@
                   <VBox prefHeight="60.0" prefWidth="144.0">
                      <children>
                         <Label prefHeight="17.0" text="Primary Color" />
-                        <ColorPicker id="primaryColorPicker" onAction="#changeColor">
+                        <ColorPicker id="primaryColorPicker" fx:id="primaryColorPicker">
                             <value>
                                 <Color />
                             </value>
@@ -298,7 +298,7 @@
                   <VBox prefHeight="60.0" prefWidth="251.0" GridPane.columnIndex="1">
                      <children>
                         <Label prefHeight="17.0" text="Secondary Color" />
-                        <ColorPicker id="secondaryColorPicker" onAction="#changeColor">
+                        <ColorPicker id="secondaryColorPicker" fx:id="secondaryColorPicker">
                            <styleClass>
                               <String fx:value="button" />
                               <String fx:value="color-picker" />

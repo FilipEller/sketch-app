@@ -28,25 +28,7 @@ object ConfigControls {
     drawing.config = drawing.config.copy(activeTool = targetTool)
   }
 
-  def changeColor(event: ActionEvent, drawing: Drawing): Unit = {
-    println(event)
-    println(event.getTarget)
-    val picker = event.getTarget.asInstanceOf[ColorPicker]
-    val color = picker.getValue
-    val id = picker.getId
-    println(id)
-    println(color)
-    val red = math.round(color.getRed * 255).toInt
-    val green = math.round(color.getGreen * 255).toInt
-    val blue = math.round(color.getBlue * 255).toInt
-    val opacity = color.getOpacity
-    val rgbColor = rgb(red, green, blue, opacity)
-    println(red, green, blue, opacity)
-    println(rgbColor)
-    id match {
-      case "primaryColorPicker" => drawing.config = drawing.config.copy(primaryColor = rgbColor)
-      case "secondaryColorPicker" => drawing.config = drawing.config.copy(secondaryColor = rgbColor)
-    }
-  }
+
+
 
 }
