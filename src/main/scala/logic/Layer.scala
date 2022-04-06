@@ -12,17 +12,14 @@ case class Layer(var name: String) {
   var currentImage: Option[Canvas] = None
 
   def addElement(element: Element) = {
-    println("adding " + element + " to layer " + this.name)
     this.elements += element
   }
 
   def addElementAtIndex(element: Element, index: Int) = {
-    println("adding " + element + " to layer " + this.name)
     this.elements.insert(index, element)
   }
 
   def removeElement(element: Element) = {
-    println("removing " + element)
     this.elements -= element
   }
 

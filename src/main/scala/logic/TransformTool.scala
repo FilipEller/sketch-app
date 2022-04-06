@@ -22,17 +22,14 @@ object TransformTool extends Tool {
           this.lastPoint = eventPoint
           this.originalElements = drawing.config.selectedElements
         }
-        println("MOUSE_PRESSED")
       }
       case MouseEvent.MOUSE_DRAGGED => {
-        println("MOUSE_DRAGGED")
         if (this.isActive) {
           this.move(drawing, eventPoint)
           this.lastPoint = eventPoint
         }
       }
       case MouseEvent.MOUSE_RELEASED => {
-        println("MOUSE_RELEASED")
         if (this.isActive) {
           val movedElements = this.move(drawing, eventPoint)
           val elementsToUse = movedElements.zip(originalElements).map( x => x._1 match {

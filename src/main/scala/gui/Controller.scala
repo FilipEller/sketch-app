@@ -171,6 +171,8 @@ class Controller {
         case "secondaryColorPicker" => {
           this.drawing.config.selectedElements.map({
             case e: Shape => e.copy(fillColor = rgbColor, previousVersion = Some(e))
+            case e: Stroke => e.copy(previousVersion = Some(e))
+            case e: TextBox => e.copy(previousVersion = Some(e))
             case e: Element => e
           })
         }

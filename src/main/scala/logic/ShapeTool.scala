@@ -39,16 +39,13 @@ class ShapeTool(stype: ShapeType) extends Tool {
     val config = drawing.config
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
-        println("MOUSE_PRESSED")
         this.clickPoint = eventPoint
         this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, drawing.config.primaryColor, drawing.config.secondaryColor, drawing.config.useBorder, drawing.config.useFill, this.clickPoint)
       }
       case MouseEvent.MOUSE_DRAGGED => {
-        println("MOUSE_DRAGGED")
         config.activeLayer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
       }
       case MouseEvent.MOUSE_RELEASED => {
-        println("MOUSE_RELEASED")
         config.activeLayer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
         ActionHistory.add(this.currentElement)
       }

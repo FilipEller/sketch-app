@@ -85,7 +85,6 @@ class Drawing(val width: Int, val height: Int) {
   }
 
   def paint(pane: StackPane): StackPane = {
-    println(pane.children)
     this.layers.foreach(pane.children += _.paint(width, height))
     this.paintSelection(pane)
     this.currentImage = pane
