@@ -14,7 +14,7 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, fillColor: Color,
+case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, fillColor: Color, useBorder: Boolean, useFill: Boolean,
                  origin: Point2D, name: String, rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
@@ -44,16 +44,18 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
     // rotation not implemented
-    g.fill = this.fillColor
-    this.stype match {
-      case Rectangle => g.fillRect(origin.x, origin.y, this.width, this.height)
-      case Square => g.fillRect(origin.x, origin.y, this.width, this.width)
-      case Ellipse => g.fillOval(origin.x, origin.y, this.width, this.height)
-      case Circle => g.fillOval(origin.x, origin.y, this.width, this.width)
-      case _ =>
+    if (this.useFill) {
+      g.fill = this.fillColor
+      this.stype match {
+        case Rectangle => g.fillRect(origin.x, origin.y, this.width, this.height)
+        case Square => g.fillRect(origin.x, origin.y, this.width, this.width)
+        case Ellipse => g.fillOval(origin.x, origin.y, this.width, this.height)
+        case Circle => g.fillOval(origin.x, origin.y, this.width, this.width)
+        case _ =>
+      }
     }
 
-    if (this.borderWidth > 0) {
+    if (this.useBorder) {
       g.stroke = this.color
       g.setLineWidth(borderWidth)
       this.stype match {
@@ -65,8 +67,6 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
       }
     }
   }
-
-
 }
 
 object Shape {
@@ -76,7 +76,7 @@ object Shape {
   var circleCount = 0
   var ellipseCount = 0
 
-  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color,
+  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color, useBorder: Boolean, useFill: Boolean,
                  origin: Point2D, name: String = "", rotation: Int = 0,
                  previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
 
@@ -105,7 +105,7 @@ object Shape {
       }
     }
 
-    new Shape(stype, width, height, borderWidth, color, borderColor, origin, nameToUse, rotation, previousVersion, hidden, deleted)
+    new Shape(stype, width, height, borderWidth, color, borderColor, useBorder, useFill, origin, nameToUse, rotation, previousVersion, hidden, deleted)
   }
 
 }

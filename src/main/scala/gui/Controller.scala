@@ -149,9 +149,7 @@ class Controller {
     }
   }
 
-  @FXML protected def changeColor(event: ActionEvent, drawing: Drawing): Unit = {
-    println(event)
-    println(event.getTarget)
+  @FXML protected def changeColor(event: ActionEvent): Unit = {
     val picker = event.getTarget.asInstanceOf[ColorPicker]
     val color = picker.getValue
     val id = picker.getId
@@ -160,29 +158,30 @@ class Controller {
     val blue = math.round(color.getBlue * 255).toInt
     val opacity = color.getOpacity
     val rgbColor = rgb(red, green, blue, opacity)
-    if (drawing.config.selectedElements.nonEmpty) {
+    if (this.drawing.config.selectedElements.nonEmpty) {
       val newElements = id match {
         case "primaryColorPicker" => {
-          drawing.config.selectedElements.map({
-            case e: Shape => e.copy(color = rgbColor)
-            case e: Stroke => e.copy(color = rgbColor)
-            case e: TextBox => e.copy(color = rgbColor)
+          this.drawing.config.selectedElements.map({
+            case e: Shape => e.copy(color = rgbColor, previousVersion = Some(e))
+            case e: Stroke => e.copy(color = rgbColor, previousVersion = Some(e))
+            case e: TextBox => e.copy(color = rgbColor, previousVersion = Some(e))
             case e: Element => e
           })
         }
         case "secondaryColorPicker" => {
-          drawing.config.selectedElements.map({
-            case e: Shape => e.copy(fillColor = rgbColor)
+          this.drawing.config.selectedElements.map({
+            case e: Shape => e.copy(fillColor = rgbColor, previousVersion = Some(e))
             case e: Element => e
           })
         }
+        case _ => this.drawing.config.selectedElements
       }
-      drawing.updateSelected(newElements)
+      this.drawing.updateSelected(newElements)
       updateCanvas()
     } else {
       id match {
-        case "primaryColorPicker" => drawing.config = drawing.config.copy(primaryColor = rgbColor)
-        case "secondaryColorPicker" => drawing.config = drawing.config.copy(secondaryColor = rgbColor)
+        case "primaryColorPicker" => this.drawing.config = this.drawing.config.copy(primaryColor = rgbColor)
+        case "secondaryColorPicker" => this.drawing.config = this.drawing.config.copy(secondaryColor = rgbColor)
       }
     }
   }
@@ -197,11 +196,11 @@ class Controller {
     drawing.config.selectedElements.headOption match {
       case Some(e: Element) => {
         borderCheckBox.setSelected(e match {
-          case shape: Shape => shape.color.opacity > 0
+          case shape: Shape => shape.useBorder
           case _ => true
         } )
         fillCheckBox.setSelected(e match {
-          case shape: Shape => shape.color.opacity > 0
+          case shape: Shape => shape.useFill
           case _ => false
         } )
         brushSizeSlider.setValue(e match {

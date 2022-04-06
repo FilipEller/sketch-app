@@ -38,5 +38,4 @@ abstract class Element {
       case e: Element => e
     }
   }
-
 }
