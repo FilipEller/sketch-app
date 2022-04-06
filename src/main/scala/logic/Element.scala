@@ -22,7 +22,7 @@ abstract class Element {
   def move(newOrigin: Point2D): Element = {
     this match {
       case e: Shape => e.copy(origin = newOrigin, previousVersion = Some(this))
-      case e: Stroke => e.copy(origin = newOrigin, previousVersion = Some(this))
+      case e: Stroke => e.copy(origin = newOrigin, path = e.path.move(newOrigin.x - e.origin.x, newOrigin.y - e.origin.y), previousVersion = Some(this))
       case e: TextBox => e.copy(origin = newOrigin, previousVersion = Some(this))
       case e: Element => e
     }

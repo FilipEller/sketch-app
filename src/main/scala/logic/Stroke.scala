@@ -21,13 +21,18 @@ case class Stroke(color: Color, origin: Point2D, path: Path, brush: Brush, name:
     val targetOpacity = math.pow(this.color.opacity, 1.5) / (1.25 * math.pow(this.brush.size, 0.5)) // this is fixing opacity with brush size 30 but other sizes have to be tested. With this 5 % opacity is actually invisible though.
     val opacity = if (targetOpacity > 1) 1 else if (targetOpacity < 0.01) 0.01 else targetOpacity
     val usedColor = new Color(this.color.opacity(opacity))
-    val gradient = new RadialGradient( // this should take brush hardness into account somewhere.
-       0, 0,  // focus angle, focus distance
-       0.5, 0.5,  // center x, y
-       0.5, // radius
-       true,  // proportional
-       CycleMethod.NoCycle,
-       if(hardness > 0 && hardness <= 1) List(Stop(0.0, usedColor), Stop(hardness, usedColor), Stop(1.0, Color.Transparent)) else List(Stop(0.0, usedColor), Stop(1.0, Color.Transparent)) // does not seem to work if assigned to a variable
+    val gradient =
+      new RadialGradient(
+        0, 0,                // focus angle, focus distance
+        0.5, 0.5,            // center x, y
+        0.5,                 // radius
+        true,                // proportional
+        CycleMethod.NoCycle,
+        if (hardness > 0 && hardness <= 1) {
+          List(Stop(0.0, usedColor), Stop(hardness, usedColor), Stop(1.0, Color.Transparent))
+        } else {
+          List(Stop(0.0, usedColor), Stop(1.0, Color.Transparent))
+        }  // does not seem to work if assigned to a variable
     )
     // rotation not implemented
     g.fill = gradient
@@ -50,8 +55,6 @@ object Stroke {
   def apply(color: Color, origin: Point2D, path: Path, brush: Brush, name: String = "",
                  rotation: Int = 0, previousVersion: Option[Element] = None,
                   hidden: Boolean = false, deleted: Boolean = false) = {
-
-
     val nameToUse = {
       if (name == "") {
         strokeCount += 1

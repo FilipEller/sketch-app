@@ -17,6 +17,10 @@ class Path(points: Seq[Point2D]) extends Seq[Point2D] {
   def length = this.points.length
   def iterator = this.points.iterator
 
+  def move(xDiff: Double, yDiff: Double): Path = {
+    new Path(this.points.map( point => new Point2D(point.x + xDiff, point.y + yDiff) ))
+  }
+
 }
 
 object Path {
