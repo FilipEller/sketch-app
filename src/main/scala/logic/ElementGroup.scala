@@ -28,6 +28,7 @@ case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, n
       case e: Shape => e.move(xDiff, yDiff)
       case e: Stroke => e.move(xDiff, yDiff)
       case e: TextBox => e.move(xDiff, yDiff)
+      case e: ElementGroup => e.move(xDiff, yDiff)
       case e: Element => e
     }
     this.copy(origin = newOrigin, elements = newElements, previousVersion = Some(this))
