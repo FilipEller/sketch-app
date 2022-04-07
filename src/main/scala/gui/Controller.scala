@@ -250,31 +250,32 @@ class Controller {
     }
   }
 
-  def updateSelected(): Unit = {
+  def update(): Unit = {
     updateSelectedView()
     updateGroupView()
     updateSelectedProperties()
+    updateCanvas()
   }
 
   @FXML protected def makeGroup(event: ActionEvent): Unit = {
-    println("making group")
     this.drawing.groupSelected()
-    updateSelected()
-    updateCanvas()
+    update()
   }
 
   @FXML protected def ungroup(event: ActionEvent): Unit = {
-    println("ungrouping")
     this.drawing.ungroupSelected()
-    updateSelected()
-    updateCanvas()
+    update()
+  }
+
+  @FXML protected def addToGroup(event: ActionEvent): Unit = {
+    this.drawing.addSelectedToGroup()
+    update()
   }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     this.drawing.useTool(event, localPoint)
-    updateSelected()
-    updateCanvas()
+    update()
   }
 
   def initController(): Unit = {

@@ -11,25 +11,29 @@ case class Layer(var name: String) {
   var hidden = false
   var currentImage: Option[Canvas] = None
 
-  def addElement(element: Element) = {
+  def addElement(element: Element): Unit = {
     this.elements += element
   }
 
-  def addElements(elements: Seq[Element]) = {
+  def addElements(elements: Seq[Element]): Unit = {
     elements.foreach(this.addElement)
   }
 
-  def addElementAtIndex(element: Element, index: Int) = {
+  def addElementAtIndex(element: Element, index: Int): Unit = {
     val indexToUse = math.max(0, index)
     this.elements.insert(indexToUse, element)
   }
 
-  def addElementsAtIndex(elements: Seq[Element], index: Int) = {
+  def addElementsAtIndex(elements: Seq[Element], index: Int): Unit = {
     elements.foreach(this.elements.insert(index, _))
   }
 
-  def removeElement(element: Element) = {
+  def removeElement(element: Element): Unit = {
     this.elements -= element
+  }
+
+  def removeElements(elements: Seq[Element]): Unit = {
+    elements.foreach(this.removeElement)
   }
 
   def contains(element: Element) = this.elements.contains(element)

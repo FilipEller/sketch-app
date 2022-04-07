@@ -377,7 +377,7 @@
                      <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
                         <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addLayer" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addToGroup" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />

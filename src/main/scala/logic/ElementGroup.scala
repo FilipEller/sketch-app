@@ -5,7 +5,7 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, name: String,
+case class ElementGroup(elements: Seq[Element], color: Color, name: String,
                         rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   // Functionality:
@@ -19,18 +19,25 @@ case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, n
   // Remove elements selected in group view from selected group (Button "Remove" in Group view)
   // Rename selected group (Button "Rename" in Group view)
 
-
+  val origin = new Point2D (this.elements.map(_.origin.x).min, this.elements.map(_.origin.y).min)
   val width = this.elements.map( e => e.origin.x + e.width ).max - this.origin.x
   val height = this.elements.map( e => e.origin.y + e.height ).max - this.origin.y
 
   def addElement(element: Element) = {
-    val newGroup = this.copy(elements = this.elements :+ element, previousVersion = Some(this))
-    newGroup
+    if (element != this) {
+      this.copy(elements = this.elements :+ element, previousVersion = Some(this))
+    } else {
+      this
+    }
+  }
+
+  def addElements(elements: Seq[Element]) = {
+    val elementsToAdd = elements.filter( _ != this )
+    this.copy(elements = this.elements ++ elementsToAdd, previousVersion = Some(this))
   }
 
   def removeElement(element: Element) = {
-    val newGroup = this.copy(elements = this.elements.filter( _ != element), previousVersion = Some(this))
-    newGroup
+    this.copy(elements = this.elements.filter( _ != element), previousVersion = Some(this))
   }
 
   override def move(newOrigin: Point2D) = {
@@ -43,7 +50,7 @@ case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, n
       case e: ElementGroup => e.move(xDiff, yDiff)
       case e: Element => e
     }
-    this.copy(origin = newOrigin, elements = newElements, previousVersion = Some(this))
+    this.copy(elements = newElements, previousVersion = Some(this))
   }
 
   override def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
@@ -69,18 +76,12 @@ object ElementGroup {
     }
   }
 
-  def apply(elements: Seq[Element], origin: Point2D, color: Color, name: String = "", rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false): ElementGroup = {
-    new ElementGroup(elements, origin, color, nameToUse(name), rotation, previousVersion, hidden, deleted)
+  def apply(elements: Seq[Element], color: Color, name: String = "", rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false): ElementGroup = {
+    new ElementGroup(elements, color, nameToUse(name), rotation, previousVersion, hidden, deleted)
   }
   
   def apply(elements: Seq[Element]): ElementGroup = {
-    
-    val originX = elements.map( _.origin.x ).min
-    val originY = elements.map( _.origin.y ).min
-    val origin = new Point2D(originX, originY)
-
     val color = elements.headOption.map( _.color ).getOrElse(rgb(0, 0, 0))
-
-    ElementGroup(elements, origin, color)
+    ElementGroup(elements, color)
   }
 }
