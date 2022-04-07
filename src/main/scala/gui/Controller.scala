@@ -247,9 +247,16 @@ class Controller {
     updateSelectedProperties()
   }
 
-  @FXML protected def makeGroup(event: javafx.scene.input.MouseEvent): Unit = {
+  @FXML protected def makeGroup(event: ActionEvent): Unit = {
     println("making group")
     this.drawing.groupSelected()
+    updateSelected()
+    updateCanvas()
+  }
+
+  @FXML protected def ungroup(event: ActionEvent): Unit = {
+    println("ungrouping")
+    this.drawing.ungroupSelected()
     updateSelected()
     updateCanvas()
   }
@@ -277,20 +284,9 @@ class Controller {
     updateCanvas()
   }
 
-
-  // Configurations
-
-  // activeTool
   @FXML protected def changeTool(event: ActionEvent): Unit = {
     ConfigControls.changeTool(event, this.drawing)
   }
-
-  // Colors
-
-  // activeBrush
-  // fontSize
-
-  // Layers
 
   @FXML protected def addLayer(event: ActionEvent) = {
     println("adding layer")

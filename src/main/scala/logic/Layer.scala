@@ -15,8 +15,17 @@ case class Layer(var name: String) {
     this.elements += element
   }
 
+  def addElements(elements: Seq[Element]) = {
+    elements.foreach(this.addElement)
+  }
+
   def addElementAtIndex(element: Element, index: Int) = {
-    this.elements.insert(index, element)
+    val indexToUse = math.max(0, index)
+    this.elements.insert(indexToUse, element)
+  }
+
+  def addElementsAtIndex(elements: Seq[Element], index: Int) = {
+    elements.foreach(this.elements.insert(index, _))
   }
 
   def removeElement(element: Element) = {
@@ -56,8 +65,9 @@ case class Layer(var name: String) {
 
   def removeElementGroup(group: ElementGroup): Unit = {
     if (this.contains(group)) {
-      group.elements.foreach( this.elements += _ )
-      this.elements -= group
+      val index = this.elements.indexOf(group)
+      this.addElementsAtIndex(group.elements.reverse, index)
+      this.removeElement(group)
     } else {
       throw new Exception("group does not belong to this layer")
     }
@@ -94,7 +104,7 @@ case class Layer(var name: String) {
   }
 
   def restoreElement(element: Element): Unit = {
-    val index = math.max(0, this.elements.indexOf(element))
+    val index = this.elements.indexOf(element)
     this.removeElement(element)
     element.previousVersion.foreach( this.addElementAtIndex(_, index) )
   }

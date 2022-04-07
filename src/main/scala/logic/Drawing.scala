@@ -131,12 +131,27 @@ class Drawing(val width: Int, val height: Int) {
     elements.foreach(ActionHistory.add)
   }
 
-  def groupSelected(): Element = {
-    this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
-    val group = ElementGroup(this.config.selectedElements)
-    this.config.activeLayer.addElement(group)
-    this.config = this.config.copy(selectedElements = Seq(group))
-    group
+  def groupSelected(): Unit = {
+    if (this.config.selectedElements.nonEmpty) {
+      this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
+      val group = ElementGroup(this.config.selectedElements)
+      this.config.activeLayer.addElement(group)
+      this.config = this.config.copy(selectedElements = Seq(group))
+    }
+  }
+
+  def ungroupSelected(): Unit = {
+    if (this.config.selectedElements.nonEmpty) {
+      val selectedGroup = this.config.selectedElements.find(_.isInstanceOf[ElementGroup])
+      selectedGroup match {
+        case Some(group: ElementGroup) => {
+          val layer = this.layers.find(_.contains(group))
+          layer.foreach(_.removeElementGroup(group))
+          this.config = this.config.copy(selectedElements = group.elements)
+        }
+        case _ =>
+      }
+    }
   }
 
 }

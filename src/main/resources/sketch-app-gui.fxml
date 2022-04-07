@@ -341,14 +341,14 @@
                      <ListView id="selected-view" fx:id="selectedView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox prefHeight="36.0" prefWidth="228.0">
                         <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" onMouseClicked="#makeGroup" text="Group">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#makeGroup" text="Group">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="112.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#renameLayer" text="Ungroup">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#ungroup" text="Ungroup">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
