@@ -194,6 +194,14 @@ class Controller {
       .foreach( e => this.selectedView.getItems.add(e.name) )
   }
 
+  def updateGroupView(): Unit = {
+    this.groupView.getItems.clear()
+    this.drawing.selectedGroup match {
+      case Some(group: ElementGroup) => group.elements.foreach( e => this.groupView.getItems.add(e.name) )
+      case _ =>
+    }
+  }
+
   def updateSelectedProperties(): Unit = {
     drawing.config.selectedElements.headOption match {
       case Some(e: Element) => {
@@ -244,6 +252,7 @@ class Controller {
 
   def updateSelected(): Unit = {
     updateSelectedView()
+    updateGroupView()
     updateSelectedProperties()
   }
 

@@ -373,7 +373,7 @@
                </VBox>
                <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
-                     <Label text="Groups" />
+                     <Label text="Selected Group" />
                      <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
                         <children>

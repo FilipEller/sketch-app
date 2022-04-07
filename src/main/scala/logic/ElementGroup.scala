@@ -9,7 +9,7 @@ case class ElementGroup(elements: Seq[Element], origin: Point2D, color: Color, n
                         rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
 
   // Functionality:
-  // selected group is the first group in selected elements
+  // selected group is the most recently selected group in selected elements
   // group view contains elements of the selected group
 
   // Group selected elements (Button "Group" in Selected View)

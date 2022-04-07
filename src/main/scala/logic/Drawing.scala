@@ -27,6 +27,10 @@ class Drawing(val width: Int, val height: Int) {
       Vector(),                       // selected elements
       12)                             // font size
 
+  def selectedElements = this.config.selectedElements
+
+  def selectedGroup =  this.config.selectedElements.findLast(_.isInstanceOf[ElementGroup])
+
   def addLayer(): Unit = {
     var index = this.layers.length + 1
     val names = this.layers.map(_.name)
@@ -142,8 +146,7 @@ class Drawing(val width: Int, val height: Int) {
 
   def ungroupSelected(): Unit = {
     if (this.config.selectedElements.nonEmpty) {
-      val selectedGroup = this.config.selectedElements.find(_.isInstanceOf[ElementGroup])
-      selectedGroup match {
+      this.selectedGroup match {
         case Some(group: ElementGroup) => {
           val layer = this.layers.find(_.contains(group))
           layer.foreach(_.removeElementGroup(group))
