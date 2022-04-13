@@ -1,3 +1,18 @@
+13.4.2022
+
+Since the last checkpoint, I have been working mainly on element groups (making and viewing them in GUI),
+configuring properties of elements to be drawn (border width, brush size and hardness, font size),
+and modifying those properties from the GUI after they have been drawn.
+Just today I implemented saving files and started on loading files.
+
+I have been testing these new functionalities through the GUI, but I still have not made any unit tests.
+Perhaps I'll write some unit tests this week or the next, although testing in the GUI has worked pretty
+well for me, as the program is so tied to the graphics anyway.
+
+I think I have used about 10 hours on this project in the last two weeks. I am more or less on schedule,
+though I have not implemented loading files yet, which I planned to have done by 10.4.
+
+
 31.3.2022
 
 During the last two weeks I have implemented functionality for drawing paint strokes and writing text on a drawing,
