@@ -6,9 +6,17 @@ import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 import scalafx.scene.text.Font
 
-case class TextBox(text: String, width: Double, height: Double, fontSize: Double, color: Color,
-                 origin: Point2D, name: String, rotation: Int = 0,
-                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+case class TextBox(text: String,
+                   width: Double,
+                   height: Double,
+                   fontSize: Double,
+                   color: Color,
+                   origin: Point2D,
+                   name: String,
+                   rotation: Int = 0,
+                   previousVersion: Option[Element] = None,
+                   hidden: Boolean = false,
+                   deleted: Boolean = false) extends Element {
 
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D

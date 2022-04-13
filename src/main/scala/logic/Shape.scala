@@ -6,18 +6,7 @@ import scalafx.scene.paint.Color
 
 import scala.math.{pow, sqrt}
 
-abstract sealed class ShapeType {
-
-  def toJson: String = {
-    this match {
-      case Rectangle => "Rectangle"
-      case Square => "Square"
-      case Ellipse => "Ellipse"
-      case Circle => "Circle"
-    }
-  }
-
-}
+abstract sealed class ShapeType
 
 case object Rectangle extends ShapeType
 case object Square extends ShapeType
