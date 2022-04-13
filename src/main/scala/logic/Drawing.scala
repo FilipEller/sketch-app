@@ -48,6 +48,9 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
+  def addLayers(layers: Seq[Layer]): Unit =
+    layers.foreach(addLayer)
+
   def findLayer(name: String): Option[Layer] = {
     this.layers.find(_.name == name)
   }

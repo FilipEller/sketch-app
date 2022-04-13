@@ -159,6 +159,7 @@ class Controller {
     if (this.drawing.config.selectedElements.nonEmpty) {
       val newElements = id match {
         case "primaryColorPicker" => {
+          // this should be done in a method of the Drawing class tbh.
           this.drawing.config.selectedElements.map({
             case e: Shape => e.copy(color = color, previousVersion = Some(e))
             case e: Stroke => e.copy(color = color, previousVersion = Some(e))
@@ -322,17 +323,27 @@ class Controller {
   }
 
   @FXML protected def saveDrawing(event: ActionEvent): Unit = {
-
     val fileChooser = new FileChooser {
       title = "Save Drawing"
     }
     fileChooser.getExtensionFilters.addOne(new ExtensionFilter("JSON", "*.json"))
 
     val file = fileChooser.showSaveDialog(Main.stage)
-
     if (file != null) {
       FileManager.save(drawing, file)
     }
   }
 
+  @FXML protected def loadDrawing(event: ActionEvent): Unit = {
+    val fileChooser = new FileChooser {
+      title = "Load Drawing"
+    }
+
+    val file = fileChooser.showOpenDialog(Main.stage)
+    if (file != null) {
+      val loaded = FileManager.load(file)
+      println(loaded)
+      this.drawing = loaded
+    }
+  }
 }

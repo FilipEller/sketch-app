@@ -29,7 +29,7 @@
     <MenuBar id="menu-bar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" style="-fx-color: #ffffff;" styleClass="menu" text="File">
             <MenuItem id="new" mnemonicParsing="false" styleClass="menu-item" text="New" />
-            <MenuItem id="open" mnemonicParsing="false" styleClass="menu-item" text="Open" />
+            <MenuItem id="open" mnemonicParsing="false" styleClass="menu-item" text="Open" onAction="#loadDrawing"/>
             <MenuItem id="save" mnemonicParsing="false" styleClass="menu-item" text="Save" />
             <MenuItem id="saveas" mnemonicParsing="false" styleClass="menu-item" text="Save as..." onAction="#saveDrawing"/>
         </Menu>

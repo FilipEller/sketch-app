@@ -36,7 +36,8 @@ object FileManager {
   private def encodeElement(element: Element): Obj = {
     element match {
       case e: Shape => ujson.Obj(
-        "type" -> encodeShapeType(e.stype),
+        "type" -> "shape",
+        "shapeType" -> encodeShapeType(e.stype),
         "width" -> e.width,
         "height" -> e.height,
         "borderWidth" -> e.borderWidth,
@@ -48,6 +49,7 @@ object FileManager {
         "name" -> e.name
       )
       case e: Stroke => ujson.Obj(
+        "type" -> "stroke",
         "color" -> encodeColor(e.color),
         "origin" -> encodePoint(e.origin),
         "path" -> e.path.map(encodePoint),
@@ -55,6 +57,7 @@ object FileManager {
         "name" -> e.name
       )
       case e: TextBox => ujson.Obj(
+        "type" -> "textbox",
         "text" -> e.text,
         "width" -> e.width,
         "height" -> e.height,
@@ -63,6 +66,7 @@ object FileManager {
         "name" -> e.name
       )
       case e: ElementGroup => ujson.Obj(
+        "type" -> "elementgroup",
         "elements" -> e.elements.map(encodeElement),
         "color" -> encodeColor(e.color),
         "name" -> e.name
@@ -86,6 +90,25 @@ object FileManager {
     )
   }
 
+  private def decodeElement(data: Value): Element = {
+    ???
+  }
+
+  private def decodeLayer(data: Value): Layer = {
+    val layer = new Layer(data("name").str)
+    val elements = data("elements").arr.map(decodeElement).toSeq
+    layer.addElements(elements)
+    layer.hidden = data("hidden").bool
+    layer
+  }
+
+  private def decodeDrawing(data: Value): Drawing = {
+    val drawing = new Drawing(data("width").num.toInt, data("width").num.toInt)
+    val layers = data("layers").arr.map(decodeLayer).toSeq
+    drawing.addLayers(layers)
+    drawing
+  }
+
   def save(drawing: Drawing, file: File): Unit = {
     val encoded = encodeDrawing(drawing)
     val jsonString = ujson.transform(encoded, StringRenderer(indent = 2)).toString
@@ -94,8 +117,14 @@ object FileManager {
     os.write.over(osPath, jsonString)
   }
 
-  def load(file: String): Unit = {
+  def load(file: File): Drawing = {
     println("loading drawing from file 🧐")
+    println(file)
+    // this could use for...yield
+    val path = os.Path(file.getPath)
+    val jsonString = os.read(path)
+    val input = ujson.read(jsonString)
+    decodeDrawing(input)
   }
 
 }
