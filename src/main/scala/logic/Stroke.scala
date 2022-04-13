@@ -7,8 +7,15 @@ import scalafx.scene.paint.{Color, CycleMethod, RadialGradient, Stop}
 
 import scala.math.abs
 
-case class Stroke(color: Color, origin: Point2D, path: Path, brush: Brush, name: String,
-                 rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+case class Stroke(color: Color,
+                  origin: Point2D,
+                  path: Path,
+                  brush: Brush,
+                  name: String,
+                  rotation: Int = 0,
+                  previousVersion: Option[Element] = None,
+                  hidden: Boolean = false,
+                  deleted: Boolean = false) extends Element {
 
   val width = this.path.map( p => p.x - this.origin.x).max + this.brush.size
   val height = this.path.map( p => p.y - this.origin.y).max + this.brush.size

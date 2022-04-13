@@ -5,8 +5,13 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-case class ElementGroup(elements: Seq[Element], color: Color, name: String,
-                        rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+case class ElementGroup(elements: Seq[Element],
+                        color: Color,
+                        name: String,
+                        rotation: Int = 0,
+                        previousVersion: Option[Element] = None,
+                        hidden: Boolean = false,
+                        deleted: Boolean = false) extends Element {
 
   // Functionality:
   // selected group is the most recently selected group in selected elements

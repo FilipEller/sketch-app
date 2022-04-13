@@ -8,7 +8,6 @@ import scalafx.scene.paint.Color.rgb
 import scala.math.{abs, max, min}
 
 class ShapeTool(stype: ShapeType) extends Tool {
-  // type, id, width, height, border width, color, border color, origin)
   var currentElement = new Shape(this.stype, 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), true, true, new Point2D(0, 0), "")
   var clickPoint = new Point2D(0, 0)
 
@@ -17,7 +16,7 @@ class ShapeTool(stype: ShapeType) extends Tool {
     val yDiff = eventPoint.y - clickPoint.y
 
     val (width: Double, height, origin) = this.stype match {
-      case s: ShapeType if s == Rectangle || s == Ellipse => {
+      case Rectangle | Ellipse => {
         val width = abs(xDiff)
         val height = abs(yDiff)
         val origin = new Point2D(min(clickPoint.x, eventPoint.x), min(clickPoint.y, eventPoint.y))

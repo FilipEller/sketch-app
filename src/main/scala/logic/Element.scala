@@ -10,11 +10,11 @@ abstract class Element {
   def origin: Point2D
   def width: Double
   def height: Double
-  def rotation: Int
+  def rotation: Int   // to be removed
   def color: Color
-  def previousVersion: Option[Element]
-  def hidden: Boolean
-  def deleted: Boolean
+  def previousVersion: Option[Element]  // will not be saved
+  def hidden: Boolean // to be removed
+  def deleted: Boolean  // if true, element will not be saved
 
   def paint(canvas: Canvas): Unit
   def collidesWith(point: Point2D): Boolean

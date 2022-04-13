@@ -6,7 +6,18 @@ import scalafx.scene.paint.Color
 
 import scala.math.{pow, sqrt}
 
-abstract sealed class ShapeType
+abstract sealed class ShapeType {
+
+  def toJson: String = {
+    this match {
+      case Rectangle => "Rectangle"
+      case Square => "Square"
+      case Ellipse => "Ellipse"
+      case Circle => "Circle"
+    }
+  }
+
+}
 
 case object Rectangle extends ShapeType
 case object Square extends ShapeType
@@ -14,9 +25,20 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, fillColor: Color, useBorder: Boolean, useFill: Boolean,
-                 origin: Point2D, name: String, rotation: Int = 0,
-                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) extends Element {
+case class Shape(stype: ShapeType,
+                 width: Double,
+                 height: Double,
+                 borderWidth: Double,
+                 color: Color,
+                 fillColor: Color,
+                 useBorder: Boolean,
+                 useFill: Boolean,
+                 origin: Point2D,
+                 name: String,
+                 rotation: Int = 0,
+                 previousVersion: Option[Element] = None,
+                 hidden: Boolean = false,
+                 deleted: Boolean = false) extends Element {
 
   val center = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
 
@@ -47,10 +69,8 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
     if (this.useFill) {
       g.fill = this.fillColor
       this.stype match {
-        case Rectangle => g.fillRect(origin.x, origin.y, this.width, this.height)
-        case Square => g.fillRect(origin.x, origin.y, this.width, this.width)
-        case Ellipse => g.fillOval(origin.x, origin.y, this.width, this.height)
-        case Circle => g.fillOval(origin.x, origin.y, this.width, this.width)
+        case Rectangle | Square => g.fillRect(origin.x, origin.y, this.width, this.height)
+        case Ellipse | Circle => g.fillOval(origin.x, origin.y, this.width, this.height)
         case _ =>
       }
     }
@@ -59,10 +79,8 @@ case class Shape(stype: ShapeType, width: Double, height: Double, borderWidth: D
       g.stroke = this.color
       g.setLineWidth(borderWidth)
       this.stype match {
-        case Rectangle => g.strokeRect(origin.x, origin.y, this.width, this.height)
-        case Square => g.strokeRect(origin.x, origin.y, this.width, this.width)
-        case Ellipse => g.strokeOval(origin.x, origin.y, this.width, this.height)
-        case Circle => g.strokeOval(origin.x, origin.y, this.width, this.width)
+        case Rectangle | Square => g.strokeRect(origin.x, origin.y, this.width, this.height)
+        case Ellipse | Circle => g.strokeOval(origin.x, origin.y, this.width, this.height)
         case _ =>
       }
     }
