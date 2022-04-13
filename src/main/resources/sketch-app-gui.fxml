@@ -31,7 +31,7 @@
             <MenuItem id="new" mnemonicParsing="false" styleClass="menu-item" text="New" />
             <MenuItem id="open" mnemonicParsing="false" styleClass="menu-item" text="Open" />
             <MenuItem id="save" mnemonicParsing="false" styleClass="menu-item" text="Save" />
-            <MenuItem id="saveas" mnemonicParsing="false" styleClass="menu-item" text="Save as..." />
+            <MenuItem id="saveas" mnemonicParsing="false" styleClass="menu-item" text="Save as..." onAction="#saveDrawing"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Undo (Ctrl+Z)" />

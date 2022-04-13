@@ -19,6 +19,9 @@ import scalafx.animation.AnimationTimer
 import scalafx.collections.ObservableBuffer
 import javafx.beans.value.ChangeListener
 import javafx.scene.input.DragEvent
+import scalafx.scene.paint.Color
+import scalafx.stage.FileChooser
+import scalafx.stage.FileChooser.ExtensionFilter
 
 import scala.math
 
@@ -153,24 +156,19 @@ class Controller {
     val picker = event.getTarget.asInstanceOf[ColorPicker]
     val color = picker.getValue
     val id = picker.getId
-    val red = math.round(color.getRed * 255).toInt
-    val green = math.round(color.getGreen * 255).toInt
-    val blue = math.round(color.getBlue * 255).toInt
-    val opacity = color.getOpacity
-    val rgbColor = rgb(red, green, blue, opacity)
     if (this.drawing.config.selectedElements.nonEmpty) {
       val newElements = id match {
         case "primaryColorPicker" => {
           this.drawing.config.selectedElements.map({
-            case e: Shape => e.copy(color = rgbColor, previousVersion = Some(e))
-            case e: Stroke => e.copy(color = rgbColor, previousVersion = Some(e))
-            case e: TextBox => e.copy(color = rgbColor, previousVersion = Some(e))
+            case e: Shape => e.copy(color = color, previousVersion = Some(e))
+            case e: Stroke => e.copy(color = color, previousVersion = Some(e))
+            case e: TextBox => e.copy(color = color, previousVersion = Some(e))
             case e: Element => e
           })
         }
         case "secondaryColorPicker" => {
           this.drawing.config.selectedElements.map({
-            case e: Shape => e.copy(fillColor = rgbColor, previousVersion = Some(e))
+            case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
             case e: Stroke => e.copy(previousVersion = Some(e))
             case e: TextBox => e.copy(previousVersion = Some(e))
             case e: Element => e
@@ -182,8 +180,8 @@ class Controller {
       updateCanvas()
     } else {
       id match {
-        case "primaryColorPicker" => this.drawing.config = this.drawing.config.copy(primaryColor = rgbColor)
-        case "secondaryColorPicker" => this.drawing.config = this.drawing.config.copy(secondaryColor = rgbColor)
+        case "primaryColorPicker" => this.drawing.config = this.drawing.config.copy(primaryColor = color)
+        case "secondaryColorPicker" => this.drawing.config = this.drawing.config.copy(secondaryColor = color)
       }
     }
   }
@@ -321,6 +319,20 @@ class Controller {
     println("renaming layer")
     // dialogue for new name
     updateLayerView()
+  }
+
+  @FXML protected def saveDrawing(event: ActionEvent): Unit = {
+
+    val fileChooser = new FileChooser {
+      title = "Save Drawing"
+    }
+    fileChooser.getExtensionFilters.addOne(new ExtensionFilter("JSON", "*.json"))
+
+    val file = fileChooser.showSaveDialog(Main.stage)
+
+    if (file != null) {
+      FileManager.save(drawing, file)
+    }
   }
 
 }

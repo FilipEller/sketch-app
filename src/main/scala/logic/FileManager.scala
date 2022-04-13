@@ -2,11 +2,14 @@ package logic
 
 import scalafx.geometry.Point2D
 import scalafx.scene.paint.Color
+import scalafx.stage.FileChooser
 import ujson._
+
+import java.io.File
 
 object FileManager {
 
-  def encodeShapeType(stype: ShapeType): String = {
+  private def encodeShapeType(stype: ShapeType): String = {
     stype match {
       case Rectangle => "Rectangle"
       case Square => "Square"
@@ -15,22 +18,22 @@ object FileManager {
     }
   }
 
-  def encodeColor(color: Color) = {
+  private def encodeColor(color: Color) = {
     ujson.Arr(color.red, color.blue, color.green, color.opacity)
   }
 
-  def encodePoint(point: Point2D) = {
+  private def encodePoint(point: Point2D) = {
     ujson.Arr(point.x, point.y)
   }
 
-  def encodeBrush(brush: Brush) = {
+  private def encodeBrush(brush: Brush) = {
     ujson.Obj(
       "size" -> brush.size,
       "hardness" -> brush.hardness
     )
   }
 
-  def encodeElement(element: Element): Obj = {
+  private def encodeElement(element: Element): Obj = {
     element match {
       case e: Shape => ujson.Obj(
         "type" -> encodeShapeType(e.stype),
@@ -67,7 +70,7 @@ object FileManager {
     }
   }
 
-  def encodeLayer(layer: Layer) = {
+  private def encodeLayer(layer: Layer) = {
     ujson.Obj(
       "name" -> layer.name,
       "hidden" -> layer.hidden,
@@ -75,7 +78,7 @@ object FileManager {
     )
   }
 
-  def encodeDrawing(drawing: Drawing) = {
+  private def encodeDrawing(drawing: Drawing) = {
     ujson.Obj(
       "width" -> drawing.width,
       "height" -> drawing.height,
@@ -83,11 +86,12 @@ object FileManager {
     )
   }
 
-  def save(drawing: Drawing, name: String): Unit = {
-    val output = encodeDrawing(drawing)
-    os.write(os.pwd/"tmp"/"test-drawing.json", output)
-    println("saving drawing to file 🤔")
-    println(output)
+  def save(drawing: Drawing, file: File): Unit = {
+    val encoded = encodeDrawing(drawing)
+    val jsonString = ujson.transform(encoded, StringRenderer(indent = 2)).toString
+    val path = file.getPath
+    val osPath = os.Path(if (path.endsWith(".json")) path else path + ".json")
+    os.write.over(osPath, jsonString)
   }
 
   def load(file: String): Unit = {
