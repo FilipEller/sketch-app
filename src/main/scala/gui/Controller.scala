@@ -325,6 +325,14 @@ class Controller {
     updateLayerView()
   }
 
+  @FXML protected def newDrawing(event: ActionEvent): Unit = {
+    val newDrawing = new Drawing(1000, 600)
+    this.drawing = newDrawing
+    Main.drawing = newDrawing
+    initController()
+    update()
+  }
+
   @FXML protected def saveDrawing(event: ActionEvent): Unit = {
     val fileChooser = new FileChooser {
       title = "Save Drawing"
