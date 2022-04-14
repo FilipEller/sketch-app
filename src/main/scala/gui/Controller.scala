@@ -123,36 +123,11 @@ class Controller {
   @FXML protected def changeColor(event: ActionEvent): Unit = {
     val picker = event.getTarget.asInstanceOf[ColorPicker]
     val color = picker.getValue
-    val id = picker.getId
-    if (this.drawing.config.selectedElements.nonEmpty) {
-      val newElements = id match {
-        case "primaryColorPicker" => {
-          // this should be done in a method of the Drawing class tbh.
-          this.drawing.config.selectedElements.map({
-            case e: Shape => e.copy(color = color, previousVersion = Some(e))
-            case e: Stroke => e.copy(color = color, previousVersion = Some(e))
-            case e: TextBox => e.copy(color = color, previousVersion = Some(e))
-            case e: Element => e
-          })
-        }
-        case "secondaryColorPicker" => {
-          this.drawing.config.selectedElements.map({
-            case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
-            case e: Stroke => e.copy(previousVersion = Some(e))
-            case e: TextBox => e.copy(previousVersion = Some(e))
-            case e: Element => e
-          })
-        }
-        case _ => this.drawing.config.selectedElements
-      }
-      this.drawing.updateSelected(newElements)
-      updateCanvas()
-    } else {
-      id match {
-        case "primaryColorPicker" => this.drawing.config = this.drawing.config.copy(primaryColor = color)
-        case "secondaryColorPicker" => this.drawing.config = this.drawing.config.copy(secondaryColor = color)
-      }
+    picker.getId match {
+      case "primaryColorPicker" => drawing.changePrimaryColor(color)
+      case "secondaryColorPicker" => drawing.changeSecondaryColor(color)
     }
+    updateCanvas()
   }
 
   def updateSelectedView(): Unit = {

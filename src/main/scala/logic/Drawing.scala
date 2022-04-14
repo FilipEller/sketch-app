@@ -177,14 +177,14 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  private def updateProperty(elements: Seq[Element], brushSize: Int, hardness: Int, width: Int, fontSize: Int): Seq[Element] = {
+  private def updateProperty(elements: Seq[Element], brushSize: Int, hardness: Int, borderWidth: Int, fontSize: Int): Seq[Element] = {
     elements.map{
       case stroke: Stroke if (brushSize >= 0) =>
         stroke.copy(brush = stroke.brush.copy(size = brushSize), previousVersion = Some(stroke))
       case stroke: Stroke if (hardness >= 0) =>
         stroke.copy(brush = stroke.brush.copy(hardness = hardness), previousVersion = Some(stroke))
-      case shape: Shape if (width >= 0) =>
-        shape.copy(borderWidth = width, previousVersion = Some(shape))
+      case shape: Shape if (borderWidth >= 0) =>
+        shape.copy(borderWidth = borderWidth, previousVersion = Some(shape))
       case textBox: TextBox if (fontSize >= 0) =>
         textBox.copy(fontSize = fontSize, previousVersion = Some(textBox))
       case group: ElementGroup => {
@@ -200,7 +200,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def changeProperty(brushSize: Int = -1, hardness: Int = -1, borderWidth: Int = -1, fontSize: Int = -1) = {
     if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateProperty(this.config.selectedElements, brushSize, hardness, width, fontSize)
+      val newElements = updateProperty(this.config.selectedElements, brushSize, hardness, borderWidth, fontSize)
       this.updateSelected(newElements)
     } else {
       if (brushSize >= 0) {
@@ -208,11 +208,93 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       } else if (hardness >= 0) {
         this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
       } else if (borderWidth >= 0) {
-        this.config = this.config.copy(borderWidth = width)
+        this.config = this.config.copy(borderWidth = borderWidth)
       } else if (fontSize >= 0) {
         this.config = this.config.copy(fontSize = fontSize)
       }
     }
   }
+
+  /*def changeColor(isPrimary: Boolean, color: Color) = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = {
+        if (isPrimary) {
+          // this should be done in a method of the Drawing class tbh.
+          this.config.selectedElements.map{
+            case e: Shape => e.copy(color = color, previousVersion = Some(e))
+            case e: Stroke => e.copy(color = color, previousVersion = Some(e))
+            case e: TextBox => e.copy(color = color, previousVersion = Some(e))
+            case e: Element => e
+          }
+        } else {
+          this.config.selectedElements.map{
+            case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
+            case e: Stroke => e.copy(previousVersion = Some(e))
+            case e: TextBox => e.copy(previousVersion = Some(e))
+            case e: Element => e
+          }
+        }
+      }
+      this.updateSelected(newElements)
+    } else {
+      if (isPrimary) {
+        this.config = this.config.copy(primaryColor = color)
+      } else {
+        this.config = this.config.copy(secondaryColor = color)
+      }
+    }
+  }*/
+
+  def updatePrimaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
+    elements.map{
+      case e: Shape => e.copy(color = color, previousVersion = Some(e))
+      case e: Stroke => e.copy(color = color, previousVersion = Some(e))
+      case e: TextBox => e.copy(color = color, previousVersion = Some(e))
+      case group: ElementGroup => {
+        val updated = updatePrimaryColor(group.elements, color)
+        if (updated != group.elements)
+          group.copy(elements = updated, color = color, previousVersion = Some(group))
+        else
+          group
+      }
+      case e: Element => e
+    }
+  }
+
+  def changePrimaryColor(color: Color) = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = this.updatePrimaryColor(this.config.selectedElements, color)
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(secondaryColor = color)
+    }
+  }
+
+  def updateSecondaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
+    elements.map{
+      case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
+      case e: Stroke => e.copy(previousVersion = Some(e))
+      case e: TextBox => e.copy(previousVersion = Some(e))
+      case group: ElementGroup => {
+        val updated = updateSecondaryColor(group.elements, color)
+        if (updated != group.elements)
+          group.copy(elements = updated, color = color, previousVersion = Some(group))
+        else
+          group
+      }
+      case e: Element => e
+    }
+  }
+
+  def changeSecondaryColor(color: Color) = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = updateSecondaryColor(this.config.selectedElements, color)
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(secondaryColor = color)
+    }
+  }
+
+
 
 }
