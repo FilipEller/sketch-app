@@ -56,29 +56,30 @@ object Main extends JFXApp {
         this.controller.updateSelectedView()
         this.controller.updateCanvas()
       }
-      case _ =>
-    }
-
-    this.drawing.config.selectedElements.headOption match {
-      case Some(textBox: TextBox) => {
-        val layer = this.drawing.config.activeLayer
-        if (layer.contains(textBox)) {
-          layer.removeElement(textBox)
-          val newText = {
-            event.code match {
-              case KeyCode.BackSpace => textBox.text.dropRight(1)
-              case KeyCode.Space => textBox.text + " "
-              case KeyCode.Enter => textBox.text + "\n"
-              case _ => textBox.text + event.text
+      case _ => {
+        this.drawing.config.selectedElements.headOption match {
+          case Some(textBox: TextBox) => {
+            val layer = this.drawing.config.activeLayer
+            if (layer.contains(textBox)) {
+              layer.removeElement(textBox)
+              val newText = {
+                event.code match {
+                  case KeyCode.BackSpace => textBox.text.dropRight(1)
+                  case KeyCode.Space => textBox.text + " "
+                  case KeyCode.Enter => textBox.text + "\n"
+                  case _ if event.isShiftDown => textBox.text + event.text.toUpperCase
+                  case _ => textBox.text + event.text
+                }
+              }
+              val element = textBox.copy(text = newText)
+              layer.addElement(element)
+              this.drawing.config = this.drawing.config.copy(selectedElements = this.drawing.config.selectedElements.filter( el => el != textBox) :+ element)
+              this.controller.updateCanvas()
             }
           }
-          val element = textBox.copy(text = newText)
-          layer.addElement(element)
-          this.drawing.config = this.drawing.config.copy(selectedElements = this.drawing.config.selectedElements.filter( el => el != textBox) :+ element)
-          this.controller.updateCanvas()
+          case _ =>
         }
       }
-      case _ =>
     }
   }
 

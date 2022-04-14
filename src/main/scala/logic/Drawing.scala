@@ -215,7 +215,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  def updatePrimaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
+  private def updatePrimaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
     elements.map{
       case e: Shape => e.copy(color = color, previousVersion = Some(e))
       case e: Stroke => e.copy(color = color, previousVersion = Some(e))
@@ -240,7 +240,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  def updateSecondaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
+  private def updateSecondaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
     elements.map{
       case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
       case group: ElementGroup => {
@@ -262,7 +262,5 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       this.config = this.config.copy(secondaryColor = color)
     }
   }
-
-
 
 }

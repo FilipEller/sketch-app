@@ -249,10 +249,8 @@ class Controller {
 
   // Bug: If all layers are removed, drawing no longer works even after readding layers.
   @FXML protected def removeLayer(event: ActionEvent) = {
-    println("removing layer")
     val layerIndex = this.layerView.getSelectionModel.getSelectedIndex
     val layerName = this.layerView.getSelectionModel.getSelectedItem
-    println(layerName)
     val layer = this.drawing.removeLayer(layerName)
     updateLayerView()
     this.layerView.getSelectionModel.select(math.min(this.drawing.layers.length - 1, math.max(layerIndex, 0))) // select the layer under the removed one
