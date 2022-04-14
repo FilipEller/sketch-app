@@ -28,6 +28,8 @@ case class ElementGroup(elements: Seq[Element],
   val width = this.elements.map( e => e.origin.x + e.width ).max - this.origin.x
   val height = this.elements.map( e => e.origin.y + e.height ).max - this.origin.y
 
+  override def toString = s"$name $elements"
+
   def addElement(element: Element) = {
     if (element != this) {
       this.copy(elements = this.elements :+ element, previousVersion = Some(this))

@@ -31,9 +31,7 @@ case class Shape(stype: ShapeType,
 
   val center = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
 
-  override def toString: String = {
-    s"$stype" // at $origin with size $width and $height colored $color"
-  }
+  override def toString: String = this.name
 
   def collidesWith(point: Point2D): Boolean = {
     this.stype match { // does not take rotation into account yet

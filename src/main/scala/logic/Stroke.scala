@@ -20,7 +20,7 @@ case class Stroke(color: Color,
   val width = this.path.map( p => p.x - this.origin.x).max + this.brush.size
   val height = this.path.map( p => p.y - this.origin.y).max + this.brush.size
 
-  override def toString: String = "Stroke"
+  override def toString: String = this.name
 
   def paint(canvas: Canvas): Unit = { // there's a problem with drawing less opaque brush strokes.
     val g = canvas.graphicsContext2D  // Brush images are painted too closely for the opacity to have much effect, but painting them further apart would leave each brush image distinctly visible.

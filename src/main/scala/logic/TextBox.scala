@@ -18,6 +18,8 @@ case class TextBox(text: String,
                    hidden: Boolean = false,
                    deleted: Boolean = false) extends Element {
 
+  override def toString = s"$name ($text)"
+
   def paint(canvas: Canvas): Unit = {
     val g = canvas.graphicsContext2D
     // rotation not implemented

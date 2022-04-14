@@ -177,12 +177,31 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
+  private def updateProperty(elements: Seq[Element], brushSize: Int = -1,
+                             hardness: Int = -1, width: Int = -1, fontSize: Int = -1): Seq[Element] = {
+    elements.map{
+      case stroke: Stroke if (brushSize >= 0) =>
+        stroke.copy(brush = stroke.brush.copy(size = brushSize), previousVersion = Some(stroke))
+      case stroke: Stroke if (hardness >= 0) =>
+        stroke.copy(brush = stroke.brush.copy(hardness = hardness), previousVersion = Some(stroke))
+      case shape: Shape if (width >= 0) =>
+        shape.copy(borderWidth = width, previousVersion = Some(shape))
+      case textBox: TextBox if (fontSize >= 0) =>
+        textBox.copy(fontSize = fontSize, previousVersion = Some(textBox))
+      case group: ElementGroup => {
+        val updated = updateProperty(group.elements, brushSize, hardness, width, fontSize)
+        if (updated != group.elements)
+          group.copy(elements = updated, previousVersion = Some(group))
+        else
+          group
+      }
+      case e: Element => e
+    }
+  }
+
   def changeBrushSize(size: Int): Unit = {
     if (this.config.selectedElements.nonEmpty) {
-      val newElements = this.config.selectedElements.map{
-        case stroke: Stroke => stroke.copy(brush = stroke.brush.copy(size = size), previousVersion = Some(stroke))
-        case e: Element => e
-      }
+      val newElements = updateProperty(this.config.selectedElements, brushSize = size)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(size = size))
@@ -191,10 +210,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def changeBrushHardness(hardness: Int): Unit = {
     if (this.config.selectedElements.nonEmpty) {
-      val newElements = this.config.selectedElements.map{
-        case stroke: Stroke => stroke.copy(brush = stroke.brush.copy(hardness = hardness), previousVersion = Some(stroke))
-        case e: Element => e
-      }
+      val newElements = updateProperty(this.config.selectedElements, hardness = hardness)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
@@ -203,10 +219,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def changeBorderWidth(width: Int): Unit = {
     if (this.config.selectedElements.nonEmpty) {
-      val newElements = this.config.selectedElements.map{
-        case shape: Shape => shape.copy(borderWidth = width, previousVersion = Some(shape))
-        case e: Element => e
-      }
+      val newElements = updateProperty(this.config.selectedElements, width = width)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(borderWidth = width)
@@ -215,10 +228,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def changeFontSize(size: Int): Unit = {
     if (this.config.selectedElements.nonEmpty) {
-      val newElements = this.config.selectedElements.map{
-        case textBox: TextBox => textBox.copy(fontSize = size, previousVersion = Some(textBox))
-        case e: Element => e
-      }
+      val newElements = updateProperty(this.config.selectedElements, fontSize = size)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(fontSize = size)
