@@ -86,11 +86,13 @@ class Controller {
     layerView.getSelectionModel.select(0)
   }
 
-  def handleBorderCheckBox(event: ActionEvent): Unit = {
+  @FXML protected def changeUseBorder(event: ActionEvent): Unit = {
+    println("border checkbox: " + borderCheckBox.isSelected)
     this.drawing.config = this.drawing.config.copy(useBorder = borderCheckBox.isSelected)
   }
 
-  def handleFillCheckBox(event: ActionEvent): Unit = {
+  @FXML protected def changeUseFill(event: ActionEvent): Unit = {
+    println("fill checkbox: " + fillCheckBox.isSelected)
     this.drawing.config = this.drawing.config.copy(useFill = fillCheckBox.isSelected)
   }
 
@@ -280,7 +282,8 @@ class Controller {
   def initController(): Unit = {
     println("initializing canvas")
 
-    this.baseCanvas = new Canvas(drawing.width, drawing.height)
+    this.baseCanvas = new Canvas(this.drawing.width, this.drawing.height)
+    pane.children.clear()
     pane.children += baseCanvas
 
     val g = baseCanvas.graphicsContext2D
@@ -288,8 +291,8 @@ class Controller {
     g.fillRect(0, 0, this.drawing.width, this.drawing.height)
 
     initializeLayerView()
-    this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
-    this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
+    // this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
+    // this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
     updateCanvas()
   }
 
@@ -344,6 +347,11 @@ class Controller {
       val loaded = FileManager.load(file)
       println(loaded)
       this.drawing = loaded
+      Main.drawing = loaded
+      println(this.drawing)
+      println(Main.drawing)
+      initController()
+      update()
     }
   }
 }

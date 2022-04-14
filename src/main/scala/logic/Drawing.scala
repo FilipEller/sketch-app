@@ -8,13 +8,10 @@ import scalafx.scene.input.{MouseDragEvent, MouseEvent}
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-import scala.collection.mutable
+import scala.collection.mutable.Buffer
 
-class Drawing(val width: Int, val height: Int) {
+class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
 
-  val backgroundLayer = Layer("Layer 1")
-  var currentImage = new StackPane
-  val layers = mutable.Buffer[Layer](backgroundLayer)
   var config =                        // Default settings
     new Configurations(layers.head,   // active layer
       RectangleTool,                  // active tool
@@ -48,8 +45,9 @@ class Drawing(val width: Int, val height: Int) {
     }
   }
 
-  def addLayers(layers: Seq[Layer]): Unit =
+  def addLayers(layers: Seq[Layer]): Unit = {
     layers.foreach(addLayer)
+  }
 
   def findLayer(name: String): Option[Layer] = {
     this.layers.find(_.name == name)
@@ -94,7 +92,6 @@ class Drawing(val width: Int, val height: Int) {
   def paint(pane: StackPane): StackPane = {
     this.layers.foreach(pane.children += _.paint(width, height))
     this.paintSelection(pane)
-    this.currentImage = pane
     pane
   }
 

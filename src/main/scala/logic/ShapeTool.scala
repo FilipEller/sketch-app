@@ -39,7 +39,7 @@ class ShapeTool(stype: ShapeType) extends Tool {
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
         this.clickPoint = eventPoint
-        this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, drawing.config.primaryColor, drawing.config.secondaryColor, drawing.config.useBorder, drawing.config.useFill, this.clickPoint)
+        this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, config.primaryColor, config.secondaryColor, config.useBorder, config.useFill, this.clickPoint)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         config.activeLayer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
