@@ -129,10 +129,15 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       .updateElements(newElements)
   }
 
-  def updateSelected(elements: Seq[Element]): Unit = {
-    this.config.activeLayer.updateElements(elements)
-    this.config = this.config.copy(selectedElements = elements)
-    elements.foreach(ActionHistory.add)
+  def contains(element: Element): Boolean = {
+    this.layers.exists(_.contains(element))
+  }
+
+  def updateSelected(newElements: Seq[Element]): Unit = {
+    val toUpdate = newElements.filter(!this.contains(_))
+    this.config.activeLayer.updateElements(toUpdate)
+    this.config = this.config.copy(selectedElements = newElements)
+    toUpdate.foreach(ActionHistory.add)
   }
 
   def groupSelected(): Unit = {
@@ -169,6 +174,54 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
         }
         case _ =>
       }
+    }
+  }
+
+  def changeBrushSize(size: Int): Unit = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = this.config.selectedElements.map{
+        case stroke: Stroke => stroke.copy(brush = stroke.brush.copy(size = size), previousVersion = Some(stroke))
+        case e: Element => e
+      }
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(size = size))
+    }
+  }
+
+  def changeBrushHardness(hardness: Int): Unit = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = this.config.selectedElements.map{
+        case stroke: Stroke => stroke.copy(brush = stroke.brush.copy(hardness = hardness), previousVersion = Some(stroke))
+        case e: Element => e
+      }
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
+    }
+  }
+
+  def changeBorderWidth(width: Int): Unit = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = this.config.selectedElements.map{
+        case shape: Shape => shape.copy(borderWidth = width, previousVersion = Some(shape))
+        case e: Element => e
+      }
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(borderWidth = width)
+    }
+  }
+
+  def changeFontSize(size: Int): Unit = {
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = this.config.selectedElements.map{
+        case textBox: TextBox => textBox.copy(fontSize = size, previousVersion = Some(textBox))
+        case e: Element => e
+      }
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(fontSize = size)
     }
   }
 
