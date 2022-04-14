@@ -263,4 +263,10 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
+  def deleteSelected(): Unit = {
+    val deleted = this.config.activeLayer.deleteElements(this.config.selectedElements)
+    deleted.foreach(ActionHistory.add(_))
+    this.config = this.config.copy(selectedElements = Seq())
+  }
+
 }

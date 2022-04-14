@@ -21,14 +21,16 @@ case class TextBox(text: String,
   override def toString = s"$name ($text)"
 
   def paint(canvas: Canvas): Unit = {
-    val g = canvas.graphicsContext2D
-    // rotation not implemented
-    g.fill = this.color
-    g.setLineWidth(1)
-    g.font = new Font("Poppins", fontSize)
-    g.fillText(this.text, origin.x + 1, origin.y + fontSize, this.width)
-    // g.fill = rgb(0, 0, 0)
-    // g.strokeRect(origin.x, origin.y, this.width, this.height)
+    if (!this.deleted) {
+      val g = canvas.graphicsContext2D
+      // rotation not implemented
+      g.fill = this.color
+      g.setLineWidth(1)
+      g.font = new Font("Poppins", fontSize)
+      g.fillText(this.text, origin.x + 1, origin.y + fontSize, this.width)
+      // g.fill = rgb(0, 0, 0)
+      // g.strokeRect(origin.x, origin.y, this.width, this.height)
+    }
   }
 
 
@@ -55,6 +57,8 @@ object TextBox {
         name
       }
     }
+
+    // TODO: Textboxes not working with undo
 
     new TextBox(text, width, height, fontSize, color, origin, nameToUse, rotation, previousVersion, hidden, deleted)
   }

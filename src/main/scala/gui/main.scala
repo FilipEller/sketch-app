@@ -56,6 +56,10 @@ object Main extends JFXApp {
         this.controller.updateSelectedView()
         this.controller.updateCanvas()
       }
+      case KeyCode.X if event.isControlDown => {
+        this.drawing.deleteSelected()
+        this.controller.updateCanvas()
+      }
       case _ => {
         this.drawing.config.selectedElements.headOption match {
           case Some(textBox: TextBox) => {

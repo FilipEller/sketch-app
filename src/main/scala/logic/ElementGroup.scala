@@ -63,7 +63,9 @@ case class ElementGroup(elements: Seq[Element],
   override def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
 
   def paint(canvas: Canvas) = {
-    this.elements.foreach( _.paint(canvas) )
+    if (!this.deleted) {
+      this.elements.foreach( _.paint(canvas) )
+    }
   }
 
   def collidesWith(point: Point2D): Boolean = this.elements.exists( _.collidesWith(point) )
@@ -91,4 +93,6 @@ object ElementGroup {
     val color = elements.headOption.map( _.color ).getOrElse(rgb(0, 0, 0))
     ElementGroup(elements, color)
   }
+
+  // TODO: Undo not working with grouping
 }

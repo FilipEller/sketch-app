@@ -51,24 +51,26 @@ case class Shape(stype: ShapeType,
   }
 
   def paint(canvas: Canvas): Unit = {
-    val g = canvas.graphicsContext2D
-    // rotation not implemented
-    if (this.useFill) {
-      g.fill = this.fillColor
-      this.stype match {
-        case Rectangle | Square => g.fillRect(origin.x, origin.y, this.width, this.height)
-        case Ellipse | Circle => g.fillOval(origin.x, origin.y, this.width, this.height)
-        case _ =>
+    if (!this.deleted) {
+      val g = canvas.graphicsContext2D
+      // rotation not implemented
+      if (this.useFill) {
+        g.fill = this.fillColor
+        this.stype match {
+          case Rectangle | Square => g.fillRect(origin.x, origin.y, this.width, this.height)
+          case Ellipse | Circle => g.fillOval(origin.x, origin.y, this.width, this.height)
+          case _ =>
+        }
       }
-    }
 
-    if (this.useBorder) {
-      g.stroke = this.color
-      g.setLineWidth(borderWidth)
-      this.stype match {
-        case Rectangle | Square => g.strokeRect(origin.x, origin.y, this.width, this.height)
-        case Ellipse | Circle => g.strokeOval(origin.x, origin.y, this.width, this.height)
-        case _ =>
+      if (this.useBorder) {
+        g.stroke = this.color
+        g.setLineWidth(borderWidth)
+        this.stype match {
+          case Rectangle | Square => g.strokeRect(origin.x, origin.y, this.width, this.height)
+          case Ellipse | Circle => g.strokeOval(origin.x, origin.y, this.width, this.height)
+          case _ =>
+        }
       }
     }
   }

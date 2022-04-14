@@ -92,7 +92,7 @@ case class Layer(var name: String) {
                   .map( e => this.elements.indexOf(e) )
                   .map( i => math.max(0, i) )
                   .getOrElse(this.elements.length - 1)
-    element.previousVersion.foreach( this.removeElement(_) )
+    element.previousVersion.foreach(removeElement)
     this.addElementAtIndex(element, index)
     element
   }
@@ -113,7 +113,24 @@ case class Layer(var name: String) {
     element.previousVersion.foreach( this.addElementAtIndex(_, index) )
   }
 
+  def deleteElement(element: Element): Element = {
+    val deleted = element match {
+      case e: Shape => e.copy(deleted = true, previousVersion = Some(e))
+      case e: Stroke => e.copy(deleted = true, previousVersion = Some(e))
+      case e: TextBox => e.copy(deleted = true, previousVersion = Some(e))
+      case e: ElementGroup => e.copy(deleted = true, previousVersion = Some(e))
+      case e: Element => e
+    }
+    ActionHistory.add(deleted)
+    this.updateElement(deleted)
+  }
+
+  def deleteElements(elements: Seq[Element]): Seq[Element] = {
+    println("deleting elements")
+    elements.map(deleteElement)
+  }
+
   def select(point: Point2D): Option[Element] = this.elements.reverse.to(LazyList)
-                                                  .filter(!_.hidden)
+                                                  .filter(!_.deleted)
                                                   .find(_.collidesWith(point))
 }
