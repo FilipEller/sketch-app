@@ -215,36 +215,6 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  /*def changeColor(isPrimary: Boolean, color: Color) = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = {
-        if (isPrimary) {
-          // this should be done in a method of the Drawing class tbh.
-          this.config.selectedElements.map{
-            case e: Shape => e.copy(color = color, previousVersion = Some(e))
-            case e: Stroke => e.copy(color = color, previousVersion = Some(e))
-            case e: TextBox => e.copy(color = color, previousVersion = Some(e))
-            case e: Element => e
-          }
-        } else {
-          this.config.selectedElements.map{
-            case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
-            case e: Stroke => e.copy(previousVersion = Some(e))
-            case e: TextBox => e.copy(previousVersion = Some(e))
-            case e: Element => e
-          }
-        }
-      }
-      this.updateSelected(newElements)
-    } else {
-      if (isPrimary) {
-        this.config = this.config.copy(primaryColor = color)
-      } else {
-        this.config = this.config.copy(secondaryColor = color)
-      }
-    }
-  }*/
-
   def updatePrimaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
     elements.map{
       case e: Shape => e.copy(color = color, previousVersion = Some(e))
@@ -273,8 +243,6 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def updateSecondaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
     elements.map{
       case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
-      case e: Stroke => e.copy(previousVersion = Some(e))
-      case e: TextBox => e.copy(previousVersion = Some(e))
       case group: ElementGroup => {
         val updated = updateSecondaryColor(group.elements, color)
         if (updated != group.elements)
