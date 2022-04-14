@@ -47,10 +47,10 @@ class Controller {
 
 
   def updateCanvas(): Unit = {
-    pane.children.tail.foreach(pane.children -= _) // empties background except for white base canvas
+    this.pane.children.tail.foreach(this.pane.children -= _) // empties background except for white base canvas
     drawing.paint(this.pane)
 
-    pane.children.tail.foreach(canvas => {
+    this.pane.children.tail.foreach(canvas => {
       canvas.setOnMousePressed(this.useTool(_))
       canvas.setOnMouseDragged(this.useTool(_))
       canvas.setOnMouseReleased(this.useTool(_))
@@ -67,8 +67,8 @@ class Controller {
 
   def selectLayer(new_val: String) = {
     println("selecting " + new_val)
-    val layer = this.drawing.findLayer(new_val)
-    this.drawing.config = this.drawing.config.copy(activeLayer = layer.getOrElse(this.drawing.config.activeLayer))
+    val layerOption = this.drawing.findLayer(new_val)
+    layerOption.foreach(this.drawing.selectLayer)
   }
 
   def initializeLayerView(): Unit = {
@@ -87,13 +87,11 @@ class Controller {
   }
 
   @FXML protected def changeUseBorder(event: ActionEvent): Unit = {
-    println("border checkbox: " + borderCheckBox.isSelected)
-    this.drawing.config = this.drawing.config.copy(useBorder = borderCheckBox.isSelected)
+    this.drawing.changeUseBorder(borderCheckBox.isSelected)
   }
 
   @FXML protected def changeUseFill(event: ActionEvent): Unit = {
-    println("fill checkbox: " + fillCheckBox.isSelected)
-    this.drawing.config = this.drawing.config.copy(useFill = fillCheckBox.isSelected)
+    this.drawing.changeUseFill(fillCheckBox.isSelected)
   }
 
   @FXML protected def changeBrushSize(event: javafx.scene.input.MouseEvent): Unit = {
@@ -222,23 +220,37 @@ class Controller {
 
   def initController(): Unit = {
     println("initializing canvas")
-
+    this.drawing = Main.drawing
     this.baseCanvas = new Canvas(this.drawing.width, this.drawing.height)
-    pane.children.clear()
-    pane.children += baseCanvas
+    this.pane.children.clear()
+    this.pane.children += baseCanvas
 
     val g = baseCanvas.graphicsContext2D
     g.fill = White
     g.fillRect(0, 0, this.drawing.width, this.drawing.height)
 
     initializeLayerView()
-    // this.borderCheckBox.setOnAction(this.handleBorderCheckBox(_))
-    // this.fillCheckBox.setOnAction(this.handleFillCheckBox(_))
     updateCanvas()
   }
 
   @FXML protected def changeTool(event: ActionEvent): Unit = {
-    ConfigControls.changeTool(event, this.drawing)
+    val button: scalafx.scene.control.Button =
+      new Button(event.getTarget.asInstanceOf[javafx.scene.control.Button])
+    val label = button.getId
+    println("button pressed: " + label)
+    val targetTool = label match {
+      case "Select" => SelectionTool
+      case "Transform" => TransformTool
+      case "Brush" => BrushTool
+      case "Line" => LineTool
+      case "Rectangle" => RectangleTool
+      case "Square" => SquareTool
+      case "Ellipse" => EllipseTool
+      case "Circle" => CircleTool
+      case "Text" => TextTool
+      case _ => SelectionTool
+    }
+    this.drawing.changeTool(targetTool)
   }
 
   @FXML protected def addLayer(event: ActionEvent) = {
@@ -265,9 +277,7 @@ class Controller {
   }
 
   @FXML protected def newDrawing(event: ActionEvent): Unit = {
-    val newDrawing = new Drawing(1000, 600)
-    this.drawing = newDrawing
-    Main.drawing = newDrawing
+    Main.drawing = new Drawing(1000, 600)
     initController()
     update()
   }
@@ -291,12 +301,7 @@ class Controller {
 
     val file = fileChooser.showOpenDialog(Main.stage)
     if (file != null) {
-      val loaded = FileManager.load(file)
-      println(loaded)
-      this.drawing = loaded
-      Main.drawing = loaded
-      println(this.drawing)
-      println(Main.drawing)
+      Main.drawing = FileManager.load(file)
       initController()
       update()
     }

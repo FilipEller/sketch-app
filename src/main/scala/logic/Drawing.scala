@@ -263,6 +263,22 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
+  def changeTool(tool: Tool) = {
+    this.config = this.config.copy(activeTool = tool)
+  }
+
+  def changeUseBorder(newValue: Boolean) = {
+    this.config = this.config.copy(useBorder = newValue)
+  }
+
+  def changeUseFill(newValue: Boolean) = {
+    this.config = this.config.copy(useFill = newValue)
+  }
+
+  def selectLayer(layer: Layer) = {
+    this.config = this.config.copy(activeLayer = layer)
+  }
+
   def deleteSelected(): Unit = {
     val deleted = this.config.activeLayer.deleteElements(this.config.selectedElements)
     deleted.foreach(ActionHistory.add(_))
