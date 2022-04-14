@@ -177,8 +177,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  private def updateProperty(elements: Seq[Element], brushSize: Int = -1,
-                             hardness: Int = -1, width: Int = -1, fontSize: Int = -1): Seq[Element] = {
+  private def updateProperty(elements: Seq[Element], brushSize: Int, hardness: Int, width: Int, fontSize: Int): Seq[Element] = {
     elements.map{
       case stroke: Stroke if (brushSize >= 0) =>
         stroke.copy(brush = stroke.brush.copy(size = brushSize), previousVersion = Some(stroke))
@@ -199,39 +198,20 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  def changeBrushSize(size: Int): Unit = {
+  def changeProperty(brushSize: Int = -1, hardness: Int = -1, borderWidth: Int = -1, fontSize: Int = -1) = {
     if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateProperty(this.config.selectedElements, brushSize = size)
+      val newElements = updateProperty(this.config.selectedElements, brushSize, hardness, width, fontSize)
       this.updateSelected(newElements)
     } else {
-      this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(size = size))
-    }
-  }
-
-  def changeBrushHardness(hardness: Int): Unit = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateProperty(this.config.selectedElements, hardness = hardness)
-      this.updateSelected(newElements)
-    } else {
-      this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
-    }
-  }
-
-  def changeBorderWidth(width: Int): Unit = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateProperty(this.config.selectedElements, width = width)
-      this.updateSelected(newElements)
-    } else {
-      this.config = this.config.copy(borderWidth = width)
-    }
-  }
-
-  def changeFontSize(size: Int): Unit = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateProperty(this.config.selectedElements, fontSize = size)
-      this.updateSelected(newElements)
-    } else {
-      this.config = this.config.copy(fontSize = size)
+      if (brushSize >= 0) {
+        this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(size = brushSize))
+      } else if (hardness >= 0) {
+        this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
+      } else if (borderWidth >= 0) {
+        this.config = this.config.copy(borderWidth = width)
+      } else if (fontSize >= 0) {
+        this.config = this.config.copy(fontSize = fontSize)
+      }
     }
   }
 

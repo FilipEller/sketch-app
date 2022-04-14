@@ -98,25 +98,25 @@ class Controller {
 
   @FXML protected def changeBrushSize(event: javafx.scene.input.MouseEvent): Unit = {
     val newSize = this.brushSizeSlider.getValue.ceil.toInt
-    this.drawing.changeBrushSize(newSize)
+    this.drawing.changeProperty(brushSize = newSize)
     updateCanvas()
   }
 
   @FXML protected def changeHardness(event: javafx.scene.input.MouseEvent): Unit = {
     val newHardness = this.hardnessSlider.getValue.ceil.toInt
-    this.drawing.changeBrushHardness(newHardness)
+    this.drawing.changeProperty(hardness = newHardness)
     updateCanvas()
   }
 
   @FXML protected def changeBorderWidth(event: javafx.scene.input.MouseEvent): Unit = {
     val newBorderWidth = this.borderWidthSlider.getValue.ceil.toInt
-    this.drawing.changeBorderWidth(newBorderWidth)
+    this.drawing.changeProperty(borderWidth = newBorderWidth)
     updateCanvas()
   }
 
   @FXML protected def changeFontSize(event: javafx.scene.input.MouseEvent): Unit = {
     val newFontSize = this.fontSizeSlider.getValue.ceil.toInt
-    this.drawing.changeFontSize(newFontSize)
+    this.drawing.changeProperty(fontSize = newFontSize)
     updateCanvas()
   }
 
