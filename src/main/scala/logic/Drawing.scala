@@ -266,7 +266,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       val newElements = this.updatePrimaryColor(this.config.selectedElements, color)
       this.updateSelected(newElements)
     } else {
-      this.config = this.config.copy(secondaryColor = color)
+      this.config = this.config.copy(primaryColor = color)
     }
   }
 
