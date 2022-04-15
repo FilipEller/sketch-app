@@ -354,7 +354,7 @@
                               </styleClass>
                            </Button>
                            <Region layoutX="62.0" layoutY="10.0" prefHeight="200.0" prefWidth="112.0" />
-                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#renameLayer" text="Rename">
+                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#renameElement" text="Rename">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />

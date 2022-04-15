@@ -11,7 +11,7 @@ import scalafx.Includes._
 import scalafx.geometry.{Insets, Point2D}
 import scalafx.scene.Node
 import scalafx.scene.canvas.Canvas
-import scalafx.scene.control.{Button, Slider}
+import scalafx.scene.control.{Button, Slider, TextInputDialog}
 import scalafx.scene.input.MouseDragEvent
 import scalafx.scene.paint.Color.{Blue, White, rgb}
 import javafx.scene.control.{ColorPicker, ListView, SelectionMode}
@@ -217,6 +217,35 @@ class Controller {
     this.drawing.removeElementsFromSelectedGroup(names)
     updateCanvas()
     update()
+  }
+
+  @FXML protected def renameElement(event: ActionEvent): Unit = {
+    val selected = if (this.selectedView.getItems.length == 1) {
+      this.selectedView.getItems.head
+    } else {
+      this.selectedView.getSelectionModel.getSelectedItem
+    }
+    if (selected != null) {
+      val dialog = new TextInputDialog()
+      dialog.setTitle("Rename Element")
+      dialog.getDialogPane.setContentText("New name:")
+      dialog.showAndWait()
+
+      val input = dialog.getEditor.getText
+      if (input != null && input.nonEmpty) {
+        val elementOption = this.drawing.config.activeLayer.findElementByName(selected)
+        elementOption match {
+          case Some(e: Element) => {
+            val newElement = this.drawing.config.activeLayer.renameElement(e, input)
+            this.drawing.config =
+              this.drawing.config.copy(selectedElements = this.drawing.config.selectedElements.filter(_ != e) :+ newElement)
+            updateCanvas()
+            update()
+          }
+          case None =>
+        }
+      }
+    }
   }
 
   // TODO: Rename elements in element view

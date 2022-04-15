@@ -163,7 +163,20 @@ case class Layer(var name: String) {
     names.flatMap(findElementByName)
   }
 
-  def select(point: Point2D): Option[Element] = this.elements.reverse.to(LazyList)
-                                                  .filter(!_.deleted)
-                                                  .find(_.collidesWith(point))
+  def renameElement(element: Element, newName: String): Element = {
+    val newElement = element match {
+      case e: Shape => e.copy(name = newName, previousVersion = Some(e))
+      case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
+      case e: TextBox => e.copy(name = newName, previousVersion = Some(e))
+      case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
+      case e: Element => e
+    }
+    ActionHistory.add(newElement)
+    this.updateElement(newElement)
+  }
+
+  def select(point: Point2D): Option[Element] =
+    this.elements.reverse.to(LazyList)
+      .filter(!_.deleted)
+      .find(_.collidesWith(point))
 }
