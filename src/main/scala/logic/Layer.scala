@@ -109,6 +109,12 @@ case class Layer(var name: String) {
     val index = this.elements.indexOf(element)
     this.removeElement(element)
     element.previousVersion.foreach( this.addElementAtIndex(_, index) )
+    element match {
+      case group: ElementGroup if group.previousVersion.isEmpty => {
+        group.elements.reverse.foreach( this.addElementAtIndex(_, index) )
+      }
+      case _ =>
+    }
   }
 
   def deleteElement(element: Element): Element = {

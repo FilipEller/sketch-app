@@ -238,8 +238,7 @@ class Controller {
         elementOption match {
           case Some(e: Element) => {
             val newElement = this.drawing.config.activeLayer.renameElement(e, input)
-            this.drawing.config =
-              this.drawing.config.copy(selectedElements = this.drawing.config.selectedElements.filter(_ != e) :+ newElement)
+            this.drawing.select(this.drawing.config.selectedElements.filter(_ != e) :+ newElement)
             updateCanvas()
             update()
           }

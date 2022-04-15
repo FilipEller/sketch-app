@@ -155,7 +155,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     val elementOption = ActionHistory.undo()
     elementOption match {
       case Some(element: Element) => {
-        this.deselectAll()
+        this.select(this.config.selectedElements.filter(_ != element))
         element.previousVersion.foreach(this.select)
         this.layers.filter( _.contains(element) )
           .foreach( _.restoreElement(element) )
@@ -193,11 +193,15 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def groupSelected(): Unit = {
-    if (this.config.selectedElements.nonEmpty) {
-      this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
-      val group = ElementGroup(this.config.selectedElements)
-      this.config.activeLayer.addElement(group)
+    val selected = this.config.selectedElements
+    if (selected.nonEmpty) {
+      val index = this.config.activeLayer.elements.indexOf(selected.last) - (selected.length - 1)
+      selected.foreach( this.config.activeLayer.removeElement(_) )
+      val group = ElementGroup(selected)
+      println("INDEX: " + index)
+      this.config.activeLayer.addElementAtIndex(group, index)
       this.select(group)
+      ActionHistory.add(group)
     }
   }
 
@@ -205,8 +209,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     if (this.config.selectedElements.nonEmpty) {
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
-          val layer = this.layers.find(_.contains(group))
-          layer.foreach(_.removeElementGroup(group))
+          this.config.activeLayer.removeElementGroup(group)
           this.select(group.elements)
         }
         case _ =>
