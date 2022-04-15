@@ -227,7 +227,8 @@ class Controller {
     }
     if (selected != null) {
       val dialog = new TextInputDialog()
-      dialog.setTitle("Rename Element")
+      dialog.setTitle("")
+      dialog.setHeaderText(s"Rename $selected")
       dialog.getDialogPane.setContentText("New name:")
       dialog.showAndWait()
 
@@ -255,9 +256,11 @@ class Controller {
   }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
-    val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
-    this.drawing.useTool(event, localPoint)
-    update()
+    if (!this.drawing.config.activeLayer.hidden) {
+      val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
+      this.drawing.useTool(event, localPoint)
+      update()
+    }
   }
 
   def initController(): Unit = {
@@ -314,24 +317,22 @@ class Controller {
 
   // not implemented
   @FXML protected def renameLayer(event: ActionEvent) = {
-    val selected = if (this.layerView.getItems.length == 1) {
-      this.layerView.getItems.head
-    } else {
-      this.layerView.getSelectionModel.getSelectedItem
-    }
-    if (selected != null) {
-      val dialog = new TextInputDialog()
-      dialog.setTitle("Rename Layer")
-      dialog.getDialogPane.setContentText("New name:")
-      dialog.showAndWait()
+    val dialog = new TextInputDialog()
+    dialog.setTitle("")
+    dialog.setHeaderText(s"Rename ${this.drawing.config.activeLayer.name}")
+    dialog.getDialogPane.setContentText("New name:")
+    dialog.showAndWait()
 
-      val input = dialog.getEditor.getText
-      if (input != null && input.nonEmpty) {
-        this.drawing.findLayer(selected)
-          .foreach(this.drawing.renameLayer(_, input))
-      }
+    val input = dialog.getEditor.getText
+    if (input != null && input.nonEmpty) {
+        this.drawing.renameLayer(this.drawing.config.activeLayer, input)
     }
     updateLayerView()
+  }
+
+  @FXML protected def toggleLayerHidden(event: ActionEvent) = {
+    this.drawing.toggleActiveLayerHidden()
+    updateCanvas()
   }
 
   // TODO: Hide layers

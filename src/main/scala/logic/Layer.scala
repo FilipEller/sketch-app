@@ -9,7 +9,6 @@ case class Layer(var name: String) {
 
   val elements = Buffer[Element]()
   var hidden = false
-  var currentImage: Option[Canvas] = None
 
   def addElement(element: Element): Unit = {
     this.elements += element
@@ -42,10 +41,9 @@ case class Layer(var name: String) {
     def repaint(width: Int, height: Int) = {
       val canvas = new Canvas(width, height)
       this.elements.foreach(_.paint(canvas))
-      currentImage = Some(canvas) // lets not try and do any optimizations for now. just this does not work anyway
       canvas
     }
-    repaint(width, height) // currentImage.getOrElse(repaint(width, height))
+    repaint(width, height)
   }
 
   def rename(newName: String) = {

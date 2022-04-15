@@ -28,9 +28,9 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@index.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
     <MenuBar id="menu-bar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" style="-fx-color: #ffffff;" styleClass="menu" text="File">
-            <MenuItem id="new" mnemonicParsing="false" styleClass="menu-item" text="New" onAction="#newDrawing" />
-            <MenuItem id="saveas" mnemonicParsing="false" styleClass="menu-item" text="Save" onAction="#saveDrawing"/>
-            <MenuItem id="open" mnemonicParsing="false" styleClass="menu-item" text="Load" onAction="#loadDrawing"/>
+            <MenuItem id="new" mnemonicParsing="false" onAction="#newDrawing" styleClass="menu-item" text="New" />
+            <MenuItem id="saveas" mnemonicParsing="false" onAction="#saveDrawing" styleClass="menu-item" text="Save" />
+            <MenuItem id="open" mnemonicParsing="false" onAction="#loadDrawing" styleClass="menu-item" text="Load" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Undo (Ctrl+Z)" />
@@ -42,7 +42,7 @@
     </MenuBar>
     <BorderPane prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <center>
-          <StackPane id="background" fx:id="pane" prefHeight="244.0" prefWidth="442.0" BorderPane.alignment="CENTER">
+          <StackPane id="background" fx:id="pane" prefHeight="929.0" prefWidth="1591.0" BorderPane.alignment="CENTER">
           </StackPane>
         </center>
         <bottom>
@@ -311,7 +311,7 @@
                            <children>
                               <Label text="Border">
                                  <graphic>
-                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" selected="true" onAction="#changeUseBorder"/>
+                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" onAction="#changeUseBorder" selected="true" />
                                  </graphic>
                               </Label>
                            </children>
@@ -320,7 +320,7 @@
                            <children>
                               <Label text="Fill">
                                  <graphic>
-                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" onAction="#changeUseFill"/>
+                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" onAction="#changeUseFill" />
                                  </graphic>
                               </Label>
                            </children>
@@ -332,7 +332,7 @@
             </HBox>
         </top>
       <right>
-         <VBox prefHeight="929.0" prefWidth="250.0" styleClass="panel" BorderPane.alignment="CENTER">
+         <VBox prefWidth="250.0" styleClass="panel" BorderPane.alignment="CENTER">
             <children>
                <VBox alignment="TOP_CENTER" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
@@ -347,14 +347,14 @@
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="112.0" />
-                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" text="Rename" onAction="#renameElement">
+                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#renameElement" text="Rename">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
                            <Region layoutX="62.0" layoutY="10.0" prefHeight="200.0" prefWidth="112.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Delete" HBox.hgrow="ALWAYS" onAction="#deleteSelected">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" HBox.hgrow="ALWAYS">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
@@ -370,10 +370,10 @@
                      </HBox>
                   </children>
                </VBox>
-               <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel" VBox.vgrow="ALWAYS">
+               <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="49.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
                      <Label text="Selected Group" />
-                     <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS"/>
+                     <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
                         <children>
                            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addToGroup" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
@@ -406,20 +406,20 @@
                      </HBox>
                   </children>
                </VBox>
-               <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="control-panel" VBox.vgrow="ALWAYS">
+               <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="392.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
                      <Label text="Layers" />
                      <ListView id="layer-view" fx:id="layerView" styleClass="list" VBox.vgrow="ALWAYS" />
                      <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
                         <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addLayer" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addLayer" text="Add" HBox.hgrow="ALWAYS">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" prefWidth="65.0" text="Remove" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" text="Remove" HBox.hgrow="ALWAYS">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
@@ -432,10 +432,22 @@
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
+                           <Region layoutX="108.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0" />
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLayerHidden" text="Hide">
+                              <styleClass>
+                                 <String fx:value="button" />
+                                 <String fx:value="layer-button" />
+                              </styleClass>
+                           </Button>
                         </children>
                         <VBox.margin>
                            <Insets />
                         </VBox.margin>
+                        <padding>
+                           <Insets bottom="5.0" top="5.0" />
+                        </padding>
+                     </HBox>
+                     <HBox layoutX="20.0" layoutY="275.0" maxHeight="40.0">
                         <padding>
                            <Insets bottom="5.0" top="5.0" />
                         </padding>
