@@ -56,11 +56,11 @@ class Controller {
   }
 
   def updateLayerView(): Unit = {
-    val selectedLayer = this.layerView.getSelectionModel.getSelectedItem
+    val selectedIndex = this.layerView.getSelectionModel.getSelectedIndex
     this.layerView.getItems.clear()
     this.drawing.layers.reverse
       .foreach( l => this.layerView.getItems.add(l.name) )
-    this.layerView.getSelectionModel.select(selectedLayer)
+    this.layerView.getSelectionModel.select(selectedIndex)
   }
 
   def selectLayer(new_val: String) = {
@@ -314,11 +314,27 @@ class Controller {
 
   // not implemented
   @FXML protected def renameLayer(event: ActionEvent) = {
-    println("renaming layer")
-    // TODO: Rename layers
-    // dialogue for new name
+    val selected = if (this.layerView.getItems.length == 1) {
+      this.layerView.getItems.head
+    } else {
+      this.layerView.getSelectionModel.getSelectedItem
+    }
+    if (selected != null) {
+      val dialog = new TextInputDialog()
+      dialog.setTitle("Rename Layer")
+      dialog.getDialogPane.setContentText("New name:")
+      dialog.showAndWait()
+
+      val input = dialog.getEditor.getText
+      if (input != null && input.nonEmpty) {
+        this.drawing.findLayer(selected)
+          .foreach(this.drawing.renameLayer(_, input))
+      }
+    }
     updateLayerView()
   }
+
+  // TODO: Hide layers
 
   @FXML protected def newDrawing(event: ActionEvent): Unit = {
     Main.drawing = new Drawing(1000, 600)
