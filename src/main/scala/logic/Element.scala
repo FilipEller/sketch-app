@@ -10,7 +10,6 @@ abstract class Element {
   def origin: Point2D
   def width: Double
   def height: Double
-  def rotation: Int   // TODO: Remove rotation from Element
   def color: Color
   def previousVersion: Option[Element]  // will not be saved. History is bunk.
   def hidden: Boolean // TODO: Remove hidden from Element
@@ -30,12 +29,4 @@ abstract class Element {
 
   def move(xDiff: Double, yDiff: Double): Element = this.move(new Point2D(this.origin.x + xDiff, this.origin.y + yDiff))
 
-  def rotate(angle: Int): Element = {
-    this match {
-      case e: Shape => e.copy(rotation = this.rotation + angle, previousVersion = Some(this))
-      case e: Stroke => e.copy(rotation = this.rotation + angle, previousVersion = Some(this))
-      case e: TextBox => e.copy(rotation = this.rotation + angle, previousVersion = Some(this))
-      case e: Element => e
-    }
-  }
 }

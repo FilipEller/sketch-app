@@ -12,7 +12,6 @@ case class Stroke(color: Color,
                   path: Path,
                   brush: Brush,
                   name: String,
-                  rotation: Int = 0,
                   previousVersion: Option[Element] = None,
                   hidden: Boolean = false,
                   deleted: Boolean = false) extends Element {
@@ -42,7 +41,6 @@ case class Stroke(color: Color,
             List(Stop(0.0, usedColor), Stop(1.0, Color.Transparent))
           }  // does not seem to work if assigned to a variable
       )
-      // rotation not implemented
       g.fill = if (this.brush.hardness == 100 && this.color.opacity == 1) this.color else gradient
       this.path.foreach(point => g.fillOval(point.x - 0.5 * this.brush.size, point.y - 0.5 * this.brush.size, this.brush.size, this.brush.size))
     }
@@ -53,7 +51,6 @@ case class Stroke(color: Color,
       && point.x <= this.origin.x - 0.5 * this.brush.size + this.width
       && point.y >= this.origin.y - 0.5 * this.brush.size
       && point.y <= this.origin.y - 0.5 * this.brush.size + this.height)
-      // does not take rotation into account yet
 
 }
 
@@ -62,7 +59,7 @@ object Stroke {
   var strokeCount = 0
 
   def apply(color: Color, origin: Point2D, path: Path, brush: Brush, name: String = "",
-                 rotation: Int = 0, previousVersion: Option[Element] = None,
+                 previousVersion: Option[Element] = None,
                   hidden: Boolean = false, deleted: Boolean = false) = {
     val nameToUse = {
       if (name == "") {
@@ -73,7 +70,7 @@ object Stroke {
       }
     }
 
-    new Stroke(color, origin, path, brush, nameToUse, rotation, previousVersion, hidden, deleted)
+    new Stroke(color, origin, path, brush, nameToUse, previousVersion, hidden, deleted)
   }
 
 }

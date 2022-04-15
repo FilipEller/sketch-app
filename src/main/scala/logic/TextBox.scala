@@ -13,7 +13,6 @@ case class TextBox(text: String,
                    color: Color,
                    origin: Point2D,
                    name: String,
-                   rotation: Int = 0,
                    previousVersion: Option[Element] = None,
                    hidden: Boolean = false,
                    deleted: Boolean = false) extends Element {
@@ -23,7 +22,6 @@ case class TextBox(text: String,
   def paint(canvas: Canvas): Unit = {
     if (!this.deleted) {
       val g = canvas.graphicsContext2D
-      // rotation not implemented
       g.fill = this.color
       g.setLineWidth(1)
       g.font = new Font("Poppins", fontSize)
@@ -45,9 +43,8 @@ object TextBox {
 
   var strokeCount = 0
 
-  def apply(text: String, width: Double, height: Double, fontSize: Double, color: Color,
-                 origin: Point2D, name: String = "", rotation: Int = 0,
-                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
+  def apply(text: String, width: Double, height: Double, fontSize: Double, color: Color, origin: Point2D,
+                 name: String = "", previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
 
     val nameToUse = {
       if (name == "") {
@@ -60,7 +57,7 @@ object TextBox {
 
     // TODO: Undo not working with text boxes
 
-    new TextBox(text, width, height, fontSize, color, origin, nameToUse, rotation, previousVersion, hidden, deleted)
+    new TextBox(text, width, height, fontSize, color, origin, nameToUse, previousVersion, hidden, deleted)
   }
 
 }

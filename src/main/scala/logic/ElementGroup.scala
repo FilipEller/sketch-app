@@ -8,7 +8,6 @@ import scalafx.scene.paint.Color.rgb
 case class ElementGroup(elements: Seq[Element],
                         color: Color,
                         name: String,
-                        rotation: Int = 0,
                         previousVersion: Option[Element] = None,
                         hidden: Boolean = false,
                         deleted: Boolean = false) extends Element {
@@ -76,8 +75,6 @@ case class ElementGroup(elements: Seq[Element],
     this.copy(elements = newElements, previousVersion = Some(this))
   }
 
-  override def rotate(angle: Int) = this.copy(rotation = this.rotation + angle, previousVersion = Some(this))
-
   def paint(canvas: Canvas) = {
     if (!this.deleted) {
       this.elements.foreach( _.paint(canvas) )
@@ -101,8 +98,9 @@ object ElementGroup {
     }
   }
 
-  def apply(elements: Seq[Element], color: Color, name: String = "", rotation: Int = 0, previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false): ElementGroup = {
-    new ElementGroup(elements, color, nameToUse(name), rotation, previousVersion, hidden, deleted)
+  def apply(elements: Seq[Element], color: Color, name: String = "", previousVersion: Option[Element] = None,
+            hidden: Boolean = false, deleted: Boolean = false): ElementGroup = {
+    new ElementGroup(elements, color, nameToUse(name), previousVersion, hidden, deleted)
   }
   
   def apply(elements: Seq[Element]): ElementGroup = {

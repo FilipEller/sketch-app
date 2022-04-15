@@ -24,7 +24,6 @@ case class Shape(stype: ShapeType,
                  useFill: Boolean,
                  origin: Point2D,
                  name: String,
-                 rotation: Int = 0,
                  previousVersion: Option[Element] = None,
                  hidden: Boolean = false,
                  deleted: Boolean = false) extends Element {
@@ -34,7 +33,7 @@ case class Shape(stype: ShapeType,
   override def toString: String = this.name
 
   def collidesWith(point: Point2D): Boolean = {
-    this.stype match { // does not take rotation into account yet
+    this.stype match {
       case s: ShapeType if s == Rectangle || s == Square => (point.x >= this.origin.x - 0.5 * this.borderWidth
         && point.x <= this.origin.x + this.width + 0.5 * this.borderWidth
         && point.y >= this.origin.y - 0.5 * this.borderWidth
@@ -53,7 +52,6 @@ case class Shape(stype: ShapeType,
   def paint(canvas: Canvas): Unit = {
     if (!this.deleted) {
       val g = canvas.graphicsContext2D
-      // rotation not implemented
       if (this.useFill) {
         g.fill = this.fillColor
         this.stype match {
@@ -83,9 +81,8 @@ object Shape {
   var circleCount = 0
   var ellipseCount = 0
 
-  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color, useBorder: Boolean, useFill: Boolean,
-                 origin: Point2D, name: String = "", rotation: Int = 0,
-                 previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
+  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color, useBorder: Boolean, useFill: Boolean, origin: Point2D,
+            name: String = "", previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
 
     val nameToUse = {
       if (name == "") {
@@ -112,7 +109,7 @@ object Shape {
       }
     }
 
-    new Shape(stype, width, height, borderWidth, color, borderColor, useBorder, useFill, origin, nameToUse, rotation, previousVersion, hidden, deleted)
+    new Shape(stype, width, height, borderWidth, color, borderColor, useBorder, useFill, origin, nameToUse, previousVersion, hidden, deleted)
   }
 
 }

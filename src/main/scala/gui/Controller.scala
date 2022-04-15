@@ -335,8 +335,6 @@ class Controller {
     updateCanvas()
   }
 
-  // TODO: Hide layers
-
   @FXML protected def newDrawing(event: ActionEvent): Unit = {
     Main.drawing = new Drawing(1000, 600)
     initController()
