@@ -67,11 +67,16 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def renameLayer(layer: Layer, newName: String) = {
-    if (this.layers.forall(_.name != newName) && this.layers.contains(layer)) {
+    if (this.layers.forall(_.name != newName)) {
       layer.rename(newName)
-      true
     } else {
-      false
+      var index = 2
+      val names = this.layers.map(_.name)
+      while (names.contains(s"$newName ${index}")) {
+        index += 1
+      }
+      val nameToUse = s"$newName ${index}"
+      layer.rename(nameToUse)
     }
   }
 
@@ -125,7 +130,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def paint(pane: StackPane): StackPane = {
-    this.layers.foreach(pane.children += _.paint(width, height))
+    this.layers.filter(!_.hidden).foreach(pane.children += _.paint(width, height))
     this.paintSelection(pane)
     pane
   }
@@ -334,6 +339,10 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       }
       case _ =>
     }
+  }
+
+  def toggleActiveLayerHidden() = {
+    this.config.activeLayer.hidden = !this.config.activeLayer.hidden
   }
 
 }
