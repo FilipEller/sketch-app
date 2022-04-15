@@ -58,7 +58,7 @@ object TextBox {
       }
     }
 
-    // TODO: Textboxes not working with undo
+    // TODO: Undo not working with text boxes
 
     new TextBox(text, width, height, fontSize, color, origin, nameToUse, rotation, previousVersion, hidden, deleted)
   }

@@ -130,6 +130,33 @@ case class Layer(var name: String) {
     elements.map(deleteElement)
   }
 
+  def removeElementFromGroup(group: ElementGroup, name: String): ElementGroup = {
+    val element = group.findByName(name)
+    element match {
+      case Some(e: Element) => {
+        val newGroup = group.removeElement(e)
+        this.updateElement(newGroup)
+        this.addElement(e)
+        ActionHistory.add(newGroup)
+        ActionHistory.add(e)
+        newGroup
+      }
+      case None => group
+    }
+  }
+
+  def removeElementsFromGroup(group: ElementGroup, names: Seq[String]): ElementGroup = {
+    names.map(removeElementFromGroup(group, _)).last
+  }
+
+  def findElementByName(name: String): Option[Element] = {
+    this.elements.find(_.name == name)
+  }
+
+  def findElementsByName(names: Seq[String]): Seq[Element] = {
+    names.flatMap(findElementByName)
+  }
+
   def select(point: Point2D): Option[Element] = this.elements.reverse.to(LazyList)
                                                   .filter(!_.deleted)
                                                   .find(_.collidesWith(point))

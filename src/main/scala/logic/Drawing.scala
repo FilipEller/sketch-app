@@ -26,7 +26,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def selectedElements = this.config.selectedElements
 
-  def selectedGroup =  this.config.selectedElements.findLast(_.isInstanceOf[ElementGroup])
+  def selectedGroup: Option[ElementGroup] =  this.config.selectedElements.findLast(_.isInstanceOf[ElementGroup]).map(_.asInstanceOf[ElementGroup])
 
   def addLayer(): Unit = {
     var index = this.layers.length + 1
@@ -276,13 +276,27 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def selectLayer(layer: Layer) = {
-    this.config = this.config.copy(activeLayer = layer)
+    if (layer != this.config.activeLayer) {
+      this.config = this.config.copy(activeLayer = layer, selectedElements = Seq())
+    }
   }
 
   def deleteSelected(): Unit = {
     val deleted = this.config.activeLayer.deleteElements(this.config.selectedElements)
     deleted.foreach(ActionHistory.add(_))
     this.config = this.config.copy(selectedElements = Seq())
+  }
+
+  def removeElementsFromSelectedGroup(names: Seq[String]) = {
+    this.selectedGroup match {
+      case Some(group: ElementGroup) => {
+       if (this.config.activeLayer.contains(group) && group.elements.length > 1) {
+         val newGroup = this.config.activeLayer.removeElementsFromGroup(group, names)
+         this.config = this.config.copy(selectedElements = Seq(newGroup))
+       }
+      }
+      case _ =>
+    }
   }
 
 }

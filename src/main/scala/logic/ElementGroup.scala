@@ -38,13 +38,25 @@ case class ElementGroup(elements: Seq[Element],
     }
   }
 
-  def addElements(elements: Seq[Element]) = {
+  def addElements(elements: Seq[Element]): ElementGroup = {
     val elementsToAdd = elements.filter( _ != this )
     this.copy(elements = this.elements ++ elementsToAdd, previousVersion = Some(this))
   }
 
-  def removeElement(element: Element) = {
+  def removeElement(element: Element): ElementGroup = {
     this.copy(elements = this.elements.filter( _ != element), previousVersion = Some(this))
+  }
+
+  def removeByName(name: String): ElementGroup = {
+    this.copy(elements = this.elements.filter( _.name != name), previousVersion = Some(this))
+  }
+
+  def findByName(name: String): Option[Element] = {
+    this.elements.find(_.name == name)
+  }
+
+  def findManyByName(names: Seq[String]): Seq[Element] = {
+    names.flatMap(findByName)
   }
 
   override def move(newOrigin: Point2D) = {

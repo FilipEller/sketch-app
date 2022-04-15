@@ -383,7 +383,7 @@
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" prefWidth="65.0" text="Remove" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeFromGroup" prefWidth="65.0" text="Remove" HBox.hgrow="ALWAYS">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />

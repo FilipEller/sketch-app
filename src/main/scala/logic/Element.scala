@@ -10,10 +10,10 @@ abstract class Element {
   def origin: Point2D
   def width: Double
   def height: Double
-  def rotation: Int   // to be removed
+  def rotation: Int   // TODO: Remove rotation from Element
   def color: Color
-  def previousVersion: Option[Element]  // will not be saved
-  def hidden: Boolean // to be removed
+  def previousVersion: Option[Element]  // will not be saved. History is bunk.
+  def hidden: Boolean // TODO: Remove hidden from Element
   def deleted: Boolean  // if true, element will not be saved
 
   def paint(canvas: Canvas): Unit

@@ -26,7 +26,6 @@ import scalafx.stage.FileChooser.ExtensionFilter
 import scala.math
 
 class Controller {
-  // this should be split into multiple objects whose methods are called from here.
 
   @FXML var pane: javafx.scene.layout.StackPane = _
   @FXML var layerView: javafx.scene.control.ListView[String] = _
@@ -44,7 +43,6 @@ class Controller {
 
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
-
 
   def updateCanvas(): Unit = {
     this.pane.children.tail.foreach(this.pane.children -= _) // empties background except for white base canvas
@@ -69,6 +67,8 @@ class Controller {
     println("selecting " + new_val)
     val layerOption = this.drawing.findLayer(new_val)
     layerOption.foreach(this.drawing.selectLayer)
+    updateCanvas()
+    update()
   }
 
   def initializeLayerView(): Unit = {
@@ -212,6 +212,16 @@ class Controller {
     update()
   }
 
+  @FXML protected def removeFromGroup(event: ActionEvent): Unit = {
+    val names = this.groupView.getSelectionModel.getSelectedItems.toSeq
+    this.drawing.removeElementsFromSelectedGroup(names)
+    updateCanvas()
+    update()
+  }
+
+  // TODO: Rename elements in element view
+  // TODO: Rename elements in group view
+
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
     this.drawing.useTool(event, localPoint)
@@ -272,6 +282,7 @@ class Controller {
   // not implemented
   @FXML protected def renameLayer(event: ActionEvent) = {
     println("renaming layer")
+    // TODO: Rename layers
     // dialogue for new name
     updateLayerView()
   }

@@ -60,6 +60,8 @@ object Main extends JFXApp {
         this.drawing.deleteSelected()
         this.controller.updateCanvas()
       }
+      // CTRL + H for hiding/unhiding selected layer?
+      // CTRL + S for saving?
       case _ => {
         this.drawing.config.selectedElements.headOption match {
           case Some(textBox: TextBox) => {
@@ -81,7 +83,7 @@ object Main extends JFXApp {
               this.controller.updateCanvas()
             }
           }
-          case _ =>
+          case _ => // shortcuts for tools?
         }
       }
     }
