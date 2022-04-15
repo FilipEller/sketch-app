@@ -139,12 +139,24 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     this.config.activeTool.use(this, event, localPoint)
   }
 
+  def select(element: Element): Unit = {
+    this.config = this.config.copy(selectedElements = Seq(element))
+  }
+
+  def select(elements: Seq[Element]): Unit = {
+    this.config = this.config.copy(selectedElements = elements)
+  }
+
+  def deselectAll(): Unit = {
+    this.config = this.config.copy(selectedElements = Seq())
+  }
+
   def undo() = {
     val elementOption = ActionHistory.undo()
     elementOption match {
       case Some(element: Element) => {
-        this.config = this.config.copy(selectedElements = Seq())
-        element.previousVersion.foreach( e => this.config = this.config.copy(selectedElements = Seq(e)) )
+        this.deselectAll()
+        element.previousVersion.foreach(this.select)
         this.layers.filter( _.contains(element) )
           .foreach( _.restoreElement(element) )
       }
@@ -154,17 +166,17 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  def select(point: Point2D) = {
+  def select(point: Point2D): Unit = {
     val selected = this.layers.to(LazyList)
                       .filter(!_.hidden)
                       .map(_.select(point))
                       .find(_.isDefined).flatten
-    selected.foreach( e => this.config = this.config.copy(selectedElements = Vector(e)) )
+    selected.foreach(this.select)
   }
 
   def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
     val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
-    this.config = this.config.copy(selectedElements = newElements)
+    this.select(newElements)
     this.config.activeLayer
       .updateElements(newElements)
   }
@@ -176,7 +188,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def updateSelected(newElements: Seq[Element]): Unit = {
     val toUpdate = newElements.filter(!this.contains(_))
     this.config.activeLayer.updateElements(toUpdate)
-    this.config = this.config.copy(selectedElements = newElements)
+    this.select(newElements)
     toUpdate.foreach(ActionHistory.add)
   }
 
@@ -185,7 +197,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       this.config.selectedElements.foreach( this.config.activeLayer.removeElement(_) )
       val group = ElementGroup(this.config.selectedElements)
       this.config.activeLayer.addElement(group)
-      this.config = this.config.copy(selectedElements = Seq(group))
+      this.select(group)
     }
   }
 
@@ -195,7 +207,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
         case Some(group: ElementGroup) => {
           val layer = this.layers.find(_.contains(group))
           layer.foreach(_.removeElementGroup(group))
-          this.config = this.config.copy(selectedElements = group.elements)
+          this.select(group.elements)
         }
         case _ =>
       }
@@ -210,7 +222,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
           val newGroup = group.addElements(this.selectedElements)
           layer.foreach(_.addElementGroup(newGroup))
           layer.foreach(_.removeElements(this.selectedElements))
-          this.config = this.config.copy(selectedElements = Seq(newGroup))
+          this.select(newGroup)
         }
         case _ =>
       }
@@ -317,14 +329,15 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def selectLayer(layer: Layer) = {
     if (layer != this.config.activeLayer) {
-      this.config = this.config.copy(activeLayer = layer, selectedElements = Seq())
+      this.deselectAll()
+      this.config = this.config.copy(activeLayer = layer)
     }
   }
 
   def deleteSelected(): Unit = {
     val deleted = this.config.activeLayer.deleteElements(this.config.selectedElements)
     deleted.foreach(ActionHistory.add(_))
-    this.config = this.config.copy(selectedElements = Seq())
+    this.deselectAll()
   }
 
   def removeElementsFromSelectedGroup(names: Seq[String]) = {
@@ -334,7 +347,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
          this.ungroupSelected()
        } else if (this.config.activeLayer.contains(group) && group.elements.length > 1) {
          val newGroup = this.config.activeLayer.removeElementsFromGroup(group, names)
-         this.config = this.config.copy(selectedElements = Seq(newGroup))
+         this.select(newGroup)
        }
       }
       case _ =>
