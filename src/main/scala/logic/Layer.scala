@@ -146,7 +146,13 @@ case class Layer(var name: String) {
   }
 
   def removeElementsFromGroup(group: ElementGroup, names: Seq[String]): ElementGroup = {
-    names.map(removeElementFromGroup(group, _)).last
+    val elements = names.flatMap(group.findByName(_))
+    val newGroup = group.removeElements(elements)
+    this.updateElement(newGroup)
+    this.addElements(elements)
+    ActionHistory.add(newGroup)
+    elements.foreach(ActionHistory.add)
+    newGroup
   }
 
   def findElementByName(name: String): Option[Element] = {

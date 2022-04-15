@@ -47,6 +47,10 @@ case class ElementGroup(elements: Seq[Element],
     this.copy(elements = this.elements.filter( _ != element), previousVersion = Some(this))
   }
 
+  def removeElements(elements: Seq[Element]): ElementGroup = {
+    this.copy(elements = this.elements.filter(!elements.contains(_)), previousVersion = Some(this))
+  }
+
   def removeByName(name: String): ElementGroup = {
     this.copy(elements = this.elements.filter( _.name != name), previousVersion = Some(this))
   }

@@ -14,7 +14,7 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.control.{Button, Slider}
 import scalafx.scene.input.MouseDragEvent
 import scalafx.scene.paint.Color.{Blue, White, rgb}
-import javafx.scene.control.{ColorPicker, ListView}
+import javafx.scene.control.{ColorPicker, ListView, SelectionMode}
 import scalafx.animation.AnimationTimer
 import scalafx.collections.ObservableBuffer
 import javafx.beans.value.ChangeListener
@@ -235,6 +235,7 @@ class Controller {
     this.pane.children.clear()
     this.pane.children += baseCanvas
 
+    this.groupView.getSelectionModel.setSelectionMode(SelectionMode.MULTIPLE)
     val g = baseCanvas.graphicsContext2D
     g.fill = White
     g.fillRect(0, 0, this.drawing.width, this.drawing.height)

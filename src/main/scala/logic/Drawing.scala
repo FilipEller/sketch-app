@@ -290,7 +290,9 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def removeElementsFromSelectedGroup(names: Seq[String]) = {
     this.selectedGroup match {
       case Some(group: ElementGroup) => {
-       if (this.config.activeLayer.contains(group) && group.elements.length > 1) {
+       if (names.length >= group.elements.length) {
+         this.ungroupSelected()
+       } else if (this.config.activeLayer.contains(group) && group.elements.length > 1) {
          val newGroup = this.config.activeLayer.removeElementsFromGroup(group, names)
          this.config = this.config.copy(selectedElements = Seq(newGroup))
        }
