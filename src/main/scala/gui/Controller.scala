@@ -248,8 +248,11 @@ class Controller {
     }
   }
 
-  // TODO: Rename elements in element view
-  // TODO: Rename elements in group view
+  @FXML protected def deleteSelected(event: ActionEvent): Unit = {
+    this.drawing.deleteSelected()
+    update()
+    updateCanvas()
+  }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))

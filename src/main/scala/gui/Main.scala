@@ -58,6 +58,7 @@ object Main extends JFXApp {
       }
       case KeyCode.X if event.isControlDown => {
         this.drawing.deleteSelected()
+        this.controller.update()
         this.controller.updateCanvas()
       }
       // CTRL + H for hiding/unhiding selected layer?

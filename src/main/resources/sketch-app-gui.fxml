@@ -347,14 +347,14 @@
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="112.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#ungroup" text="Ungroup">
+                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" text="Rename" onAction="#renameElement">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
                               </styleClass>
                            </Button>
                            <Region layoutX="62.0" layoutY="10.0" prefHeight="200.0" prefWidth="112.0" />
-                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#renameElement" text="Rename">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="65.0" text="Delete" HBox.hgrow="ALWAYS" onAction="#deleteSelected">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
@@ -390,7 +390,7 @@
                               </styleClass>
                            </Button>
                            <Region prefHeight="200.0" prefWidth="200.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#renameLayer" prefWidth="65.0" text="Rename" HBox.hgrow="ALWAYS">
+                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#ungroup" text="Ungroup">
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
