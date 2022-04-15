@@ -156,7 +156,12 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     elementOption match {
       case Some(element: Element) => {
         this.select(this.config.selectedElements.filter(_ != element))
-        element.previousVersion.foreach(this.select)
+        element match {
+          case group: ElementGroup if (group.previousVersion.isEmpty) => {
+            this.select(group.elements)
+          }
+          case e: Element => e.previousVersion.foreach(this.select)
+        }
         this.layers.filter( _.contains(element) )
           .foreach( _.restoreElement(element) )
       }
@@ -209,8 +214,9 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     if (this.config.selectedElements.nonEmpty) {
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
-          this.config.activeLayer.removeElementGroup(group)
+          val deleted = this.config.activeLayer.removeElementGroup(group)
           this.select(group.elements)
+          ActionHistory.add(deleted)
         }
         case _ =>
       }
