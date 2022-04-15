@@ -43,7 +43,7 @@ case class Stroke(color: Color,
           }  // does not seem to work if assigned to a variable
       )
       // rotation not implemented
-      g.fill = gradient
+      g.fill = if (this.brush.hardness == 100 && this.color.opacity == 1) this.color else gradient
       this.path.foreach(point => g.fillOval(point.x - 0.5 * this.brush.size, point.y - 0.5 * this.brush.size, this.brush.size, this.brush.size))
     }
   }
