@@ -14,7 +14,6 @@ case class TextBox(text: String,
                    origin: Point2D,
                    name: String,
                    previousVersion: Option[Element] = None,
-                   hidden: Boolean = false,
                    deleted: Boolean = false) extends Element {
 
   override def toString = s"$name ($text)"
@@ -44,7 +43,7 @@ object TextBox {
   var strokeCount = 0
 
   def apply(text: String, width: Double, height: Double, fontSize: Double, color: Color, origin: Point2D,
-                 name: String = "", previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
+                 name: String = "", previousVersion: Option[Element] = None, deleted: Boolean = false) = {
 
     val nameToUse = {
       if (name == "") {
@@ -57,7 +56,7 @@ object TextBox {
 
     // TODO: Undo not working with text boxes
 
-    new TextBox(text, width, height, fontSize, color, origin, nameToUse, previousVersion, hidden, deleted)
+    new TextBox(text, width, height, fontSize, color, origin, nameToUse, previousVersion, deleted)
   }
 
 }

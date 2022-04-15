@@ -9,7 +9,6 @@ case class ElementGroup(elements: Seq[Element],
                         color: Color,
                         name: String,
                         previousVersion: Option[Element] = None,
-                        hidden: Boolean = false,
                         deleted: Boolean = false) extends Element {
 
   // Functionality:
@@ -98,9 +97,9 @@ object ElementGroup {
     }
   }
 
-  def apply(elements: Seq[Element], color: Color, name: String = "", previousVersion: Option[Element] = None,
-            hidden: Boolean = false, deleted: Boolean = false): ElementGroup = {
-    new ElementGroup(elements, color, nameToUse(name), previousVersion, hidden, deleted)
+  def apply(elements: Seq[Element], color: Color, name: String = "",
+            previousVersion: Option[Element] = None, deleted: Boolean = false): ElementGroup = {
+    new ElementGroup(elements, color, nameToUse(name), previousVersion, deleted)
   }
   
   def apply(elements: Seq[Element]): ElementGroup = {

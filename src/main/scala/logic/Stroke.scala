@@ -13,7 +13,6 @@ case class Stroke(color: Color,
                   brush: Brush,
                   name: String,
                   previousVersion: Option[Element] = None,
-                  hidden: Boolean = false,
                   deleted: Boolean = false) extends Element {
 
   val width = this.path.map( p => p.x - this.origin.x).max + this.brush.size
@@ -59,8 +58,7 @@ object Stroke {
   var strokeCount = 0
 
   def apply(color: Color, origin: Point2D, path: Path, brush: Brush, name: String = "",
-                 previousVersion: Option[Element] = None,
-                  hidden: Boolean = false, deleted: Boolean = false) = {
+                 previousVersion: Option[Element] = None, deleted: Boolean = false) = {
     val nameToUse = {
       if (name == "") {
         strokeCount += 1
@@ -70,7 +68,7 @@ object Stroke {
       }
     }
 
-    new Stroke(color, origin, path, brush, nameToUse, previousVersion, hidden, deleted)
+    new Stroke(color, origin, path, brush, nameToUse, previousVersion, deleted)
   }
 
 }

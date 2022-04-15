@@ -12,7 +12,6 @@ abstract class Element {
   def height: Double
   def color: Color
   def previousVersion: Option[Element]  // will not be saved. History is bunk.
-  def hidden: Boolean // TODO: Remove hidden from Element
   def deleted: Boolean  // if true, element will not be saved
 
   def paint(canvas: Canvas): Unit

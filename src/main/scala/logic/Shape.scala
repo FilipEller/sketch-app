@@ -25,7 +25,6 @@ case class Shape(stype: ShapeType,
                  origin: Point2D,
                  name: String,
                  previousVersion: Option[Element] = None,
-                 hidden: Boolean = false,
                  deleted: Boolean = false) extends Element {
 
   val center = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
@@ -81,8 +80,9 @@ object Shape {
   var circleCount = 0
   var ellipseCount = 0
 
-  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double, color: Color, borderColor: Color, useBorder: Boolean, useFill: Boolean, origin: Point2D,
-            name: String = "", previousVersion: Option[Element] = None, hidden: Boolean = false, deleted: Boolean = false) = {
+  def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double,
+            color: Color,borderColor: Color, useBorder: Boolean, useFill: Boolean, origin: Point2D,
+            name: String = "", previousVersion: Option[Element] = None, deleted: Boolean = false) = {
 
     val nameToUse = {
       if (name == "") {
@@ -109,7 +109,7 @@ object Shape {
       }
     }
 
-    new Shape(stype, width, height, borderWidth, color, borderColor, useBorder, useFill, origin, nameToUse, previousVersion, hidden, deleted)
+    new Shape(stype, width, height, borderWidth, color, borderColor, useBorder, useFill, origin, nameToUse, previousVersion, deleted)
   }
 
 }
