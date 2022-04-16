@@ -22,9 +22,27 @@ case class ElementGroup(elements: Seq[Element],
   // Remove elements selected in group view from selected group (Button "Remove" in Group view)
   // Rename selected group (Button "Rename" in Group view)
 
-  val origin = new Point2D (this.elements.map(_.origin.x).min, this.elements.map(_.origin.y).min)
-  val width = this.elements.map( e => e.origin.x + e.width ).max - this.origin.x
-  val height = this.elements.map( e => e.origin.y + e.height ).max - this.origin.y
+  val origin = {
+    if (this.elements.nonEmpty) {
+      new Point2D (this.elements.map(_.origin.x).min, this.elements.map(_.origin.y).min)
+    } else {
+      this.previousVersion.map(_.origin).getOrElse(new Point2D(0, 0))
+    }
+  }
+  val width = {
+    if (this.elements.nonEmpty) {
+      this.elements.map( e => e.origin.x + e.width ).max - this.origin.x
+    } else {
+      this.previousVersion.map(_.width).getOrElse(0)
+    }
+  }
+  val height = {
+    if (this.elements.nonEmpty) {
+      this.elements.map( e => e.origin.y + e.height ).max - this.origin.y
+    } else {
+      this.previousVersion.map(_.height).getOrElse(0)
+    }
+  }
 
   override def toString = s"$name $elements"
 

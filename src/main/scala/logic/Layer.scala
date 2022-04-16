@@ -95,8 +95,10 @@ case class Layer(var name: String) {
   }
 
   def updateElement(oldElement: Element, newElement: Element): Element = {
+    val index = this.elements.indexOf(oldElement)
+    println("INDEX: " + index)
+    this.addElementAtIndex(newElement, index)
     this.removeElement(oldElement)
-    this.addElement(newElement)
     newElement
   }
 
@@ -128,12 +130,10 @@ case class Layer(var name: String) {
       case e: ElementGroup => e.copy(deleted = true, previousVersion = Some(e))
       case e: Element => e
     }
-    ActionHistory.add(deleted)
     this.updateElement(deleted)
   }
 
   def deleteElements(elements: Seq[Element]): Seq[Element] = {
-    println("deleting elements")
     elements.map(deleteElement)
   }
 
@@ -153,22 +153,26 @@ case class Layer(var name: String) {
   }
 
 
-  def removeElementsFromGroup(group: ElementGroup, names: Seq[String]): ElementGroup = {
-    val elements = group.findManyByName(names)
-    val newGroup = group.removeElements(elements)
+  def removeElementsFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
+    val index = this.elements.indexOf(group)
+    val groupWithoutTarget = group.removeElements(elements)
+    val newGroup = if (groupWithoutTarget.elements.isEmpty) groupWithoutTarget.copy(deleted = true, previousVersion = Some(group)) else groupWithoutTarget
     this.updateElement(newGroup)
-    ActionHistory.add(newGroup)
-    elements.map{
+    val newElements = elements.map{
       case e: Shape => e.copy(previousVersion = None)
       case e: Stroke => e.copy(previousVersion = None)
       case e: TextBox => e.copy(previousVersion = None)
       case e: ElementGroup => e.copy(previousVersion = None)
       case e: Element => e
-    }.foreach{e =>
-      this.addElement(e)
-      ActionHistory.add(e)
     }
-    newGroup
+    this.addElementsAtIndex(newElements.reverse, index + 1)
+    ActionHistory.add(newGroup +: newElements)
+    (newGroup, newElements)
+  }
+
+  def removeElementsFromGroupByName(group: ElementGroup, names: Seq[String]): (ElementGroup, Seq[Element]) = {
+    val elements = group.findManyByName(names)
+    removeElementsFromGroup(group, elements)
   }
 
   def findElementByName(name: String): Option[Element] = {

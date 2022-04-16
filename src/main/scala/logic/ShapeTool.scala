@@ -36,17 +36,23 @@ class ShapeTool(stype: ShapeType) extends Tool {
 
   def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
     val config = drawing.config
+    val layer = config.activeLayer
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
         this.clickPoint = eventPoint
         this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, config.primaryColor, config.secondaryColor, config.useBorder, config.useFill, this.clickPoint)
+        layer.addElement(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
-        config.activeLayer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
+        layer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
       }
       case MouseEvent.MOUSE_RELEASED => {
-        config.activeLayer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
-        ActionHistory.add(this.currentElement)
+        layer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
+        if (this.currentElement.width > 0 || this.currentElement.height > 0) {
+          ActionHistory.add(this.currentElement)
+        } else {
+          layer.removeElement(this.currentElement)
+        }
       }
       case _ => {
         println("unrecognized mouseEvent type: " + event.getEventType)
