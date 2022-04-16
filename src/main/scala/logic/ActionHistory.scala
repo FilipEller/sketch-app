@@ -4,17 +4,26 @@ import scala.collection.mutable.Stack
 
 object ActionHistory {
 
-  val actions: Stack[Element] = Stack()
+  // TODO: Make history a stack of Seq[Element]
+  val actions: Stack[Seq[Element]] = Stack()
 
   def add(element: Element): Unit = {
-    this.actions.push(element)
+    println("ADDING HISTORY:" + element + ", " + element.previousVersion)
+    this.actions.push(Seq(element))
   }
 
-  def undo(): Option[Element] = {
+  def add(elements: Seq[Element]): Unit = {
+    println("ADDING HISTORY:" + elements + ", " + elements.map(_.previousVersion))
+    this.actions.push(elements)
+  }
+
+  def undo(): Seq[Element] = {
     if (this.actions.nonEmpty) {
-      Some(this.actions.pop())
+      val result = this.actions.pop()
+      println("undoing: " + result + ", " + result.map(_.previousVersion))
+      result
     } else {
-      None
+      Seq()
     }
   }
 

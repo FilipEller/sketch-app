@@ -32,16 +32,16 @@ object TransformTool extends Tool {
       case MouseEvent.MOUSE_RELEASED => {
         if (this.isActive) {
           val movedElements = this.move(drawing, eventPoint)
-          val elementsToUse = movedElements.zip(originalElements).map( x => x._1 match {
+          val elementsWithHistory = movedElements.zip(originalElements).map( x => x._1 match {
             case e: Shape => e.copy(previousVersion = Some(x._2))
             case e: Stroke => e.copy(previousVersion = Some(x._2))
             case e: TextBox => e.copy(previousVersion = Some(x._2))
             case e: ElementGroup => e.copy(previousVersion = Some(x._2))
             case e: Element => e
           })
-          movedElements.zip(elementsToUse).foreach( x => drawing.config.activeLayer.updateElement(x._1, x._2) )
-          elementsToUse.foreach(ActionHistory.add)
-          drawing.config = drawing.config.copy(selectedElements = elementsToUse)
+          movedElements.zip(elementsWithHistory).foreach( x => drawing.config.activeLayer.updateElement(x._1, x._2) )
+          ActionHistory.add(elementsWithHistory)
+          drawing.select(elementsWithHistory)
         }
         this.isActive = false
       }

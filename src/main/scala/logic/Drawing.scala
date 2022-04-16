@@ -147,6 +147,14 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     this.config = this.config.copy(selectedElements = elements)
   }
 
+  def selectAdd(element: Element): Unit = {
+    this.config = this.config.copy(selectedElements = this.config.selectedElements :+ element)
+  }
+
+  def selectAdd(elements: Seq[Element]): Unit = {
+    this.config = this.config.copy(selectedElements = this.config.selectedElements ++ elements)
+  }
+
   def deselect(element: Element): Unit = {
     this.config = this.config.copy(selectedElements = this.config.selectedElements.filter(_ != element))
   }
@@ -160,22 +168,21 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def undo() = {
-    val elementOption = ActionHistory.undo()
-    elementOption match {
-      case Some(element: Element) => {
-        this.select(this.config.selectedElements.filter(_ != element))
-        element match {
-          case group: ElementGroup if (group.previousVersion.isEmpty) => {
-            this.select(group.elements)
-          }
-          case e: Element => e.previousVersion.foreach(this.select)
+    val elements = ActionHistory.undo()
+    if (elements.nonEmpty) {
+      this.select(this.config.selectedElements.filter(!elements.contains(_)))
+      this.deselectAll()
+      elements.foreach{
+        case group: ElementGroup if (group.previousVersion.isEmpty) => {
+          this.selectAdd(group.elements)
         }
-        this.layers.filter( _.contains(element) )
-          .foreach( _.restoreElement(element) )
+        case e: Element => {
+          e.previousVersion.foreach(this.selectAdd)
+        }
       }
-      case _ => {
-        println("history is empty")
-      }
+
+      this.layers.filter( l => elements.forall( e => l.contains(e) ) )
+        .foreach( _.restoreElements(elements) )
     }
   }
 

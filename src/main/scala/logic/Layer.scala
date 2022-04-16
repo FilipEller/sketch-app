@@ -116,6 +116,10 @@ case class Layer(var name: String) {
     }
   }
 
+  def restoreElements(elements: Seq[Element]): Unit = {
+    elements.foreach(this.restoreElement)
+  }
+
   def deleteElement(element: Element): Element = {
     val deleted = element match {
       case e: Shape => e.copy(deleted = true, previousVersion = Some(e))
