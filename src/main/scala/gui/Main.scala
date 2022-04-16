@@ -122,6 +122,18 @@ object Main extends JFXApp {
           this.controller.updateCanvas()
           this.controller.update()
         }
+        case KeyCode.B => {
+          val borderCheckBox = this.controller.borderCheckBox
+          borderCheckBox.setSelected(!borderCheckBox.isSelected)
+          this.drawing.changeUseBorder(borderCheckBox.isSelected)
+          this.controller.updateCanvas()
+        }
+        case KeyCode.F => {
+          val fillCheckBox = this.controller.fillCheckBox
+          fillCheckBox.setSelected(!fillCheckBox.isSelected)
+          this.drawing.changeUseFill(fillCheckBox.isSelected)
+          this.controller.updateCanvas()
+        }
         case _ =>
       }
     } else {
