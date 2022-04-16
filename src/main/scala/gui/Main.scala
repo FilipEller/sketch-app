@@ -81,58 +81,66 @@ object Main extends JFXApp {
 
   def handleKeyEvent(event: KeyEvent): Unit = {
     println(event.getCode)
-    event.code match {
-      case KeyCode.Z if event.isControlDown => {
-        this.drawing.undo()
-        this.controller.updateSelectedView()
-        this.controller.updateCanvas()
+    if (event.isControlDown) {
+      event.code match {
+        case KeyCode.Z => {
+          this.drawing.undo()
+          this.controller.updateSelectedView()
+          this.controller.updateCanvas()
+        }
+        case KeyCode.X => {
+          this.drawing.deleteSelected()
+          this.controller.update()
+          this.controller.updateCanvas()
+        }
+        case KeyCode.S => {
+          this.saveDrawing()
+        }
+        case KeyCode.G => {
+          this.drawing.groupSelected()
+          controller.updateCanvas()
+        }
+        case KeyCode.U => {
+          this.drawing.ungroupSelected()
+          controller.updateCanvas()
+        }
+        case KeyCode.H => {
+          this.drawing.toggleActiveLayerHidden()
+          controller.updateCanvas()
+        }
       }
-      case KeyCode.X if event.isControlDown => {
-        this.drawing.deleteSelected()
-        this.controller.update()
-        this.controller.updateCanvas()
-      }
-      case KeyCode.H if event.isControlDown => {
-        this.drawing.toggleActiveLayerHidden()
-        controller.updateCanvas()
-      }
-      case KeyCode.S if event.isControlDown => {
-        this.saveDrawing()
-      }
-      // CTRL + S for saving?
-      case _ => {
-        this.drawing.config.selectedElements.headOption match {
-          case Some(textBox: TextBox) => {
-            val layer = this.drawing.config.activeLayer
-            if (layer.contains(textBox)) {
-              val newText = {
-                event.code match {
-                  case KeyCode.BackSpace => textBox.text.dropRight(1)
-                  case KeyCode.Space => textBox.text + " "
-                  case KeyCode.Enter => textBox.text + "\n"
-                  case _ if event.isShiftDown => textBox.text + event.text.toUpperCase
-                  case _ => textBox.text + event.text
-                }
+    } else {
+      this.drawing.config.selectedElements.headOption match {
+        case Some(textBox: TextBox) => {
+          val layer = this.drawing.config.activeLayer
+          if (layer.contains(textBox)) {
+            val newText = {
+              event.code match {
+                case KeyCode.BackSpace => textBox.text.dropRight(1)
+                case KeyCode.Space => textBox.text + " "
+                case KeyCode.Enter => textBox.text + "\n"
+                case _ if event.isShiftDown => textBox.text + event.text.toUpperCase
+                case _ => textBox.text + event.text
               }
-              val newTextBox = layer.rewriteTextBox(textBox, newText)
-              this.drawing.deselect(textBox)
-              this.drawing.select(this.drawing.config.selectedElements :+ newTextBox)
-              this.controller.updateCanvas()
             }
+            val newTextBox = layer.rewriteTextBox(textBox, newText)
+            this.drawing.deselect(textBox)
+            this.drawing.select(this.drawing.config.selectedElements :+ newTextBox)
+            this.controller.updateCanvas()
           }
-          case _ => {
-            event.code match {
-              case KeyCode.V => this.drawing.changeTool(SelectionTool)
-              case KeyCode.M => this.drawing.changeTool(TransformTool)
-              case KeyCode.B => this.drawing.changeTool(BrushTool)
-              case KeyCode.L => this.drawing.changeTool(LineTool)
-              case KeyCode.R => this.drawing.changeTool(RectangleTool)
-              case KeyCode.E => this.drawing.changeTool(EllipseTool)
-              case KeyCode.S => this.drawing.changeTool(SquareTool)
-              case KeyCode.C => this.drawing.changeTool(CircleTool)
-              case KeyCode.T => this.drawing.changeTool(TextTool)
-              case _ =>
-            }
+        }
+        case _ => {
+          event.code match {
+            case KeyCode.V => this.drawing.changeTool(SelectionTool)
+            case KeyCode.M => this.drawing.changeTool(TransformTool)
+            case KeyCode.B => this.drawing.changeTool(BrushTool)
+            case KeyCode.L => this.drawing.changeTool(LineTool)
+            case KeyCode.R => this.drawing.changeTool(RectangleTool)
+            case KeyCode.E => this.drawing.changeTool(EllipseTool)
+            case KeyCode.S => this.drawing.changeTool(SquareTool)
+            case KeyCode.C => this.drawing.changeTool(CircleTool)
+            case KeyCode.T => this.drawing.changeTool(TextTool)
+            case _ =>
           }
         }
       }

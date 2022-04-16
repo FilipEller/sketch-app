@@ -329,7 +329,7 @@ class Controller {
     updateLayerView()
   }
 
-  @FXML def toggleLayerHidden(event: ActionEvent) = {
+  @FXML protected def toggleLayerHidden(event: ActionEvent) = {
     this.drawing.toggleActiveLayerHidden()
     updateCanvas()
   }
