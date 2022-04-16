@@ -5,21 +5,29 @@
 
 .control-panel {
     -fx-background-color: #454545;
-    -fx-background-radius: 7px;
-    -fx-padding: 10px;
-    -fx-border-radius: 5px;
-    -fx-border-insets: 5px;
-    -fx-background-insets: 5px;
+    -fx-background-radius: 7;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
 }
 
-.control-panel .label {
+.control-panel .label, .menu .label, .button {
     -fx-text-fill: #ddd;
     -fx-font-family: "Tahoma";
 }
 
-.button {
-    -fx-text-fill: #ddd;
+.menu-item .label {
+    -fx-text-fill: #181818;
     -fx-font-family: "Tahoma";
+}
+
+.slider .axis {
+    -fx-tick-label-fill: #ddd;
+    -fx-tick-label-font-family: "Tahoma";
+}
+
+.button, .check-box .box {
     -fx-background-color: #555;
     -fx-border-color: #333;
     -fx-background-radius: 3;
@@ -36,15 +44,6 @@
     -fx-background-color: #414141;
 }
 
-.check-box .box {
-    -fx-background-color: #555;
-    -fx-border-color: #333;
-    -fx-background-radius: 3;
-    -fx-border-radius: 3;
-    -fx-border-width: 1;
-    -fx-background-insets: 0;
-}
-
 .check-box .box:hover {
     -fx-background-color: #505050;
 }
@@ -55,7 +54,6 @@
 
 .check-box:selected .mark {
     -fx-background-color: #ddd;
-    -fx-font-family: "Tahoma";
 }
 
 #menu-bar {
@@ -66,25 +64,11 @@
     -fx-background-color: #444;
 }
 
-.menu .label {
-    -fx-text-fill: #ddd;
-    -fx-font-family: "Tahoma";
-}
-
-.menu-item .label {
-    -fx-text-fill: #181818;
-    -fx-font-family: "Tahoma";
-}
-
-.list-view {
-    -fx-background-color: #333;
-}
-
 .list-cell {
     -fx-text-fill: #ddd;
 }
 
-.list-cell:empty {
+.list-view, .list-cell:empty, .list-cell:filled:even {
      -fx-background-color: #333;
 }
 
@@ -92,15 +76,7 @@
      -fx-background-color: #353535;
 }
 
-.list-cell:filled:even {
-     -fx-background-color: #333;
-}
-
-.list-cell:filled:selected {
-     -fx-background-color: #454545;
-}
-
-.list-cell:filled:focused {
+.list-cell:filled:selected, .list-cell:filled:focused {
      -fx-background-color: #454545;
 }
 
@@ -108,11 +84,7 @@
     -fx-background-color: #292929;
 }
 
-.scroll-bar .thumb {
-    -fx-background-color: #454545;
-}
-
-.scroll-bar .increment-button .increment-arrow, .scroll-bar .decrement-button .decrement-arrow {
+.scroll-bar .thumb, .scroll-bar .increment-button .increment-arrow, .scroll-bar .decrement-button .decrement-arrow {
     -fx-background-color: #454545;
 }
 
@@ -131,10 +103,6 @@
     -fx-pref-width: 5px;
 }
 
-.slider .axis {
-    -fx-tick-label-fill: #ddd;
-}
-
 .tooltip {
-    -fx-font-size: 12px;
+    -fx-font-size: 12;
 }
