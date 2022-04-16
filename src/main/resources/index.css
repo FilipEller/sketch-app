@@ -29,11 +29,11 @@
 }
 
 .button:hover {
-  -fx-background-color: #505050;
+    -fx-background-color: #505050;
 }
 
 .button:pressed {
-  -fx-background-color: #414141;
+    -fx-background-color: #414141;
 }
 
 .check-box .box {
@@ -46,11 +46,11 @@
 }
 
 .check-box .box:hover {
-  -fx-background-color: #505050;
+    -fx-background-color: #505050;
 }
 
 .check-box .box:pressed {
-  -fx-background-color: #414141;
+    -fx-background-color: #414141;
 }
 
 .check-box:selected .mark {
@@ -78,6 +78,42 @@
 
 .list-view {
     -fx-background-color: #333;
+}
+
+.list-cell {
+    -fx-text-fill: #ddd;
+}
+
+.list-cell:empty {
+     -fx-background-color: #333;
+}
+
+.list-cell:filled:odd {
+     -fx-background-color: #353535;
+}
+
+.list-cell:filled:even {
+     -fx-background-color: #333;
+}
+
+.list-cell:filled:selected {
+     -fx-background-color: #454545;
+}
+
+.list-cell:filled:focused {
+     -fx-background-color: #454545;
+}
+
+.scroll-bar {
+    -fx-background-color: #292929;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #454545;
+}
+
+.scroll-bar .increment-button .increment-arrow, .scroll-bar .decrement-button .decrement-arrow {
+    -fx-background-color: #454545;
 }
 
 #background {
