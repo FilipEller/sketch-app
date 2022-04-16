@@ -90,6 +90,16 @@
     -fx-background-color: #454545;
 }
 
+.scroll-bar .increment-button:hover,
+.scroll-bar .decrement-button:hover {
+    -fx-background-color: #454545;
+}
+
+.scroll-bar .increment-button:pressed,
+.scroll-bar .decrement-button:pressed {
+    -fx-background-color: #404040;
+}
+
 #background {
     -fx-background-color: #181818;
 }
