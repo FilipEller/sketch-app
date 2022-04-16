@@ -151,6 +151,10 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     this.config = this.config.copy(selectedElements = this.config.selectedElements.filter(_ != element))
   }
 
+  def selectAll(): Unit = {
+    this.config = this.config.copy(selectedElements = this.config.activeLayer.elements.toSeq)
+  }
+
   def deselectAll(): Unit = {
     this.config = this.config.copy(selectedElements = Seq())
   }

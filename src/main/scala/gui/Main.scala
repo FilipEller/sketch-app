@@ -96,6 +96,14 @@ object Main extends JFXApp {
         case KeyCode.S => {
           this.saveDrawing()
         }
+        case KeyCode.A => {
+          this.drawing.selectAll()
+          controller.updateCanvas()
+        }
+        case KeyCode.D => {
+          this.drawing.deselectAll()
+          controller.updateCanvas()
+        }
         case KeyCode.G => {
           this.drawing.groupSelected()
           controller.updateCanvas()
@@ -108,6 +116,7 @@ object Main extends JFXApp {
           this.drawing.toggleActiveLayerHidden()
           controller.updateCanvas()
         }
+        case _ =>
       }
     } else {
       this.drawing.config.selectedElements.headOption match {
