@@ -12,6 +12,8 @@ import scalafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints, StackPane}
+import scalafx.stage.FileChooser
+import scalafx.stage.FileChooser.ExtensionFilter
 import scalafxml.core.FXMLView
 // import scalafx.scene.layout.Pane
 import scalafx.scene.layout.GridPane
@@ -46,6 +48,37 @@ object Main extends JFXApp {
   controller.drawing = drawing
   controller.initController()
 
+  def newDrawing(): Unit = {
+    this.drawing = new Drawing(1000, 600)
+    controller.initController()
+    controller.update()
+  }
+
+  def saveDrawing(): Unit = {
+    val fileChooser = new FileChooser {
+      title = "Save Drawing"
+    }
+    fileChooser.getExtensionFilters.addOne(new ExtensionFilter("JSON", "*.json"))
+
+    val file = fileChooser.showSaveDialog(stage)
+    if (file != null) {
+      FileManager.save(drawing, file)
+    }
+  }
+
+  def loadDrawing(): Unit = {
+    val fileChooser = new FileChooser {
+      title = "Load Drawing"
+    }
+
+    val file = fileChooser.showOpenDialog(stage)
+    if (file != null) {
+      this.drawing = FileManager.load(file)
+      controller.initController()
+      controller.update()
+    }
+  }
+
   def handleKeyEvent(event: KeyEvent): Unit = {
     println(event.getCode)
     event.code match {
@@ -59,7 +92,13 @@ object Main extends JFXApp {
         this.controller.update()
         this.controller.updateCanvas()
       }
-      // CTRL + H for hiding/unhiding selected layer?
+      case KeyCode.H if event.isControlDown => {
+        this.drawing.toggleActiveLayerHidden()
+        controller.updateCanvas()
+      }
+      case KeyCode.S if event.isControlDown => {
+        this.saveDrawing()
+      }
       // CTRL + S for saving?
       case _ => {
         this.drawing.config.selectedElements.headOption match {
@@ -81,7 +120,20 @@ object Main extends JFXApp {
               this.controller.updateCanvas()
             }
           }
-          case _ => // shortcuts for tools?
+          case _ => {
+            event.code match {
+              case KeyCode.V => this.drawing.changeTool(SelectionTool)
+              case KeyCode.M => this.drawing.changeTool(TransformTool)
+              case KeyCode.B => this.drawing.changeTool(BrushTool)
+              case KeyCode.L => this.drawing.changeTool(LineTool)
+              case KeyCode.R => this.drawing.changeTool(RectangleTool)
+              case KeyCode.E => this.drawing.changeTool(EllipseTool)
+              case KeyCode.S => this.drawing.changeTool(SquareTool)
+              case KeyCode.C => this.drawing.changeTool(CircleTool)
+              case KeyCode.T => this.drawing.changeTool(TextTool)
+              case _ =>
+            }
+          }
         }
       }
     }

@@ -329,39 +329,20 @@ class Controller {
     updateLayerView()
   }
 
-  @FXML protected def toggleLayerHidden(event: ActionEvent) = {
+  @FXML def toggleLayerHidden(event: ActionEvent) = {
     this.drawing.toggleActiveLayerHidden()
     updateCanvas()
   }
 
   @FXML protected def newDrawing(event: ActionEvent): Unit = {
-    Main.drawing = new Drawing(1000, 600)
-    initController()
-    update()
+    Main.newDrawing()
   }
 
   @FXML protected def saveDrawing(event: ActionEvent): Unit = {
-    val fileChooser = new FileChooser {
-      title = "Save Drawing"
-    }
-    fileChooser.getExtensionFilters.addOne(new ExtensionFilter("JSON", "*.json"))
-
-    val file = fileChooser.showSaveDialog(Main.stage)
-    if (file != null) {
-      FileManager.save(drawing, file)
-    }
+    Main.saveDrawing()
   }
 
   @FXML protected def loadDrawing(event: ActionEvent): Unit = {
-    val fileChooser = new FileChooser {
-      title = "Load Drawing"
-    }
-
-    val file = fileChooser.showOpenDialog(Main.stage)
-    if (file != null) {
-      Main.drawing = FileManager.load(file)
-      initController()
-      update()
-    }
+    Main.loadDrawing()
   }
 }
