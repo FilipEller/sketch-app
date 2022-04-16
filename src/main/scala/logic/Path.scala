@@ -42,17 +42,18 @@ object Path {
 
     while (!finished) {
       // println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
-      path = path :+ new Point2D(x, y)
       val e2 = 2 * error
       if (e2 >= Dy) {
         finished = (math.ceil(x) == math.ceil(x1) || finished)
         error = error + Dy
         x = x + sx
+        path = path :+ new Point2D(x, y)
       }
       if (e2 <= Dx) {
         finished = (math.ceil(y) == math.ceil(y1) || finished)
         error = error + Dx
         y = y + sy
+        path = path :+ new Point2D(x, y)
       }
       finished = ((math.ceil(x) == math.ceil(x1) && math.ceil(y) == math.ceil(y1)) || finished)
     }
