@@ -84,7 +84,9 @@
     -fx-background-color: #292929;
 }
 
-.scroll-bar .thumb, .scroll-bar .increment-button .increment-arrow, .scroll-bar .decrement-button .decrement-arrow {
+.scroll-bar .thumb,
+.scroll-bar .increment-button .increment-arrow,
+.scroll-bar .decrement-button .decrement-arrow {
     -fx-background-color: #454545;
 }
 
