@@ -45,13 +45,13 @@ object Main extends JFXApp {
   println("setting up drawing")
   var drawing = new Drawing(1000, 600)
   val layer = drawing.layers.head
-  controller.drawing = drawing
-  controller.initController()
+  this.controller.drawing = drawing
+  this.controller.initController()
 
   def newDrawing(): Unit = {
     this.drawing = new Drawing(1000, 600)
-    controller.initController()
-    controller.update()
+    this.controller.initController()
+    this.controller.update()
   }
 
   def saveDrawing(): Unit = {
@@ -74,8 +74,8 @@ object Main extends JFXApp {
     val file = fileChooser.showOpenDialog(stage)
     if (file != null) {
       this.drawing = FileManager.load(file)
-      controller.initController()
-      controller.update()
+      this.controller.initController()
+      this.controller.update()
     }
   }
 
@@ -87,6 +87,7 @@ object Main extends JFXApp {
           this.drawing.undo()
           this.controller.updateSelectedView()
           this.controller.updateCanvas()
+          this.controller.update()
         }
         case KeyCode.X => {
           this.drawing.deleteSelected()
@@ -98,23 +99,28 @@ object Main extends JFXApp {
         }
         case KeyCode.A => {
           this.drawing.selectAll()
-          controller.updateCanvas()
+          this.controller.updateCanvas()
+          this.controller.update()
         }
         case KeyCode.D => {
           this.drawing.deselectAll()
-          controller.updateCanvas()
+          this.controller.updateCanvas()
+          this.controller.update()
         }
         case KeyCode.G => {
           this.drawing.groupSelected()
-          controller.updateCanvas()
+          this.controller.updateCanvas()
+          this.controller.update()
         }
         case KeyCode.U => {
           this.drawing.ungroupSelected()
-          controller.updateCanvas()
+          this.controller.updateCanvas()
+          this.controller.update()
         }
         case KeyCode.H => {
           this.drawing.toggleActiveLayerHidden()
-          controller.updateCanvas()
+          this.controller.updateCanvas()
+          this.controller.update()
         }
         case _ =>
       }

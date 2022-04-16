@@ -345,4 +345,6 @@ class Controller {
   @FXML protected def loadDrawing(event: ActionEvent): Unit = {
     Main.loadDrawing()
   }
+
+  // TODO: Change use fill of selected element
 }

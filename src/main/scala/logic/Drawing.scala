@@ -358,20 +358,24 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def removeElementsFromSelectedGroup(names: Seq[String]) = {
+    val layer = this.config.activeLayer
     this.selectedGroup match {
       case Some(group: ElementGroup) => {
-       if (names.length >= group.elements.length) {
-         this.ungroupSelected()
-       } else if (this.config.activeLayer.contains(group) && group.elements.length > 1) {
-         val newGroup = this.config.activeLayer.removeElementsFromGroup(group, names)
-         this.select(newGroup)
-       }
+        if (names.length >= group.elements.length) {
+          this.ungroupSelected()
+        } else if (layer.contains(group) && group.elements.length > 1) {
+          val newGroup =  layer.removeElementsFromGroup(group, names)
+          this.select(newGroup)
+        }
       }
       case _ =>
     }
   }
 
+  // TODO: Undo not working with adding elements to group.
+
   def toggleActiveLayerHidden() = {
+    this.deselectAll()
     this.config.activeLayer.hidden = !this.config.activeLayer.hidden
   }
 

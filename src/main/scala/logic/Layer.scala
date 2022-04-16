@@ -72,6 +72,7 @@ case class Layer(var name: String) {
     this.updateElement(newGroup)
   }
 
+  /*
   def removeFromGroup(element: Element, group: ElementGroup): Unit = {
     if (this.contains(element) && this.contains(group)) {
       this.elements += element
@@ -81,6 +82,7 @@ case class Layer(var name: String) {
       throw new Exception("group or element does not belong in this layer")
     }
   }
+   */
 
   def updateElement(element: Element): Element = {
     val index = element.previousVersion
@@ -146,13 +148,22 @@ case class Layer(var name: String) {
     }
   }
 
+
   def removeElementsFromGroup(group: ElementGroup, names: Seq[String]): ElementGroup = {
-    val elements = names.flatMap(group.findByName(_))
+    val elements = group.findManyByName(names)
     val newGroup = group.removeElements(elements)
     this.updateElement(newGroup)
-    this.addElements(elements)
     ActionHistory.add(newGroup)
-    elements.foreach(ActionHistory.add)
+    elements.map{
+      case e: Shape => e.copy(previousVersion = None)
+      case e: Stroke => e.copy(previousVersion = None)
+      case e: TextBox => e.copy(previousVersion = None)
+      case e: ElementGroup => e.copy(previousVersion = None)
+      case e: Element => e
+    }.foreach{e =>
+      this.addElement(e)
+      ActionHistory.add(e)
+    }
     newGroup
   }
 
