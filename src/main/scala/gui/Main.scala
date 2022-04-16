@@ -46,8 +46,6 @@ object Main extends JFXApp {
   controller.drawing = drawing
   controller.initController()
 
-  // this is a bit funny place for this
-  // considering other event handler are in DrawingController
   def handleKeyEvent(event: KeyEvent): Unit = {
     println(event.getCode)
     event.code match {
@@ -68,7 +66,6 @@ object Main extends JFXApp {
           case Some(textBox: TextBox) => {
             val layer = this.drawing.config.activeLayer
             if (layer.contains(textBox)) {
-              layer.removeElement(textBox)
               val newText = {
                 event.code match {
                   case KeyCode.BackSpace => textBox.text.dropRight(1)
@@ -78,9 +75,9 @@ object Main extends JFXApp {
                   case _ => textBox.text + event.text
                 }
               }
-              val element = textBox.copy(text = newText)
-              layer.addElement(element)
-              this.drawing.config = this.drawing.config.copy(selectedElements = this.drawing.config.selectedElements.filter( el => el != textBox) :+ element)
+              val newTextBox = layer.rewriteTextBox(textBox, newText)
+              this.drawing.deselect(textBox)
+              this.drawing.select(this.drawing.config.selectedElements :+ newTextBox)
               this.controller.updateCanvas()
             }
           }
@@ -90,8 +87,6 @@ object Main extends JFXApp {
     }
   }
 
-  scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler[KeyEvent] {
-    def handle(event: KeyEvent): Unit = handleKeyEvent(event)
-  })
+  scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => handleKeyEvent(event))
 
 }

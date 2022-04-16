@@ -30,6 +30,9 @@ case class TextBox(text: String,
     }
   }
 
+  def rewrite(newText: String): TextBox = {
+    this.copy(text = newText, previousVersion = Some(this))
+  }
 
   def collidesWith(point: Point2D): Boolean =
     (point.x >= this.origin.x
@@ -48,13 +51,11 @@ object TextBox {
     val nameToUse = {
       if (name == "") {
         strokeCount += 1
-        s"Stroke $strokeCount"
+        s"Text Box $strokeCount"
       } else {
         name
       }
     }
-
-    // TODO: Undo not working with text boxes
 
     new TextBox(text, width, height, fontSize, color, origin, nameToUse, previousVersion, deleted)
   }

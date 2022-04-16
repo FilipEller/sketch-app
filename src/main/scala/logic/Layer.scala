@@ -176,6 +176,16 @@ case class Layer(var name: String) {
     this.updateElement(newElement)
   }
 
+  def rewriteTextBox(textBox: TextBox, newText: String): Element = {
+    if (this.contains(textBox) && textBox.text != newText) {
+      val newTextBox = textBox.rewrite(newText)
+      ActionHistory.add(newTextBox)
+      this.updateElement(newTextBox)
+    } else {
+      textBox
+    }
+  }
+
   def select(point: Point2D): Option[Element] =
     this.elements.reverse.to(LazyList)
       .filter(!_.deleted)
