@@ -4,7 +4,6 @@ import scala.collection.mutable.Stack
 
 object ActionHistory {
 
-  // TODO: Make history a stack of Seq[Element]
   val actions: Stack[Seq[Element]] = Stack()
 
   def add(element: Element): Unit = {

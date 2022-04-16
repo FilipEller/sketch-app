@@ -215,9 +215,11 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def groupSelected(): Unit = {
     val selected = this.config.selectedElements
     if (selected.nonEmpty) {
-      val index = this.config.activeLayer.elements.indexOf(selected.last) - (selected.length - 1)
-      selected.foreach( this.config.activeLayer.removeElement(_) )
-      val group = ElementGroup(selected)
+      val layer = this.config.activeLayer
+      val index = layer.elements.indexOf(selected.last) - (selected.length - 1)
+      val selectedSorted = selected.sortBy(layer.elements.indexOf(_))
+      selected.foreach(layer.removeElement)
+      val group = ElementGroup(selectedSorted)
       this.config.activeLayer.addElementAtIndex(group, index)
       this.select(group)
       ActionHistory.add(group)
@@ -377,8 +379,6 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       case _ =>
     }
   }
-
-  // TODO: Undo not working with adding elements to group.
 
   def toggleActiveLayerHidden() = {
     this.deselectAll()

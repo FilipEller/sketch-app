@@ -125,5 +125,4 @@ object ElementGroup {
     ElementGroup(elements, color)
   }
 
-  // TODO: Undo not working with grouping
 }
