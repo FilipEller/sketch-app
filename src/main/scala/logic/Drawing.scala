@@ -344,12 +344,41 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     this.config = this.config.copy(activeTool = tool)
   }
 
+  def updateUseBorderOrFill(elements: Seq[Element], newValue: Boolean, changeUseBorder: Boolean): Seq[Element] = {
+    elements.map{
+      case e: Shape => {
+        if (changeUseBorder)
+          e.copy(useBorder = newValue, previousVersion = Some(e))
+        else
+          e.copy(useFill = newValue, previousVersion = Some(e))
+      }
+      case group: ElementGroup => {
+        val updated = updateUseBorderOrFill(group.elements, newValue, changeUseBorder)
+        if (updated != group.elements)
+          group.copy(elements = updated, previousVersion = Some(group))
+        else
+          group
+      }
+      case e: Element => e
+    }
+  }
+
   def changeUseBorder(newValue: Boolean) = {
-    this.config = this.config.copy(useBorder = newValue)
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = updateUseBorderOrFill(this.config.selectedElements, newValue, true)
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(useBorder = newValue)
+    }
   }
 
   def changeUseFill(newValue: Boolean) = {
-    this.config = this.config.copy(useFill = newValue)
+    if (this.config.selectedElements.nonEmpty) {
+      val newElements = updateUseBorderOrFill(this.config.selectedElements, newValue, false)
+      this.updateSelected(newElements)
+    } else {
+      this.config = this.config.copy(useFill = newValue)
+    }
   }
 
   def selectLayer(layer: Layer) = {

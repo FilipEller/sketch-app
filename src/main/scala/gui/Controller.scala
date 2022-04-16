@@ -88,10 +88,12 @@ class Controller {
 
   @FXML protected def changeUseBorder(event: ActionEvent): Unit = {
     this.drawing.changeUseBorder(borderCheckBox.isSelected)
+    updateCanvas()
   }
 
   @FXML protected def changeUseFill(event: ActionEvent): Unit = {
     this.drawing.changeUseFill(fillCheckBox.isSelected)
+    updateCanvas()
   }
 
   @FXML protected def changeBrushSize(event: javafx.scene.input.MouseEvent): Unit = {
@@ -142,8 +144,11 @@ class Controller {
     }
   }
 
-  def updateSelectedProperties(): Unit = {
-    drawing.config.selectedElements.headOption match {
+  def updateSelectedPropertiesByElement(elementOption: Option[Element]): Unit = {
+    elementOption match {
+      case Some(group: ElementGroup) => {
+        this.updateSelectedPropertiesByElement(group.elements.headOption)
+      }
       case Some(e: Element) => {
         borderCheckBox.setSelected(e match {
           case shape: Shape => shape.useBorder
@@ -188,6 +193,12 @@ class Controller {
         secondaryColorPicker.setValue(drawing.config.secondaryColor)
       }
     }
+  }
+
+  def updateSelectedProperties(): Unit = {
+    this.updateSelectedPropertiesByElement(
+      drawing.config.selectedElements.headOption
+    )
   }
 
   def update(): Unit = {
