@@ -29,15 +29,15 @@ import scalafx.geometry.Insets
 object Main extends JFXApp {
 
   println("loading FXML")
-  val loader = new FXMLLoader(getClass.getResource("/sketch-app-gui.fxml"))
+  val loader = new FXMLLoader(getClass.getResource("/main.fxml"))
   val root: AnchorPane = loader.load()
   val controller = loader.getController[Controller]
 
   println("setting up stage")
   stage = new JFXApp.PrimaryStage {
     title.value = "Sketch App"
-    width = 1920
-    height = 1080
+    width = 1440
+    height = 900
   }
   val scene = new Scene(root)
   stage.scene = scene

@@ -14,7 +14,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   var config =                        // Default settings
     new Configurations(layers.head,   // active layer
-      RectangleTool,                  // active tool
+      BrushTool,                      // active tool
       rgb(0, 0, 0),                   // primary color
       rgb(255, 255, 255),             // secondary color
       true,                           // use border

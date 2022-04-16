@@ -4,7 +4,7 @@
 }
 
 .control-panel {
-    -fx-background-color: #555;
+    -fx-background-color: #454545;
     -fx-background-radius: 7px;
     -fx-padding: 10px;
     -fx-border-radius: 5px;
@@ -13,32 +13,67 @@
 }
 
 .control-panel .label {
-    -fx-text-fill: #fff;
+    -fx-text-fill: #ddd;
+    -fx-font-family: "Tahoma";
 }
 
 .button {
-    -fx-text-fill: #fff;
-    -fx-background-color: #666;
+    -fx-text-fill: #ddd;
+    -fx-font-family: "Tahoma";
+    -fx-background-color: #555;
+    -fx-border-color: #333;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-border-width: 1;
+    -fx-background-insets: 0;
 }
 
 .button:hover {
-  -fx-background-color: #606060;
-}
-
-.button:pressed {
   -fx-background-color: #505050;
 }
 
-#menu-bar {
+.button:pressed {
+  -fx-background-color: #414141;
+}
+
+.check-box .box {
     -fx-background-color: #555;
+    -fx-border-color: #333;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-border-width: 1;
+    -fx-background-insets: 0;
+}
+
+.check-box .box:hover {
+  -fx-background-color: #505050;
+}
+
+.check-box .box:pressed {
+  -fx-background-color: #414141;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #ddd;
+    -fx-font-family: "Tahoma";
+}
+
+#menu-bar {
+    -fx-background-color: #454545;
+}
+
+.menu:hover {
+    -fx-background-color: #444;
 }
 
 .menu .label {
     -fx-text-fill: #ddd;
+    -fx-font-family: "Tahoma";
 }
 
 .menu-item .label {
-    -fx-text-fill: #000;
+    -fx-text-fill: #181818;
+    -fx-font-family: "Tahoma";
 }
 
 .list-view {
@@ -49,12 +84,19 @@
     -fx-background-color: #181818;
 }
 
-.slider {
-    -fx-control-inner-background: #555;
+.slider .track {
+    -fx-control-inner-background: #414141;
+    -fx-background: #373737;
+}
+
+.slider .thumb {
+    -fx-background-color: #777;
+    -fx-border-color: #333;
+    -fx-pref-width: 5px;
 }
 
 .slider .axis {
-    -fx-tick-label-fill: #fff;
+    -fx-tick-label-fill: #ddd;
 }
 
 .tooltip {
