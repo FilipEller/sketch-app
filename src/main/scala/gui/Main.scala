@@ -79,86 +79,102 @@ object Main extends JFXApp {
     }
   }
 
+  def undo(): Unit = {
+    this.drawing.undo()
+    this.controller.updateSelectedView()
+    this.controller.updateCanvas()
+    this.controller.update()
+  }
+
+  def deleteSelected(): Unit = {
+    this.drawing.deleteSelected()
+    this.controller.update()
+    this.controller.updateCanvas()
+  }
+
+  def selectAll(): Unit = {
+    this.drawing.selectAll()
+    this.controller.updateCanvas()
+    this.controller.update()
+  }
+
+  def deselectAll(): Unit = {
+    this.drawing.deselectAll()
+    this.controller.updateCanvas()
+    this.controller.update()
+  }
+
+  def groupSelected(): Unit = {
+    this.drawing.groupSelected()
+    this.controller.updateCanvas()
+    this.controller.update()
+  }
+
+  def ungroupSelected(): Unit = {
+    this.drawing.ungroupSelected()
+    this.controller.updateCanvas()
+    this.controller.update()
+  }
+
+  def toggleLayerVisibility(): Unit = {
+    this.drawing.toggleActiveLayerHidden()
+    this.controller.updateCanvas()
+    this.controller.update()
+  }
+
+  def toggleBorderCheckBox(): Unit = {
+    val borderCheckBox = this.controller.borderCheckBox
+    borderCheckBox.setSelected(!borderCheckBox.isSelected)
+    this.drawing.changeUseBorder(borderCheckBox.isSelected)
+    this.controller.updateCanvas()
+  }
+
+  def toggleFillCheckBox(): Unit = {
+    val fillCheckBox = this.controller.fillCheckBox
+    fillCheckBox.setSelected(!fillCheckBox.isSelected)
+    this.drawing.changeUseFill(fillCheckBox.isSelected)
+    this.controller.updateCanvas()
+  }
+
+  def updateTextBox(textBox: TextBox, event: KeyEvent) = {
+    val layer = this.drawing.config.activeLayer
+    if (layer.contains(textBox)) {
+      val newText = {
+        event.code match {
+          case KeyCode.BackSpace => textBox.text.dropRight(1)
+          case KeyCode.Space => textBox.text + " "
+          case KeyCode.Enter => textBox.text + "\n"
+          case _ if event.isShiftDown => textBox.text + event.text.toUpperCase
+          case _ => textBox.text + event.text
+        }
+      }
+      val newTextBox = layer.rewriteTextBox(textBox, newText)
+      this.drawing.deselect(textBox)
+      this.drawing.select(this.drawing.config.selectedElements :+ newTextBox)
+      this.controller.updateCanvas()
+    }
+  }
+
   def handleKeyEvent(event: KeyEvent): Unit = {
     println(event.getCode)
     if (event.isControlDown) {
       event.code match {
-        case KeyCode.Z => {
-          this.drawing.undo()
-          this.controller.updateSelectedView()
-          this.controller.updateCanvas()
-          this.controller.update()
-        }
-        case KeyCode.X => {
-          this.drawing.deleteSelected()
-          this.controller.update()
-          this.controller.updateCanvas()
-        }
-        case KeyCode.S => {
-          this.saveDrawing()
-        }
-        case KeyCode.O => {
-          this.loadDrawing()
-        }
-        case KeyCode.A => {
-          this.drawing.selectAllVisible()
-          this.controller.updateCanvas()
-          this.controller.update()
-        }
-        case KeyCode.D => {
-          this.drawing.deselectAll()
-          this.controller.updateCanvas()
-          this.controller.update()
-        }
-        case KeyCode.G => {
-          this.drawing.groupSelected()
-          this.controller.updateCanvas()
-          this.controller.update()
-        }
-        case KeyCode.U => {
-          this.drawing.ungroupSelected()
-          this.controller.updateCanvas()
-          this.controller.update()
-        }
-        case KeyCode.H => {
-          this.drawing.toggleActiveLayerHidden()
-          this.controller.updateCanvas()
-          this.controller.update()
-        }
-        case KeyCode.B => {
-          val borderCheckBox = this.controller.borderCheckBox
-          borderCheckBox.setSelected(!borderCheckBox.isSelected)
-          this.drawing.changeUseBorder(borderCheckBox.isSelected)
-          this.controller.updateCanvas()
-        }
-        case KeyCode.F => {
-          val fillCheckBox = this.controller.fillCheckBox
-          fillCheckBox.setSelected(!fillCheckBox.isSelected)
-          this.drawing.changeUseFill(fillCheckBox.isSelected)
-          this.controller.updateCanvas()
-        }
+        case KeyCode.Z => this.undo()
+        case KeyCode.X => this.deleteSelected()
+        case KeyCode.S => this.saveDrawing()
+        case KeyCode.O => this.loadDrawing()
+        case KeyCode.A => this.selectAll()
+        case KeyCode.D => this.deselectAll()
+        case KeyCode.G => this.groupSelected()
+        case KeyCode.U => this.ungroupSelected()
+        case KeyCode.H => this.toggleLayerVisibility()
+        case KeyCode.B => this.toggleBorderCheckBox()
+        case KeyCode.F => this.toggleFillCheckBox()
         case _ =>
       }
     } else {
       this.drawing.config.selectedElements.headOption match {
-        case Some(textBox: TextBox) => {
-          val layer = this.drawing.config.activeLayer
-          if (layer.contains(textBox)) {
-            val newText = {
-              event.code match {
-                case KeyCode.BackSpace => textBox.text.dropRight(1)
-                case KeyCode.Space => textBox.text + " "
-                case KeyCode.Enter => textBox.text + "\n"
-                case _ if event.isShiftDown => textBox.text + event.text.toUpperCase
-                case _ => textBox.text + event.text
-              }
-            }
-            val newTextBox = layer.rewriteTextBox(textBox, newText)
-            this.drawing.deselect(textBox)
-            this.drawing.select(this.drawing.config.selectedElements :+ newTextBox)
-            this.controller.updateCanvas()
-          }
-        }
+        case Some(textBox: TextBox) => this.updateTextBox(textBox, event)
         case _ => {
           event.code match {
             case KeyCode.V => this.drawing.changeTool(SelectionTool)
