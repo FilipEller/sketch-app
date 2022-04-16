@@ -24,7 +24,11 @@ case class TextBox(text: String,
       g.fill = this.color
       g.setLineWidth(1)
       g.font = new Font("Poppins", fontSize)
-      g.fillText(this.text, origin.x + 1, origin.y + fontSize, this.width)
+      if (this.text.nonEmpty) {
+        g.fillText(this.text, origin.x + 1, origin.y + fontSize, this.width)
+      } else {
+        g.fillText("Lorem Ipsum", origin.x + 1, origin.y + fontSize, this.width)
+      }
       // g.fill = rgb(0, 0, 0)
       // g.strokeRect(origin.x, origin.y, this.width, this.height)
     }
