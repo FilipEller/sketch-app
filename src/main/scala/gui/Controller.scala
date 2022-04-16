@@ -267,6 +267,9 @@ class Controller {
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     if (!this.drawing.config.activeLayer.hidden) {
+      if (!Seq(SelectionTool, TransformTool, TextTool).contains(this.drawing.config.activeTool)) {
+        this.drawing.deselectAll()
+      }
       val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
       this.drawing.useTool(event, localPoint)
       update()

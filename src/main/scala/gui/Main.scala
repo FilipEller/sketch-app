@@ -97,8 +97,11 @@ object Main extends JFXApp {
         case KeyCode.S => {
           this.saveDrawing()
         }
+        case KeyCode.O => {
+          this.loadDrawing()
+        }
         case KeyCode.A => {
-          this.drawing.selectAll()
+          this.drawing.selectAllVisible()
           this.controller.updateCanvas()
           this.controller.update()
         }
