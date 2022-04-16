@@ -23,16 +23,18 @@ sealed abstract class StrokeTool extends Tool {
 
   def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
     val config = drawing.config
+    val layer = config.activeLayer
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
         this.clickPoint = eventPoint
         this.currentElement = Stroke(config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
+        layer.addElement(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
-        config.activeLayer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        layer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
       }
       case MouseEvent.MOUSE_RELEASED => {
-        config.activeLayer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        layer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
         ActionHistory.add(this.currentElement)
       }
       case _ => {
