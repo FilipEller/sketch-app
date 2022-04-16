@@ -35,12 +35,10 @@
 
 .menu .label {
     -fx-text-fill: #ddd;
-    -fx-margin: 5px;
 }
 
 .menu-item .label {
     -fx-text-fill: #000;
-    -fx-margin: 5px;
 }
 
 .list-view {
@@ -51,6 +49,14 @@
     -fx-background-color: #181818;
 }
 
+.slider {
+    -fx-control-inner-background: #555;
+}
+
 .slider .axis {
     -fx-tick-label-fill: #fff;
+}
+
+.tooltip {
+    -fx-font-size: 12px;
 }

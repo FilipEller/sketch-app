@@ -260,9 +260,7 @@ class Controller {
   }
 
   @FXML protected def deleteSelected(event: ActionEvent): Unit = {
-    this.drawing.deleteSelected()
-    update()
-    updateCanvas()
+    Main.deleteSelected()
   }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
@@ -360,5 +358,16 @@ class Controller {
     Main.loadDrawing()
   }
 
-  // TODO: Change use fill of selected element
+  @FXML protected def undo(event: ActionEvent): Unit = {
+    Main.undo()
+  }
+
+  @FXML protected def selectAll(event: ActionEvent): Unit = {
+    Main.selectAll()
+  }
+
+  @FXML protected def deselectAll(event: ActionEvent): Unit = {
+    Main.deselectAll()
+  }
+
 }

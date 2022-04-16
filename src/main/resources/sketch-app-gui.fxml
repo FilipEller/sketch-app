@@ -11,6 +11,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -29,15 +30,15 @@
     <MenuBar id="menu-bar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" style="-fx-color: #ffffff;" styleClass="menu" text="File">
             <MenuItem id="new" mnemonicParsing="false" onAction="#newDrawing" styleClass="menu-item" text="New" />
-            <MenuItem id="saveas" mnemonicParsing="false" onAction="#saveDrawing" styleClass="menu-item" text="Save..." />
-            <MenuItem id="open" mnemonicParsing="false" onAction="#loadDrawing" styleClass="menu-item" text="Open..." />
+            <MenuItem id="saveas" mnemonicParsing="false" onAction="#saveDrawing" styleClass="menu-item" text="Save... (CTRL+S)" />
+            <MenuItem id="open" mnemonicParsing="false" onAction="#loadDrawing" styleClass="menu-item" text="Open... (CTRL+O)" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Undo (Ctrl+Z)" />
-         <MenuItem mnemonicParsing="false" text="Delete (Backspace)" />
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" onAction="#selectAll" text="Select all (CTRL+A)" />
+            <MenuItem mnemonicParsing="false" onAction="#deselectAll" text="Deselect all (CTRL+D)" />
+            <MenuItem mnemonicParsing="false" onAction="#deleteSelected" text="Delete (CTRL+X)" />
+            <MenuItem mnemonicParsing="false" onAction="#deselectAll" text="Show/Hide layer (CTRL+H)" />
+            <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo (Ctrl+Z)" />
         </Menu>
     </MenuBar>
     <BorderPane prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
@@ -54,6 +55,9 @@
                     <Insets />
                 </BorderPane.margin>
                 <Button id="Select" layoutX="15.0" layoutY="16.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Selection Tool (V)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -73,6 +77,9 @@
                </graphic>
                 </Button>
                 <Button id="Transform" layoutX="15.0" layoutY="11.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Move Tool (M)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -92,6 +99,9 @@
                </graphic>
                 </Button>
                 <Button id="Brush" mnemonicParsing="true" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Brush Tool (B)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -108,6 +118,9 @@
                </graphic>
                 </Button>
                 <Button id="Line" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Line Tool (L)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -124,6 +137,9 @@
                </graphic>
                 </Button>
                 <Button id="Rectangle" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Rectangle Tool (R)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -143,6 +159,9 @@
                </graphic>
                 </Button>
                 <Button id="Ellipse" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Ellipse Tool (E)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -162,6 +181,9 @@
                </graphic>
                 </Button>
                 <Button id="Square" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Square Tool (S)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -181,6 +203,9 @@
                </graphic>
                 </Button>
                 <Button id="Circle" layoutX="15.0" layoutY="181.0" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Circle Tool (C)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -197,6 +222,9 @@
                </graphic>
                 </Button>
                 <Button id="Text" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                    <tooltip>
+                        <Tooltip text="Text Tool (T)" />
+                    </tooltip>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -311,7 +339,11 @@
                            <children>
                               <Label text="Border">
                                  <graphic>
-                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" onAction="#changeUseBorder" selected="true" />
+                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" onAction="#changeUseBorder" selected="true">
+                                       <tooltip>
+                                           <Tooltip text="CTRL+B" />
+                                       </tooltip>
+                                    </CheckBox>
                                  </graphic>
                               </Label>
                            </children>
@@ -320,7 +352,11 @@
                            <children>
                               <Label text="Fill">
                                  <graphic>
-                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" onAction="#changeUseFill" />
+                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" onAction="#changeUseFill">
+                                        <tooltip>
+                                           <Tooltip text="CTRL+F" />
+                                       </tooltip>
+                                    </CheckBox>
                                  </graphic>
                               </Label>
                            </children>
@@ -341,6 +377,9 @@
                      <HBox prefHeight="36.0" prefWidth="228.0">
                         <children>
                            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#makeGroup" text="Group">
+                               <tooltip>
+                                   <Tooltip text="CTRL+G" />
+                               </tooltip>
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
@@ -355,6 +394,9 @@
                            </Button>
                            <Region layoutX="62.0" layoutY="10.0" prefHeight="200.0" prefWidth="112.0" />
                            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" HBox.hgrow="ALWAYS">
+                               <tooltip>
+                                   <Tooltip text="CTRL+X" />
+                               </tooltip>
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
@@ -391,6 +433,9 @@
                            </Button>
                            <Region prefHeight="200.0" prefWidth="200.0" />
                            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#ungroup" text="Ungroup">
+                               <tooltip>
+                                   <Tooltip text="CTRL+U" />
+                               </tooltip>
                               <styleClass>
                                  <String fx:value="button" />
                                  <String fx:value="layer-button" />
