@@ -3,8 +3,6 @@ import javafx.scene.input.MouseEvent
 import scalafx.geometry.Point2D
 import scalafx.scene.paint.Color.rgb
 
-import scala.math.{abs, max, min}
-
 object TextTool extends ShapeTool(Rectangle) {
 
   override def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {

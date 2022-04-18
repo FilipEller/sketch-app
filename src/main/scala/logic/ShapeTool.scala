@@ -2,10 +2,9 @@ package logic
 
 import javafx.scene.input.MouseEvent
 import scalafx.geometry.Point2D
-import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
-import scala.math.{abs, max, min}
+import scala.math.{abs, min}
 
 class ShapeTool(stype: ShapeType) extends Tool {
   var currentElement = new Shape(this.stype, 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), true, true, new Point2D(0, 0), "")

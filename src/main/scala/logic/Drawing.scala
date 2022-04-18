@@ -1,10 +1,9 @@
 package logic
 
 import scalafx.scene.layout.StackPane
-import scalafx.Includes._
 import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
-import scalafx.scene.input.{MouseDragEvent, MouseEvent}
+import scalafx.scene.input.MouseEvent
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 

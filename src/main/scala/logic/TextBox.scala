@@ -3,7 +3,6 @@ package logic
 import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.paint.Color
-import scalafx.scene.paint.Color.rgb
 import scalafx.scene.text.Font
 
 case class TextBox(text: String,

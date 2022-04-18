@@ -2,10 +2,7 @@ package logic
 
 import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
-import scalafx.scene.paint.Color.rgb
 import scalafx.scene.paint.{Color, CycleMethod, RadialGradient, Stop}
-
-import scala.math.abs
 
 case class Stroke(color: Color,
                   origin: Point2D,

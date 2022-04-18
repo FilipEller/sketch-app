@@ -2,7 +2,6 @@ package logic
 
 import javafx.scene.input.MouseEvent
 import scalafx.geometry.Point2D
-import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
 
 import scala.math.min
