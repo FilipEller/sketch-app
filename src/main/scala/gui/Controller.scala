@@ -111,9 +111,14 @@ class Controller {
   }
 
   def updateSelectedView(): Unit = {
+    val index = this.selectedView.getSelectionModel.getSelectedIndex
     this.selectedView.getItems.clear()
     this.drawing.config.selectedElements.reverse
       .foreach( e => this.selectedView.getItems.add(e.name) )
+    if (this.selectedView.getItems.nonEmpty) {
+      val targetIndex = math.max(math.min(index, this.selectedView.getItems.length - 1), 0)
+      this.selectedView.getSelectionModel.select(targetIndex)
+    }
   }
 
   def updateGroupView(): Unit = {
