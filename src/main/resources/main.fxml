@@ -274,63 +274,68 @@
         </left>
         <top>
             <HBox prefHeight="100.0" prefWidth="1920.0" styleClass="panel" BorderPane.alignment="CENTER_LEFT">
-                <GridPane prefHeight="98.0" prefWidth="550.0" styleClass="control-panel">
+                <GridPane prefHeight="98.0" prefWidth="712.0" styleClass="control-panel">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="267.3224792480469" minWidth="10.0" prefWidth="174.34072875976562" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="252.15927124023438" minWidth="10.0" prefWidth="252.15927124023438" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="370.3999755859375" minWidth="10.0" prefWidth="75.80000000000001" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="403.79999999999995" minWidth="10.0" prefWidth="301.5999755859375" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="387.599951171875" minWidth="10.0" prefWidth="353.60002441406243" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                     </rowConstraints>
                   <HBox.margin>
                       <Insets />
                   </HBox.margin>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
                         <Label text="  Brush size">
                            <graphic>
                               <Slider fx:id="brushSizeSlider" blockIncrement="1.0" onMouseReleased="#changeBrushSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Slider>
+                                 </cursor>
+                              </Slider>
                            </graphic>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <HBox prefHeight="100.0" prefWidth="322.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label text="  Brush Hardness">
                            <graphic>
                               <Slider fx:id="hardnessSlider" blockIncrement="1.0" minorTickCount="4" onMouseReleased="#changeHardness" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="50.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Slider>
+                                 </cursor>
+                              </Slider>
                            </graphic>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                      <children>
                         <Label text="  Border width">
                            <graphic>
                               <Slider fx:id="borderWidthSlider" blockIncrement="1.0" onMouseReleased="#changeBorderWidth" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Slider>
+                                 </cursor>
+                              </Slider>
                            </graphic>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <HBox prefHeight="100.0" prefWidth="294.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
                         <Label text="  Font size">
                            <graphic>
                               <Slider fx:id="fontSizeSlider" blockIncrement="1.0" min="5.0" minorTickCount="4" onMouseReleased="#changeFontSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Slider>
+                                 </cursor>
+                              </Slider>
                            </graphic>
                         </Label>
                      </children>
