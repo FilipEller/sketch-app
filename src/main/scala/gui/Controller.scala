@@ -4,7 +4,7 @@ import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.{Alert, ButtonType, ColorPicker, Label, SelectionMode}
+import javafx.scene.control.{Alert, Button, ButtonType, ColorPicker, Label, SelectionMode}
 import logic._
 import scalafx.Includes._
 import scalafx.geometry.Point2D
@@ -298,7 +298,6 @@ class Controller {
     updateLayerView()
   }
 
-  // Bug: If all layers are removed, drawing no longer works even after readding layers.
   @FXML protected def removeLayer(event: ActionEvent) = {
     val layerIndex = this.layerView.getSelectionModel.getSelectedIndex
     val layerName = this.layerView.getSelectionModel.getSelectedItem
@@ -306,7 +305,7 @@ class Controller {
 
     if (layerOption.exists(_.elements.exists(!_.deleted))) {
       val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL)
-      alert.getDialogPane.setContent( new Label(s"Are you sure you want to remove $layerName? It is NOT empty. This action cannot be undone."))
+      alert.getDialogPane.setContent(new Label(s"Are you sure you want to remove $layerName? It is NOT empty. This action cannot be undone."))
       alert.showAndWait()
 
       if (alert.getResult == ButtonType.YES) {

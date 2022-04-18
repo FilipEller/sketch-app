@@ -11,7 +11,7 @@ import scalafx.stage.FileChooser
 import scalafx.stage.FileChooser.ExtensionFilter
 import ujson.ParseException
 import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.{Alert, ButtonType}
+import javafx.scene.control.{Alert, Button, ButtonType, Label}
 import scalafx.Includes._
 
 object Main extends JFXApp {
@@ -36,12 +36,6 @@ object Main extends JFXApp {
   this.controller.drawing = drawing
   this.controller.initController()
 
-  def newDrawing(): Unit = {
-    this.drawing = new Drawing(1000, 600)
-    this.controller.initController()
-    this.controller.update()
-  }
-
   def saveDrawing(): Unit = {
     val fileChooser = new FileChooser {
       title = "Save Drawing"
@@ -51,6 +45,31 @@ object Main extends JFXApp {
     val file = fileChooser.showSaveDialog(stage)
     if (file != null) {
       FileManager.save(drawing, file)
+    }
+  }
+
+  def newDrawing(): Unit = {
+    def createNewDrawing(): Unit = {
+      this.drawing = new Drawing(1000, 600)
+      this.controller.initController()
+      this.controller.update()
+    }
+
+    if (this.drawing.layers.exists(_.elements.exists(!_.deleted))) {
+      val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
+      alert.getDialogPane.setContent(new Label("Are you sure you want to make a new drawing? Any unsaved changes will be lost."))
+      val noButton = alert.getDialogPane.lookupButton(ButtonType.NO).asInstanceOf[Button]
+      noButton.setText("Save and create new")
+      alert.showAndWait()
+
+      if (alert.getResult == ButtonType.YES) {
+        createNewDrawing()
+      } else if (alert.getResult == ButtonType.NO) {
+        this.saveDrawing()
+        createNewDrawing()
+      }
+    } else {
+      createNewDrawing()
     }
   }
 
@@ -154,6 +173,7 @@ object Main extends JFXApp {
       event.code match {
         case KeyCode.Z => this.undo()
         case KeyCode.X => this.deleteSelected()
+        case KeyCode.N => this.newDrawing()
         case KeyCode.S => this.saveDrawing()
         case KeyCode.O => this.loadDrawing()
         case KeyCode.A => this.selectAll()
