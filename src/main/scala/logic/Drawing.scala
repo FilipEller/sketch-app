@@ -409,9 +409,11 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def deleteSelected(): Unit = {
-    val deleted = this.config.activeLayer.delete(this.config.selectedElements)
-    ActionHistory.add(deleted)
-    this.deselectAll()
+    if (this.config.selectedElements.exists(!_.deleted)) {
+      val deleted = this.config.activeLayer.delete(this.config.selectedElements)
+      ActionHistory.add(deleted)
+      this.deselectAll()
+    }
   }
 
   def removeElementsFromSelectedGroup(names: Seq[String]) = {
