@@ -31,10 +31,10 @@ sealed abstract class StrokeTool extends Tool {
         layer.add(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
-        layer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        layer.update(this.currentElement, updateCurrentElement(drawing, eventPoint))
       }
       case MouseEvent.MOUSE_RELEASED => {
-        layer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        layer.update(this.currentElement, updateCurrentElement(drawing, eventPoint))
         ActionHistory.add(this.currentElement)
       }
       case _ => {

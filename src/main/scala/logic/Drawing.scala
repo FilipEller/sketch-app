@@ -186,7 +186,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       }
 
       this.layers.filter( l => elements.forall( e => l.contains(e) ) )
-        .foreach( _.restoreElements(elements) )
+        .foreach( _.restore(elements) )
     }
   }
 
@@ -202,7 +202,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
     this.select(newElements)
     this.config.activeLayer
-      .updateElements(newElements)
+      .update(newElements)
   }
 
   def contains(element: Element): Boolean = {
@@ -211,7 +211,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def updateSelected(newElements: Seq[Element]): Unit = {
     val toUpdate = newElements.filter(!this.contains(_))
-    this.config.activeLayer.updateElements(toUpdate)
+    this.config.activeLayer.update(toUpdate)
     this.select(newElements)
     toUpdate.foreach(ActionHistory.add)
   }
@@ -249,8 +249,8 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
         case Some(group: ElementGroup) => {
           val layer = this.config.activeLayer
           val newGroup = group.addElements(this.selectedElements)
-          layer.updateElement(newGroup)
-          val newElements = layer.deleteElements(this.selectedElements.filter(_ != group))
+          layer.update(newGroup)
+          val newElements = layer.delete(this.selectedElements.filter(_ != group))
           ActionHistory.add(newGroup +: newElements)
           this.select(newGroup)
         }
@@ -394,7 +394,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def deleteSelected(): Unit = {
-    val deleted = this.config.activeLayer.deleteElements(this.config.selectedElements)
+    val deleted = this.config.activeLayer.delete(this.config.selectedElements)
     ActionHistory.add(deleted)
     this.deselectAll()
   }
@@ -430,7 +430,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
       val newTextBox = textBox.rewrite(newText)
       ActionHistory.add(newTextBox)
-      layer.updateElement(newTextBox)
+      layer.update(newTextBox)
     } else {
       textBox
     }

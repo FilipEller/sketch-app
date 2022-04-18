@@ -39,7 +39,7 @@ object TransformTool extends Tool {
             case e: ElementGroup => e.copy(previousVersion = Some(x._2))
             case e: Element => e
           })
-          movedElements.zip(elementsWithHistory).foreach( x => drawing.config.activeLayer.updateElement(x._1, x._2) )
+          movedElements.zip(elementsWithHistory).foreach( x => drawing.config.activeLayer.update(x._1, x._2) )
           ActionHistory.add(elementsWithHistory)
           drawing.select(elementsWithHistory)
         }

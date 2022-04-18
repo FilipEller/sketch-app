@@ -16,7 +16,7 @@ object TextTool extends ShapeTool(Rectangle) {
         val newElement = TextBox("", rectangle.width, rectangle.height, drawing.config.fontSize, originalConfig.primaryColor, rectangle.origin)
         ActionHistory.undo()
         ActionHistory.add(newElement)
-        drawing.config.activeLayer.updateElement(rectangle, newElement)
+        drawing.config.activeLayer.update(rectangle, newElement)
         drawing.config = drawing.config.copy(selectedElements = Vector(newElement))
       }
       case _ =>

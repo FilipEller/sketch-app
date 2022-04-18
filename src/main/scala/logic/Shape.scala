@@ -37,7 +37,11 @@ case class Shape(stype: ShapeType,
         && point.x <= this.origin.x + this.width + 0.5 * this.borderWidth
         && point.y >= this.origin.y - 0.5 * this.borderWidth
         && point.y <= this.origin.y + this.height + 0.5 * this.borderWidth)
-      case Ellipse => pow((point.x - this.center.x) / ((this.width + this.borderWidth) / 2), 2) + pow((point.y - this.center.y) / ((this.height + this.borderWidth) / 2), 2) <= 1
+      case Ellipse => {
+        val xDir = pow((point.x - this.center.x) / ((this.width + this.borderWidth) / 2), 2)
+        val yDir = pow((point.y - this.center.y) / ((this.height + this.borderWidth) / 2), 2)
+        xDir + yDir <= 1
+      }
       case Circle => {
         val xDiff = point.x - this.center.x
         val yDiff = point.y - this.center.y

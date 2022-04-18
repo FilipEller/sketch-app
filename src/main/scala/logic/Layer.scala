@@ -87,7 +87,7 @@ case class Layer(var name: String) {
   }
    */
 
-  def updateElement(element: Element): Element = {
+  def update(element: Element): Element = {
     val index = element.previousVersion
                   .map( e => this.elements.indexOf(e) )
                   .map( i => math.max(0, i) )
@@ -97,18 +97,18 @@ case class Layer(var name: String) {
     element
   }
 
-  def updateElement(oldElement: Element, newElement: Element): Element = {
+  def update(oldElement: Element, newElement: Element): Element = {
     val index = this.elements.indexOf(oldElement)
     this.addAtIndex(newElement, index)
     this.remove(oldElement)
     newElement
   }
 
-  def updateElements(elements: Seq[Element]): Seq[Element] = {
-    elements.map( this.updateElement(_) )
+  def update(elements: Seq[Element]): Seq[Element] = {
+    elements.map(this.update)
   }
 
-  def restoreElement(element: Element): Unit = {
+  def restore(element: Element): Unit = {
     val index = this.elements.indexOf(element)
     this.remove(element)
     element.previousVersion.foreach( this.addAtIndex(_, index) )
@@ -120,11 +120,11 @@ case class Layer(var name: String) {
     }
   }
 
-  def restoreElements(elements: Seq[Element]): Unit = {
-    elements.foreach(this.restoreElement)
+  def restore(elements: Seq[Element]): Unit = {
+    elements.foreach(this.restore)
   }
 
-  def deleteElement(element: Element): Element = {
+  def delete(element: Element): Element = {
     val deleted = element match {
       case e: Shape => e.copy(deleted = true, previousVersion = Some(e))
       case e: Stroke => e.copy(deleted = true, previousVersion = Some(e))
@@ -132,11 +132,11 @@ case class Layer(var name: String) {
       case e: ElementGroup => e.copy(deleted = true, previousVersion = Some(e))
       case e: Element => e
     }
-    this.updateElement(deleted)
+    this.update(deleted)
   }
 
-  def deleteElements(elements: Seq[Element]): Seq[Element] = {
-    elements.map(deleteElement)
+  def delete(elements: Seq[Element]): Seq[Element] = {
+    elements.map(this.delete)
   }
 
   /*
@@ -160,7 +160,7 @@ case class Layer(var name: String) {
     val index = this.elements.indexOf(group)
     val groupWithoutTarget = group.removeElements(elements)
     val newGroup = if (groupWithoutTarget.elements.isEmpty) groupWithoutTarget.copy(deleted = true, previousVersion = Some(group)) else groupWithoutTarget
-    this.updateElement(newGroup)
+    this.update(newGroup)
     val newElements = elements.map{
       case e: Shape => e.copy(previousVersion = None)
       case e: Stroke => e.copy(previousVersion = None)
@@ -193,7 +193,7 @@ case class Layer(var name: String) {
       case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
       case e: Element => e
     }
-    this.updateElement(newElement)
+    this.update(newElement)
   }
 
   def select(point: Point2D): Option[Element] =
