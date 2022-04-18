@@ -60,9 +60,14 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def removeLayer(name: String): Unit = {
     if (this.layers.length > 1) {
       val layer = this.findLayer(name)
-      // should also change config's selected layer if removed was selected
-      // though Controller already makes sure another layer is selected
-      layer.foreach(removeLayer)
+      if (layer.contains(this.config.activeLayer)) {
+        val index = layer.map(this.layers.reverse.indexOf).getOrElse(0)
+        val indexToUse = math.min(this.layers.length - 1, math.max(index, 0))
+        layer.foreach(removeLayer)
+        this.selectLayer(this.layers.reverse(indexToUse))
+      } else {
+        layer.foreach(removeLayer)
+      }
     }
   }
 
