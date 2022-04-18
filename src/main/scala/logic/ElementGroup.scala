@@ -46,7 +46,7 @@ case class ElementGroup(elements: Seq[Element],
 
   override def toString = s"$name $elements"
 
-  def addElement(element: Element) = {
+  def add(element: Element) = {
     if (element != this) {
       this.copy(elements = this.elements :+ element, previousVersion = Some(this))
     } else {
@@ -54,29 +54,29 @@ case class ElementGroup(elements: Seq[Element],
     }
   }
 
-  def addElements(elements: Seq[Element]): ElementGroup = {
+  def add(elements: Seq[Element]): ElementGroup = {
     val elementsToAdd = elements.filter( _ != this )
     this.copy(elements = this.elements ++ elementsToAdd, previousVersion = Some(this))
   }
 
-  def removeElement(element: Element): ElementGroup = {
+  def remove(element: Element): ElementGroup = {
     this.copy(elements = this.elements.filter( _ != element), previousVersion = Some(this))
   }
 
-  def removeElements(elements: Seq[Element]): ElementGroup = {
+  def remove(elements: Seq[Element]): ElementGroup = {
     this.copy(elements = this.elements.filter(!elements.contains(_)), previousVersion = Some(this))
   }
 
-  def removeByName(name: String): ElementGroup = {
+  def remove(name: String): ElementGroup = {
     this.copy(elements = this.elements.filter( _.name != name), previousVersion = Some(this))
   }
 
-  def findByName(name: String): Option[Element] = {
+  def find(name: String): Option[Element] = {
     this.elements.find(_.name == name)
   }
 
-  def findManyByName(names: Seq[String]): Seq[Element] = {
-    names.flatMap(findByName)
+  def find(names: Seq[String]): Seq[Element] = {
+    names.flatMap(find)
   }
 
   override def move(newOrigin: Point2D) = {

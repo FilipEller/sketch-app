@@ -62,7 +62,7 @@ case class Layer(var name: String) {
     if (this.contains(element) && this.contains(group)) {
       this.remove(element)
       this.remove(group)
-      this.add(group.addElement(element))
+      this.add(group.add(element))
     } else {
       throw new Exception("group or element does not belong to this layer")
     }
@@ -158,7 +158,7 @@ case class Layer(var name: String) {
 
   def removeElementsFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
     val index = this.elements.indexOf(group)
-    val groupWithoutTarget = group.removeElements(elements)
+    val groupWithoutTarget = group.remove(elements)
     val newGroup = if (groupWithoutTarget.elements.isEmpty) groupWithoutTarget.copy(deleted = true, previousVersion = Some(group)) else groupWithoutTarget
     this.update(newGroup)
     val newElements = elements.map{
@@ -173,7 +173,7 @@ case class Layer(var name: String) {
   }
 
   def removeElementsFromGroupByName(group: ElementGroup, names: Seq[String]): (ElementGroup, Seq[Element]) = {
-    val elements = group.findManyByName(names)
+    val elements = group.find(names)
     removeElementsFromGroup(group, elements)
   }
 

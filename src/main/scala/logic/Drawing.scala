@@ -248,7 +248,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
           val layer = this.config.activeLayer
-          val newGroup = group.addElements(this.selectedElements)
+          val newGroup = group.add(this.selectedElements)
           layer.update(newGroup)
           val newElements = layer.delete(this.selectedElements.filter(_ != group))
           ActionHistory.add(newGroup +: newElements)
