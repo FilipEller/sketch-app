@@ -60,7 +60,7 @@ object Main extends JFXApp {
 
     if (this.drawing.layers.exists(_.elements.exists(!_.deleted))) {
       val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
-      alert.getDialogPane.setContent(new Label("Are you sure you want to make a new drawing? Any unsaved changes will be lost."))
+      alert.getDialogPane.setContent(new Label("Are you sure you want to create a new drawing? Any unsaved changes will be lost."))
       val noButton = alert.getDialogPane.lookupButton(ButtonType.NO).asInstanceOf[Button]
       noButton.setText("Save and create new")
       alert.showAndWait()
@@ -212,26 +212,29 @@ object Main extends JFXApp {
         case _ =>
       }
     } else {
-      this.drawing.config.selectedElements.headOption match {
-        case Some(textBox: TextBox) => this.updateTextBox(textBox, event)
-        case _ => {
-          event.code match {
-            case KeyCode.V => this.drawing.changeTool(SelectionTool)
-            case KeyCode.M => this.drawing.changeTool(TransformTool)
-            case KeyCode.B => this.drawing.changeTool(BrushTool)
-            case KeyCode.L => this.drawing.changeTool(LineTool)
-            case KeyCode.R => this.drawing.changeTool(RectangleTool)
-            case KeyCode.E => this.drawing.changeTool(EllipseTool)
-            case KeyCode.S => this.drawing.changeTool(SquareTool)
-            case KeyCode.C => this.drawing.changeTool(CircleTool)
-            case KeyCode.T => this.drawing.changeTool(TextTool)
-            case _ =>
-          }
+      val textBoxes =
+        this.drawing.config.selectedElements
+          .filter(_.isInstanceOf[TextBox])
+          .map(_.asInstanceOf[TextBox])
+      if (textBoxes.nonEmpty) {
+        textBoxes.foreach(this.updateTextBox(_, event))
+      } else {
+        event.code match {
+          case KeyCode.V => this.drawing.changeTool(SelectionTool)
+          case KeyCode.M => this.drawing.changeTool(TransformTool)
+          case KeyCode.B => this.drawing.changeTool(BrushTool)
+          case KeyCode.L => this.drawing.changeTool(LineTool)
+          case KeyCode.R => this.drawing.changeTool(RectangleTool)
+          case KeyCode.E => this.drawing.changeTool(EllipseTool)
+          case KeyCode.S => this.drawing.changeTool(SquareTool)
+          case KeyCode.C => this.drawing.changeTool(CircleTool)
+          case KeyCode.T => this.drawing.changeTool(TextTool)
+          case _ =>
         }
       }
     }
   }
-
+  // TODO: Bug with text boxes. Text box could not be undone after drawing it, then pressing v (write text), the clicking somewhere else.
   scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => handleKeyEvent(event))
 
 }
