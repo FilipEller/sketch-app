@@ -47,9 +47,7 @@ object FileManager {
 
   private def decodePoint(data: Value): Point2D = {
     val coords = data.arr.map(_.num)
-    val result = new Point2D(coords(0), coords(1))
-    println(result)
-    result
+    new Point2D(coords(0), coords(1))
   }
 
   private def encodeBrush(brush: Brush) = {
@@ -173,9 +171,7 @@ object FileManager {
   private def decodeLayer(data: Value): Layer = {
     val layer = new Layer(data("name").str)
     val elements = data("elements").arr.map(decodeElement).toSeq
-    println(elements)
     layer.addElements(elements)
-    println(layer.elements)
     layer.hidden = data("hidden").bool
     layer
   }
@@ -202,12 +198,10 @@ object FileManager {
   }
 
   def load(file: File): Drawing = {
-    // this could use for...yield
     val path = os.Path(file.getPath)
     val jsonString = os.read(path)
     val input = ujson.read(jsonString)
-    val result = decodeDrawing(input)
-    result
+    decodeDrawing(input)
   }
 
 }

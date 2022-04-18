@@ -74,7 +74,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./hand_cursor_24px.png" />
+                        <Image url="@img/hand_cursor_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -99,7 +99,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./resize_horizontal_24px.png" />
+                        <Image url="@img/resize_horizontal_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -121,7 +121,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./art_therapist_24px.png" />
+                        <Image url="@img/art_therapist_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -143,7 +143,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./line_24px.png" />
+                        <Image url="@img/line_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -168,7 +168,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./rectangle_24px.png" />
+                        <Image url="@img/rectangle_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -193,7 +193,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./ellipse_24px.png" />
+                        <Image url="@img/ellipse_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -218,7 +218,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./unchecked_checkbox_24px.png" />
+                        <Image url="@img/unchecked_checkbox_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -240,7 +240,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./360_degrees_24px.png" />
+                        <Image url="@img/360_degrees_24px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -262,7 +262,7 @@
                <graphic>
                   <ImageView>
                      <image>
-                        <Image url="@./text_24px.png" />
+                        <Image url="@img/text_24px.png" />
                      </image>
                   </ImageView>
                </graphic>

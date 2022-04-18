@@ -167,7 +167,6 @@ object Main extends JFXApp {
   }
 
   def handleKeyEvent(event: KeyEvent): Unit = {
-    println(event.getCode)
     if (event.isControlDown) {
       event.code match {
         case KeyCode.Z => this.undo()
