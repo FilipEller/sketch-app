@@ -96,7 +96,6 @@ case class Layer(var name: String) {
 
   def updateElement(oldElement: Element, newElement: Element): Element = {
     val index = this.elements.indexOf(oldElement)
-    println("INDEX: " + index)
     this.addElementAtIndex(newElement, index)
     this.removeElement(oldElement)
     newElement

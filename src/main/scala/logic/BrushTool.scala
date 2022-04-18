@@ -12,13 +12,14 @@ sealed abstract class StrokeTool extends Tool {
   var currentElement = new Stroke(rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100), "")
   var clickPoint = new Point2D(0, 0)
 
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Element
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
 
   def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
     val originX = min(this.currentElement.origin.x, eventPoint.x)
     val originY = min(this.currentElement.origin.y, eventPoint.y)
     val origin = new Point2D(originX, originY)
-    setCurrentElement(eventPoint, origin)
+    this.setCurrentElement(eventPoint, origin)
+    this.currentElement
   }
 
   def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
@@ -45,15 +46,13 @@ sealed abstract class StrokeTool extends Tool {
 }
 
 object BrushTool extends StrokeTool {
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Element = {
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
     this.currentElement = this.currentElement.copy(path = this.currentElement.path :+ eventPoint, origin = origin)
-    this.currentElement
   }
 }
 
 object LineTool extends StrokeTool {
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Element = {
+  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
     this.currentElement = this.currentElement.copy(path = Path(this.currentElement.path.head, eventPoint), origin = origin)
-    this.currentElement
   }
 }

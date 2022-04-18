@@ -64,7 +64,6 @@ class Controller {
   }
 
   def selectLayer(new_val: String) = {
-    println("selecting " + new_val)
     val layerOption = this.drawing.findLayer(new_val)
     layerOption.foreach(this.drawing.selectLayer)
     updateCanvas()
@@ -74,11 +73,6 @@ class Controller {
   def initializeLayerView(): Unit = {
     this.layerView.getSelectionModel.selectedItemProperty.addListener(new ChangeListener[String]() {
       override def changed(observableValue: ObservableValue[_ <: String], old_val: String, new_val: String): Unit = {
-        /*
-        new_val is null after a layer is removed
-        Drawing.findLayer returns Option so this will not cause an error
-        Controller's removeLayer also selects another layer
-        */
         selectLayer(new_val)
       }
     })
@@ -276,7 +270,7 @@ class Controller {
 
   def initController(): Unit = {
     println("initializing canvas")
-    this.drawing = Main.drawing
+    this.drawing = Main.drawing // won't be null, don't worry
     this.baseCanvas = new Canvas(this.drawing.width, this.drawing.height)
     this.pane.children.clear()
     this.pane.children += baseCanvas
@@ -291,11 +285,8 @@ class Controller {
   }
 
   @FXML protected def changeTool(event: ActionEvent): Unit = {
-    val button: scalafx.scene.control.Button =
-      new Button(event.getTarget.asInstanceOf[javafx.scene.control.Button])
-    val label = button.getId
-    println("button pressed: " + label)
-    val targetTool = label match {
+    val button = event.getTarget.asInstanceOf[javafx.scene.control.Button].getId
+    val targetTool = button match {
       case "Select" => SelectionTool
       case "Transform" => TransformTool
       case "Brush" => BrushTool
@@ -311,7 +302,6 @@ class Controller {
   }
 
   @FXML protected def addLayer(event: ActionEvent) = {
-    println("adding layer")
     this.drawing.addLayer()
     updateLayerView()
   }
