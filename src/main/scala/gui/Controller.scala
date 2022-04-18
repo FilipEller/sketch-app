@@ -125,6 +125,7 @@ class Controller {
   }
 
   def updateSelectedPropertiesByElement(elementOption: Option[Element]): Unit = {
+    val default = this.drawing.defaultConfig
     elementOption match {
       case Some(group: ElementGroup) => {
         this.updateSelectedPropertiesByElement(group.elements.headOption)
@@ -132,34 +133,34 @@ class Controller {
       case Some(e: Element) => {
         borderCheckBox.setSelected(e match {
           case shape: Shape => shape.useBorder
-          case _ => true
+          case _ => default.useBorder
         } )
         fillCheckBox.setSelected(e match {
           case shape: Shape => shape.useFill
-          case _ => false
+          case _ => default.useFill
         } )
         brushSizeSlider.setValue(e match {
           case stroke: Stroke => stroke.brush.size
-          case _ => 30
+          case _ => default.activeBrush.size
         } )
         hardnessSlider.setValue(e match {
           case stroke: Stroke => stroke.brush.hardness
-          case _ => 50
+          case _ => default.activeBrush.hardness
         } )
         borderWidthSlider.setValue(e match {
           case shape: Shape => shape.borderWidth
-          case _ => 3
+          case _ => default.borderWidth
         } )
         fontSizeSlider.setValue(e match {
           case textBox: TextBox => textBox.fontSize
-          case _ => 12
+          case _ => default.fontSize
         } )
         primaryColorPicker.setValue(e match {
           case element: Element => element.color
         } )
         secondaryColorPicker.setValue(e match {
           case shape: Shape => shape.fillColor
-          case _ => White
+          case _ => default.secondaryColor
         } )
       }
       case None => {

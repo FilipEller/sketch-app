@@ -159,7 +159,12 @@ case class Layer(var name: String) {
   def removeFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
     val index = this.elements.indexOf(group)
     val groupWithoutTarget = group.remove(elements)
-    val newGroup = if (groupWithoutTarget.elements.isEmpty) groupWithoutTarget.copy(deleted = true, previousVersion = Some(group)) else groupWithoutTarget
+    val newGroup = {
+      if (groupWithoutTarget.elements.isEmpty)
+        groupWithoutTarget.copy(deleted = true, previousVersion = Some(group))
+      else
+        groupWithoutTarget
+    }
     this.update(newGroup)
     val newElements = elements.map{
       case e: Shape => e.copy(previousVersion = None)

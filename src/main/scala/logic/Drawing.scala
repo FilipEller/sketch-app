@@ -11,17 +11,19 @@ import scala.collection.mutable.Buffer
 
 class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
 
-  var config =                        // Default settings
+  def defaultConfig =
     new Configurations(layers.head,   // active layer
       BrushTool,                      // active tool
       rgb(0, 0, 0),                   // primary color
       rgb(255, 255, 255),             // secondary color
       true,                           // use border
       false,                          // use fill
-      new Brush(30, 50),              // active brush
+      new Brush(20, 50),              // active brush
       3,                              // border width
       Vector(),                       // selected elements
       12)                             // font size
+
+  var config = this.defaultConfig
 
   def selectedElements = this.config.selectedElements
 
