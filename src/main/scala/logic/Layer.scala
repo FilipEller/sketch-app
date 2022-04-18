@@ -7,32 +7,34 @@ import scala.collection.mutable.Buffer
 
 case class Layer(var name: String) {
 
-  val elements = Buffer[Element]()
+  private val mElements = Buffer[Element]()
   var hidden = false
 
-  def addElement(element: Element): Unit = {
-    this.elements += element
+  def elements = this.mElements.toSeq
+
+  def add(element: Element): Unit = {
+    this.mElements += element
   }
 
-  def addElements(elements: Seq[Element]): Unit = {
-    elements.foreach(this.addElement)
+  def add(elements: Seq[Element]): Unit = {
+    elements.foreach(this.add)
   }
 
-  def addElementAtIndex(element: Element, index: Int): Unit = {
+  def addAtIndex(element: Element, index: Int): Unit = {
     val indexToUse = math.max(0, index)
-    this.elements.insert(indexToUse, element)
+    this.mElements.insert(indexToUse, element)
   }
 
-  def addElementsAtIndex(elements: Seq[Element], index: Int): Unit = {
-    elements.foreach(this.elements.insert(index, _))
+  def addAtIndex(elements: Seq[Element], index: Int): Unit = {
+    elements.foreach(this.mElements.insert(index, _))
   }
 
-  def removeElement(element: Element): Unit = {
-    this.elements -= element
+  def remove(element: Element): Unit = {
+    this.mElements -= element
   }
 
-  def removeElements(elements: Seq[Element]): Unit = {
-    elements.foreach(this.removeElement)
+  def remove(elements: Seq[Element]): Unit = {
+    elements.foreach(this.remove)
   }
 
   def contains(element: Element) = this.elements.contains(element)
@@ -50,27 +52,28 @@ case class Layer(var name: String) {
     this.name = newName
   }
 
+  /*
   def addElementGroup(group: ElementGroup): Unit = {
-    group.elements.foreach( this.elements -= _ )
-    this.elements += group
-  }
+    group.elements.foreach(this.remove)
+    this.add(group)
+  }*/
 
   def addToGroup(element: Element, group: ElementGroup): Unit = {
     if (this.contains(element) && this.contains(group)) {
-      this.elements -= element
-      this.elements -= group
-      this.elements += group.addElement(element)
+      this.remove(element)
+      this.remove(group)
+      this.add(group.addElement(element))
     } else {
       throw new Exception("group or element does not belong to this layer")
     }
   }
-
+/*
   def removeElementGroup(group: ElementGroup): Element = {
     val index = this.elements.indexOf(group)
-    this.addElementsAtIndex(group.elements.reverse, index)
+    this.addAtIndex(group.elements.reverse, index)
     val newGroup = group.copy(deleted = true, previousVersion = Some(group))
     this.updateElement(newGroup)
-  }
+  }*/
 
   /*
   def removeFromGroup(element: Element, group: ElementGroup): Unit = {
@@ -89,15 +92,15 @@ case class Layer(var name: String) {
                   .map( e => this.elements.indexOf(e) )
                   .map( i => math.max(0, i) )
                   .getOrElse(this.elements.length - 1)
-    element.previousVersion.foreach(removeElement)
-    this.addElementAtIndex(element, index)
+    element.previousVersion.foreach(this.remove)
+    this.addAtIndex(element, index)
     element
   }
 
   def updateElement(oldElement: Element, newElement: Element): Element = {
     val index = this.elements.indexOf(oldElement)
-    this.addElementAtIndex(newElement, index)
-    this.removeElement(oldElement)
+    this.addAtIndex(newElement, index)
+    this.remove(oldElement)
     newElement
   }
 
@@ -107,11 +110,11 @@ case class Layer(var name: String) {
 
   def restoreElement(element: Element): Unit = {
     val index = this.elements.indexOf(element)
-    this.removeElement(element)
-    element.previousVersion.foreach( this.addElementAtIndex(_, index) )
+    this.remove(element)
+    element.previousVersion.foreach( this.addAtIndex(_, index) )
     element match {
       case group: ElementGroup if group.previousVersion.isEmpty => {
-        group.elements.reverse.foreach( this.addElementAtIndex(_, index) )
+        group.elements.reverse.foreach( this.addAtIndex(_, index) )
       }
       case _ =>
     }
@@ -136,20 +139,21 @@ case class Layer(var name: String) {
     elements.map(deleteElement)
   }
 
+  /*
   def removeElementFromGroup(group: ElementGroup, name: String): ElementGroup = {
     val element = group.findByName(name)
     element match {
       case Some(e: Element) => {
         val newGroup = group.removeElement(e)
         this.updateElement(newGroup)
-        this.addElement(e)
+        this.add(e)
         ActionHistory.add(newGroup)
         ActionHistory.add(e)
         newGroup
       }
       case None => group
     }
-  }
+  }*/
 
 
   def removeElementsFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
@@ -164,8 +168,7 @@ case class Layer(var name: String) {
       case e: ElementGroup => e.copy(previousVersion = None)
       case e: Element => e
     }
-    this.addElementsAtIndex(newElements.reverse, index + 1)
-    ActionHistory.add(newGroup +: newElements)
+    this.addAtIndex(newElements.reverse, index + 1)
     (newGroup, newElements)
   }
 
@@ -190,18 +193,7 @@ case class Layer(var name: String) {
       case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
       case e: Element => e
     }
-    ActionHistory.add(newElement)
     this.updateElement(newElement)
-  }
-
-  def rewriteTextBox(textBox: TextBox, newText: String): Element = {
-    if (this.contains(textBox) && textBox.text != newText) {
-      val newTextBox = textBox.rewrite(newText)
-      ActionHistory.add(newTextBox)
-      this.updateElement(newTextBox)
-    } else {
-      textBox
-    }
   }
 
   def select(point: Point2D): Option[Element] =

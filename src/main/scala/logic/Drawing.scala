@@ -222,9 +222,9 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       val layer = this.config.activeLayer
       val index = layer.elements.indexOf(selected.last) - (selected.length - 1)
       val selectedSorted = selected.sortBy(layer.elements.indexOf(_))
-      selected.foreach(layer.removeElement)
+      selected.foreach(layer.remove)
       val group = ElementGroup(selectedSorted)
-      this.config.activeLayer.addElementAtIndex(group, index)
+      this.config.activeLayer.addAtIndex(group, index)
       this.select(group)
       ActionHistory.add(group)
     }
@@ -235,6 +235,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
           val (newGroup, newElements) = this.config.activeLayer.removeElementsFromGroup(group, group.elements)
+          ActionHistory.add(newGroup +: newElements)
           this.select(newElements)
         }
         case _ =>
@@ -416,6 +417,23 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def toggleActiveLayerHidden() = {
     this.deselectAll()
     this.config.activeLayer.hidden = !this.config.activeLayer.hidden
+  }
+
+  def renameElement(element: Element, newName: String): Unit = {
+    val newElement = this.config.activeLayer.renameElement(element, newName)
+    this.select(this.config.selectedElements.filter(_ != element) :+ newElement)
+    ActionHistory.add(newElement)
+  }
+
+  def rewriteTextBox(textBox: TextBox, newText: String): Element = {
+    val layer = this.config.activeLayer
+    if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
+      val newTextBox = textBox.rewrite(newText)
+      ActionHistory.add(newTextBox)
+      layer.updateElement(newTextBox)
+    } else {
+      textBox
+    }
   }
 
 }

@@ -148,8 +148,7 @@ object Main extends JFXApp {
   }
 
   def updateTextBox(textBox: TextBox, event: KeyEvent) = {
-    val layer = this.drawing.config.activeLayer
-    if (layer.contains(textBox)) {
+    if (this.drawing.config.activeLayer.contains(textBox)) {
       val newText = {
         event.code match {
           case KeyCode.BackSpace => textBox.text.dropRight(1)
@@ -159,7 +158,7 @@ object Main extends JFXApp {
           case _ => textBox.text + event.text
         }
       }
-      val newTextBox = layer.rewriteTextBox(textBox, newText)
+      val newTextBox = this.drawing.rewriteTextBox(textBox, newText)
       this.drawing.deselect(textBox)
       this.drawing.select(this.drawing.config.selectedElements :+ newTextBox)
       this.controller.updateCanvas()

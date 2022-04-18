@@ -171,7 +171,7 @@ object FileManager {
   private def decodeLayer(data: Value): Layer = {
     val layer = new Layer(data("name").str)
     val elements = data("elements").arr.map(decodeElement).toSeq
-    layer.addElements(elements)
+    layer.add(elements)
     layer.hidden = data("hidden").bool
     layer
   }

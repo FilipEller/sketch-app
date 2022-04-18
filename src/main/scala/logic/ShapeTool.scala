@@ -40,7 +40,7 @@ class ShapeTool(stype: ShapeType) extends Tool {
       case MouseEvent.MOUSE_PRESSED => {
         this.clickPoint = eventPoint
         this.currentElement = Shape(this.stype, 0, 0, config.borderWidth, config.primaryColor, config.secondaryColor, config.useBorder, config.useFill, this.clickPoint)
-        layer.addElement(this.currentElement)
+        layer.add(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         layer.updateElement(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
@@ -50,7 +50,7 @@ class ShapeTool(stype: ShapeType) extends Tool {
         if (this.currentElement.width > 0 || this.currentElement.height > 0) {
           ActionHistory.add(this.currentElement)
         } else {
-          layer.removeElement(this.currentElement)
+          layer.remove(this.currentElement)
         }
       }
       case _ => {

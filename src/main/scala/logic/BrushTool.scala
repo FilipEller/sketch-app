@@ -28,7 +28,7 @@ sealed abstract class StrokeTool extends Tool {
       case MouseEvent.MOUSE_PRESSED => {
         this.clickPoint = eventPoint
         this.currentElement = Stroke(config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
-        layer.addElement(this.currentElement)
+        layer.add(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
         layer.updateElement(this.currentElement, updateCurrentElement(drawing, eventPoint))

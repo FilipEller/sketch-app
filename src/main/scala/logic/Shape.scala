@@ -38,7 +38,6 @@ case class Shape(stype: ShapeType,
         && point.y >= this.origin.y - 0.5 * this.borderWidth
         && point.y <= this.origin.y + this.height + 0.5 * this.borderWidth)
       case Ellipse => pow((point.x - this.center.x) / ((this.width + this.borderWidth) / 2), 2) + pow((point.y - this.center.y) / ((this.height + this.borderWidth) / 2), 2) <= 1
-        // https://www.geeksforgeeks.org/check-if-a-point-is-inside-outside-or-on-the-ellipse/
       case Circle => {
         val xDiff = point.x - this.center.x
         val yDiff = point.y - this.center.y
