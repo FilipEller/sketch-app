@@ -289,7 +289,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Brush size">
+                        <Label text="  Brush size">
                            <graphic>
                               <Slider fx:id="brushSizeSlider" blockIncrement="1.0" onMouseReleased="#changeBrushSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0">
                                  <cursor>
@@ -301,7 +301,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
-                        <Label text="Brush Hardness">
+                        <Label text="  Brush Hardness">
                            <graphic>
                               <Slider fx:id="hardnessSlider" blockIncrement="1.0" minorTickCount="4" onMouseReleased="#changeHardness" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="50.0">
                                  <cursor>
@@ -313,7 +313,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Label text="Border width">
+                        <Label text="  Border width">
                            <graphic>
                               <Slider fx:id="borderWidthSlider" blockIncrement="1.0" onMouseReleased="#changeBorderWidth" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0">
                                  <cursor>
@@ -325,7 +325,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label text="Font size">
+                        <Label text="  Font size">
                            <graphic>
                               <Slider fx:id="fontSizeSlider" blockIncrement="1.0" min="5.0" minorTickCount="4" onMouseReleased="#changeFontSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0">
                                  <cursor>
@@ -385,7 +385,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Border">
+                              <Label text=" Border">
                                  <graphic>
                                     <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" onAction="#changeUseBorder" selected="true">
                                        <tooltip>
@@ -401,7 +401,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Fill">
+                              <Label text=" Fill">
                                  <graphic>
                                     <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" onAction="#changeUseFill">
                                         <tooltip>
