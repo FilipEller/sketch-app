@@ -3,7 +3,8 @@ package gui
 import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.{ColorPicker, SelectionMode}
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.{Alert, ButtonType, ColorPicker, Label, SelectionMode}
 import logic._
 import scalafx.Includes._
 import scalafx.geometry.Point2D
@@ -301,7 +302,19 @@ class Controller {
   @FXML protected def removeLayer(event: ActionEvent) = {
     val layerIndex = this.layerView.getSelectionModel.getSelectedIndex
     val layerName = this.layerView.getSelectionModel.getSelectedItem
-    val layer = this.drawing.removeLayer(layerName)
+    val layerOption = this.drawing.findLayer(layerName)
+
+    if (layerOption.exists(_.elements.exists(!_.deleted))) {
+      val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL)
+      alert.getDialogPane.setContent( new Label(s"Are you sure you want to remove $layerName? It is NOT empty. This action cannot be undone."))
+      alert.showAndWait()
+
+      if (alert.getResult == ButtonType.YES) {
+        this.drawing.removeLayer(layerName)
+      }
+    } else {
+      this.drawing.removeLayer(layerName)
+    }
     updateLayerView()
     val targetIndex = math.min(this.drawing.layers.length - 1, math.max(layerIndex, 0))  // layer under the removed one
     this.layerView.getSelectionModel.select(targetIndex)
