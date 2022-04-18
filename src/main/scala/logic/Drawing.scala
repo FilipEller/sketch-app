@@ -234,7 +234,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     if (this.config.selectedElements.nonEmpty) {
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
-          val (newGroup, newElements) = this.config.activeLayer.removeElementsFromGroup(group, group.elements)
+          val (newGroup, newElements) = this.config.activeLayer.removeFromGroup(group, group.elements)
           ActionHistory.add(newGroup +: newElements)
           this.select(newElements)
         }
@@ -406,7 +406,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
         if (names.length >= group.elements.length) {
           this.ungroupSelected()
         } else if (layer.contains(group) && group.elements.length > 1) {
-          val (newGroup, newElements) = layer.removeElementsFromGroupByName(group, names)
+          val (newGroup, newElements) = layer.removeFromGroupByName(group, names)
           this.select(newGroup +: newElements)
         }
       }
@@ -420,7 +420,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def renameElement(element: Element, newName: String): Unit = {
-    val newElement = this.config.activeLayer.renameElement(element, newName)
+    val newElement = this.config.activeLayer.rename(element, newName)
     this.select(this.config.selectedElements.filter(_ != element) :+ newElement)
     ActionHistory.add(newElement)
   }

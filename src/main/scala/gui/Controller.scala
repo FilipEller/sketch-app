@@ -225,7 +225,7 @@ class Controller {
 
       val input = dialog.getEditor.getText
       if (input != null && input.nonEmpty) {
-        val elementOption = this.drawing.config.activeLayer.findElementByName(selected)
+        val elementOption = this.drawing.config.activeLayer.find(selected)
         elementOption match {
           case Some(e: Element) => {
             this.drawing.renameElement(e, input)

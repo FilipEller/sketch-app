@@ -156,7 +156,7 @@ case class Layer(var name: String) {
   }*/
 
 
-  def removeElementsFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
+  def removeFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
     val index = this.elements.indexOf(group)
     val groupWithoutTarget = group.remove(elements)
     val newGroup = if (groupWithoutTarget.elements.isEmpty) groupWithoutTarget.copy(deleted = true, previousVersion = Some(group)) else groupWithoutTarget
@@ -172,20 +172,20 @@ case class Layer(var name: String) {
     (newGroup, newElements)
   }
 
-  def removeElementsFromGroupByName(group: ElementGroup, names: Seq[String]): (ElementGroup, Seq[Element]) = {
+  def removeFromGroupByName(group: ElementGroup, names: Seq[String]): (ElementGroup, Seq[Element]) = {
     val elements = group.find(names)
-    removeElementsFromGroup(group, elements)
+    removeFromGroup(group, elements)
   }
 
-  def findElementByName(name: String): Option[Element] = {
+  def find(name: String): Option[Element] = {
     this.elements.find(_.name == name)
   }
 
-  def findElementsByName(names: Seq[String]): Seq[Element] = {
-    names.flatMap(findElementByName)
+  def find(names: Seq[String]): Seq[Element] = {
+    names.flatMap(find)
   }
 
-  def renameElement(element: Element, newName: String): Element = {
+  def rename(element: Element, newName: String): Element = {
     val newElement = element match {
       case e: Shape => e.copy(name = newName, previousVersion = Some(e))
       case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
