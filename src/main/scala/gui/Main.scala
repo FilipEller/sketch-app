@@ -36,7 +36,7 @@ object Main extends JFXApp {
   this.controller.drawing = drawing
   this.controller.initController()
 
-  def saveDrawing(): Unit = {
+  def saveDrawing(): Boolean = {
     val fileChooser = new FileChooser {
       title = "Save Drawing"
     }
@@ -45,6 +45,9 @@ object Main extends JFXApp {
     val file = fileChooser.showSaveDialog(stage)
     if (file != null) {
       FileManager.save(drawing, file)
+      true
+    } else {
+      false
     }
   }
 
@@ -65,8 +68,10 @@ object Main extends JFXApp {
       if (alert.getResult == ButtonType.YES) {
         createNewDrawing()
       } else if (alert.getResult == ButtonType.NO) {
-        this.saveDrawing()
-        createNewDrawing()
+        val saved = this.saveDrawing()
+        if (saved) {
+          createNewDrawing()
+        }
       }
     } else {
       createNewDrawing()
@@ -74,22 +79,43 @@ object Main extends JFXApp {
   }
 
   def loadDrawing(): Unit = {
-    val fileChooser = new FileChooser {
-      title = "Load Drawing"
-    }
+    def load(): Unit = {
+      val fileChooser = new FileChooser {
+        title = "Load Drawing"
+      }
 
-    val file = fileChooser.showOpenDialog(stage)
-    if (file != null) {
-      try {
-        this.drawing = FileManager.load(file)
-        this.controller.initController()
-        this.controller.update()
-      } catch {
-        case ParseException(_, _) => {
-          val alert = new Alert(AlertType.ERROR, "Chosen file did not contain a valid drawing.", ButtonType.OK)
-          alert.show()
+      val file = fileChooser.showOpenDialog(stage)
+      if (file != null) {
+        try {
+          this.drawing = FileManager.load(file)
+          this.controller.initController()
+          this.controller.update()
+        } catch {
+          case ParseException(_, _) => {
+            val alert = new Alert(AlertType.ERROR, "Chosen file did not contain a valid drawing.", ButtonType.OK)
+            alert.show()
+          }
         }
       }
+    }
+
+    if (this.drawing.layers.exists(_.elements.exists(!_.deleted))) {
+      val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
+      alert.getDialogPane.setContent(new Label("Are you sure you want to open a drawing? Any unsaved changes will be lost."))
+      val noButton = alert.getDialogPane.lookupButton(ButtonType.NO).asInstanceOf[Button]
+      noButton.setText("Save and open")
+      alert.showAndWait()
+
+      if (alert.getResult == ButtonType.YES) {
+        load()
+      } else if (alert.getResult == ButtonType.NO) {
+        val saved = this.saveDrawing()
+        if (saved) {
+          load()
+        }
+      }
+    } else {
+      load()
     }
   }
 

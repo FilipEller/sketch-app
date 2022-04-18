@@ -30,7 +30,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@index.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
     <MenuBar id="menu-bar" maxHeight="30.0" minHeight="30.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="1440.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" styleClass="menu" text="File">
-            <MenuItem id="new" mnemonicParsing="false" onAction="#newDrawing" styleClass="menu-item" text="New" />
+            <MenuItem id="new" mnemonicParsing="false" onAction="#newDrawing" styleClass="menu-item" text="New (CTRL+N)" />
             <MenuItem id="saveas" mnemonicParsing="false" onAction="#saveDrawing" styleClass="menu-item" text="Save... (CTRL+S)" />
             <MenuItem id="open" mnemonicParsing="false" onAction="#loadDrawing" styleClass="menu-item" text="Open... (CTRL+O)" />
         </Menu>
