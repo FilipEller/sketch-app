@@ -15,6 +15,7 @@ import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, R
 import scalafx.stage.FileChooser
 import scalafx.stage.FileChooser.ExtensionFilter
 import scalafxml.core.FXMLView
+import ujson.ParseException
 // import scalafx.scene.layout.Pane
 import scalafx.scene.layout.GridPane
 import scalafx.scene.layout.VBox
@@ -25,6 +26,9 @@ import scalafx.scene.text.Font
 import scalafx.scene.layout.BackgroundFill
 import scalafx.scene.canvas.Canvas
 import scalafx.geometry.Insets
+import javafx.scene.control.Alert
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.ButtonType
 
 object Main extends JFXApp {
 
@@ -73,9 +77,16 @@ object Main extends JFXApp {
 
     val file = fileChooser.showOpenDialog(stage)
     if (file != null) {
-      this.drawing = FileManager.load(file)
-      this.controller.initController()
-      this.controller.update()
+      try {
+        this.drawing = FileManager.load(file)
+        this.controller.initController()
+        this.controller.update()
+      } catch {
+        case ParseException(_, _) => {
+          val alert = new Alert(AlertType.ERROR, "Chosen file did not contain a valid drawing.", ButtonType.OK)
+          alert.show()
+        }
+      }
     }
   }
 

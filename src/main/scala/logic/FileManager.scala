@@ -202,17 +202,11 @@ object FileManager {
   }
 
   def load(file: File): Drawing = {
-    println("loading drawing from file 🧐")
-    println(file)
     // this could use for...yield
     val path = os.Path(file.getPath)
     val jsonString = os.read(path)
-    println(jsonString)
     val input = ujson.read(jsonString)
     val result = decodeDrawing(input)
-    println(result)
-    println(result.layers)
-    println(result.layers.map(_.elements))
     result
   }
 
