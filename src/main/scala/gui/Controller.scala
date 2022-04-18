@@ -1,29 +1,15 @@
 package gui
 
-import javafx.beans.value.ObservableValue
-import javafx.fxml.FXML
+import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.event.ActionEvent
-import javafx.scene.input.MouseEvent
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane}
-import javafx.scene.layout.StackPane
+import javafx.fxml.FXML
+import javafx.scene.control.{ColorPicker, SelectionMode}
 import logic._
 import scalafx.Includes._
-import scalafx.geometry.{Insets, Point2D}
-import scalafx.scene.Node
+import scalafx.geometry.Point2D
 import scalafx.scene.canvas.Canvas
-import scalafx.scene.control.{Button, Slider, TextInputDialog}
-import scalafx.scene.input.MouseDragEvent
-import scalafx.scene.paint.Color.{Blue, White, rgb}
-import javafx.scene.control.{ColorPicker, ListView, SelectionMode}
-import scalafx.animation.AnimationTimer
-import scalafx.collections.ObservableBuffer
-import javafx.beans.value.ChangeListener
-import javafx.scene.input.DragEvent
-import scalafx.scene.paint.Color
-import scalafx.stage.FileChooser
-import scalafx.stage.FileChooser.ExtensionFilter
-
-import scala.math
+import scalafx.scene.control.TextInputDialog
+import scalafx.scene.paint.Color.White
 
 class Controller {
 

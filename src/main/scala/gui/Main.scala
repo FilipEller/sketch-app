@@ -1,34 +1,18 @@
 package gui
 
-import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
-import javafx.scene.input.MouseEvent
+import javafx.scene.input.KeyEvent
 import javafx.scene.layout.AnchorPane
 import logic._
 import scalafx.application.JFXApp
-import scalafx.application.JFXApp.PrimaryStage
-import scalafx.geometry.Point2D
+import scalafx.scene.Scene
 import scalafx.scene.input.KeyCode
-import javafx.scene.input.KeyEvent
-import scalafx.scene.{Parent, Scene}
-import scalafx.scene.layout.{Background, ColumnConstraints, CornerRadii, HBox, RowConstraints, StackPane}
 import scalafx.stage.FileChooser
 import scalafx.stage.FileChooser.ExtensionFilter
-import scalafxml.core.FXMLView
 import ujson.ParseException
-// import scalafx.scene.layout.Pane
-import scalafx.scene.layout.GridPane
-import scalafx.scene.layout.VBox
-import scalafx.scene.control.{Button, CheckBox, Label, MenuBar, TextField}
-import scalafx.scene.paint.Color._
-import scalafx.Includes._
-import scalafx.scene.text.Font
-import scalafx.scene.layout.BackgroundFill
-import scalafx.scene.canvas.Canvas
-import scalafx.geometry.Insets
-import javafx.scene.control.Alert
 import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.ButtonType
+import javafx.scene.control.{Alert, ButtonType}
+import scalafx.Includes._
 
 object Main extends JFXApp {
 
