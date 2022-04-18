@@ -8,7 +8,8 @@ import scala.math.min
 
 sealed abstract class StrokeTool extends Tool {
 
-  var currentElement = new Stroke(rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100), "")
+  var currentElement =
+    new Stroke(rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100), "")
   var clickPoint = new Point2D(0, 0)
 
   def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
@@ -27,7 +28,8 @@ sealed abstract class StrokeTool extends Tool {
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
         this.clickPoint = eventPoint
-        this.currentElement = Stroke(config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
+        this.currentElement =
+          Stroke(config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
         layer.add(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
@@ -46,12 +48,18 @@ sealed abstract class StrokeTool extends Tool {
 
 object BrushTool extends StrokeTool {
   def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
-    this.currentElement = this.currentElement.copy(path = this.currentElement.path :+ eventPoint, origin = origin)
+    this.currentElement = this.currentElement.copy(
+      path = this.currentElement.path :+ eventPoint,
+      origin = origin
+    )
   }
 }
 
 object LineTool extends StrokeTool {
   def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
-    this.currentElement = this.currentElement.copy(path = Path(this.currentElement.path.head, eventPoint), origin = origin)
+    this.currentElement = this.currentElement.copy(
+      path = Path(this.currentElement.path.head, eventPoint),
+      origin = origin
+    )
   }
 }

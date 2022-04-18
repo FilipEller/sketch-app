@@ -112,7 +112,9 @@ object Shape {
       }
     }
 
-    new Shape(stype, width, height, borderWidth, color, borderColor, useBorder, useFill, origin, nameToUse, previousVersion, deleted)
+    new Shape(stype, width, height, borderWidth,
+      color, borderColor, useBorder, useFill, origin,
+      nameToUse, previousVersion, deleted)
   }
 
 }

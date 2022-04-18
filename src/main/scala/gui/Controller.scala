@@ -298,7 +298,8 @@ class Controller {
     val layerName = this.layerView.getSelectionModel.getSelectedItem
     val layer = this.drawing.removeLayer(layerName)
     updateLayerView()
-    this.layerView.getSelectionModel.select(math.min(this.drawing.layers.length - 1, math.max(layerIndex, 0))) // select the layer under the removed one
+    val targetIndex = math.min(this.drawing.layers.length - 1, math.max(layerIndex, 0))  // layer under the removed one
+    this.layerView.getSelectionModel.select(targetIndex)
     updateCanvas()
   }
 

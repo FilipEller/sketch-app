@@ -27,7 +27,10 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def selectedElements = this.config.selectedElements
 
-  def selectedGroup: Option[ElementGroup] =  this.config.selectedElements.findLast(_.isInstanceOf[ElementGroup]).map(_.asInstanceOf[ElementGroup])
+  def selectedGroup: Option[ElementGroup] =
+    this.config.selectedElements
+      .findLast(_.isInstanceOf[ElementGroup])
+      .map(_.asInstanceOf[ElementGroup])
 
   def addLayer(): Unit = {
     var index = this.layers.length + 1
@@ -154,19 +157,27 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def selectAdd(element: Element): Unit = {
-    this.config = this.config.copy(selectedElements = this.config.selectedElements :+ element)
+    this.config = this.config.copy(
+      selectedElements = this.config.selectedElements :+ element
+    )
   }
 
   def selectAdd(elements: Seq[Element]): Unit = {
-    this.config = this.config.copy(selectedElements = this.config.selectedElements ++ elements)
+    this.config = this.config.copy(
+      selectedElements = this.config.selectedElements ++ elements
+    )
   }
 
   def deselect(element: Element): Unit = {
-    this.config = this.config.copy(selectedElements = this.config.selectedElements.filter(_ != element))
+    this.config = this.config.copy(
+      selectedElements = this.config.selectedElements.filter(_ != element)
+    )
   }
 
   def selectAll(): Unit = {
-    this.config = this.config.copy(selectedElements = this.config.activeLayer.elements.filter(!_.deleted).toSeq)
+    this.config = this.config.copy(
+      selectedElements = this.config.activeLayer.elements.filter(!_.deleted).toSeq
+    )
   }
 
   def deselectAll(): Unit = {
@@ -261,7 +272,9 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
   }
 
-  private def updateProperty(elements: Seq[Element], brushSize: Int, hardness: Int, borderWidth: Int, fontSize: Int): Seq[Element] = {
+  private def updateProperty(elements: Seq[Element],
+                             brushSize: Int, hardness: Int,
+                             borderWidth: Int, fontSize: Int): Seq[Element] = {
     elements.map{
       case stroke: Stroke if (brushSize >= 0) =>
         stroke.copy(brush = stroke.brush.copy(size = brushSize), previousVersion = Some(stroke))
