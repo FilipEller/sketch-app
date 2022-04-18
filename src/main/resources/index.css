@@ -40,7 +40,7 @@
     -fx-background-color: #505050;
 }
 
-.button:pressed {
+.button:pressed, .tool-button:focused {
     -fx-background-color: #414141;
 }
 
