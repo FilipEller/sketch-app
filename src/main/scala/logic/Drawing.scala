@@ -90,47 +90,39 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def paintSelection(pane: StackPane) = {
-    val borderColor = rgb(255, 230, 0)
-    val fillColor = rgb(0, 0, 0)
+    val rectangle =
+      new Shape(
+        Rectangle,
+        0, 0, 2,
+        rgb(255, 230, 0), rgb(0, 0, 0),
+        true, false, new Point2D(0, 0),
+        "selection"
+      )
     val selections =
       this.config.selectedElements.map{
         case e: Shape =>
-          new Shape(
-            Rectangle,
-            e.width + e.borderWidth,
-            e.height + e.borderWidth,
-            2,
-            borderColor,
-            fillColor,
-            true, false,
-            new Point2D(
+          rectangle.copy(
+            width = e.width + e.borderWidth,
+            height = e.height + e.borderWidth,
+            origin = new Point2D(
               e.origin.x - 0.5 * e.borderWidth,
               e.origin.y - 0.5 * e.borderWidth
             ),
-            "selection"
           )
         case e: Stroke =>
-          new Shape(
-            Rectangle,
-            e.width,
-            e.height,
-            2,
-            borderColor,
-            fillColor,
-            true, false,
-            new Point2D(
+          rectangle.copy(
+            width = e.width,
+            height = e.height,
+            origin = new Point2D(
               e.origin.x - 0.5 * e.brush.size,
               e.origin.y - 0.5 * e.brush.size
-            ),
-            "selection"
+            )
           )
         case e: Element =>
-          new Shape(
-            Rectangle,
-            e.width, e.height, 2,
-            borderColor, fillColor,
-            true, false, e.origin,
-            "selection"
+          rectangle.copy(
+            width = e.width,
+            height = e.height,
+            origin = e.origin
           )
       }
     val canvas = new Canvas(width, height)
@@ -364,7 +356,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     this.config = this.config.copy(activeTool = tool)
   }
 
-  def updateUseBorderOrFill(elements: Seq[Element], newValue: Boolean, changeUseBorder: Boolean): Seq[Element] = {
+  private def updateUseBorderOrFill(elements: Seq[Element], newValue: Boolean, changeUseBorder: Boolean): Seq[Element] = {
     elements.map{
       case e: Shape => {
         if (changeUseBorder)
