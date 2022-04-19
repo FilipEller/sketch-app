@@ -14,6 +14,8 @@ import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{Alert, Button, ButtonType, Label}
 import scalafx.Includes._
 
+import java.util.NoSuchElementException
+
 object Main extends JFXApp {
 
   println("loading FXML")
@@ -79,6 +81,11 @@ object Main extends JFXApp {
   }
 
   def loadDrawing(): Unit = {
+    def showAlert(): Unit = {
+      val alert = new Alert(AlertType.ERROR, "Chosen file did not contain a valid drawing.", ButtonType.OK)
+      alert.show()
+    }
+
     def load(): Unit = {
       val fileChooser = new FileChooser {
         title = "Load Drawing"
@@ -91,10 +98,8 @@ object Main extends JFXApp {
           this.controller.initController()
           this.controller.update()
         } catch {
-          case ParseException(_, _) => {
-            val alert = new Alert(AlertType.ERROR, "Chosen file did not contain a valid drawing.", ButtonType.OK)
-            alert.show()
-          }
+          case ParseException(_, _) => showAlert()
+          case e: NoSuchElementException => showAlert()
         }
       }
     }
