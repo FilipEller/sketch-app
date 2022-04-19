@@ -23,9 +23,10 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       Seq(),                          // selected elements
       12)                             // font size
 
-  var config = this.defaultConfig
+  private var mConfig = this.defaultConfig
 
   def layers = this.mLayers.toSeq
+  def config = this.mConfig
   def selectedElements = this.config.selectedElements
   def activeLayer = this.config.activeLayer
 
@@ -142,39 +143,39 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def select(element: Element): Unit = {
-    this.config = this.config.copy(selectedElements = Seq(element))
+    this.mConfig = this.config.copy(selectedElements = Seq(element))
   }
 
   def select(elements: Seq[Element]): Unit = {
-    this.config = this.config.copy(selectedElements = elements)
+    this.mConfig = this.config.copy(selectedElements = elements)
   }
 
   def selectAdd(element: Element): Unit = {
-    this.config = this.config.copy(
+    this.mConfig = this.config.copy(
       selectedElements = this.selectedElements :+ element
     )
   }
 
   def selectAdd(elements: Seq[Element]): Unit = {
-    this.config = this.config.copy(
+    this.mConfig = this.config.copy(
       selectedElements = this.selectedElements ++ elements
     )
   }
 
   def deselect(element: Element): Unit = {
-    this.config = this.config.copy(
+    this.mConfig = this.config.copy(
       selectedElements = this.selectedElements.filter(_ != element)
     )
   }
 
   def selectAll(): Unit = {
-    this.config = this.config.copy(
+    this.mConfig = this.config.copy(
       selectedElements = this.activeLayer.elements.filter(!_.deleted).toSeq
     )
   }
 
   def deselectAll(): Unit = {
-    this.config = this.config.copy(selectedElements = Seq())
+    this.mConfig = this.config.copy(selectedElements = Seq())
   }
 
   def undo(): Unit = {
@@ -294,13 +295,13 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       this.updateSelected(newElements)
     } else {
       if (brushSize >= 0) {
-        this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(size = brushSize))
+        this.mConfig = this.config.copy(activeBrush = this.config.activeBrush.copy(size = brushSize))
       } else if (hardness >= 0) {
-        this.config = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
+        this.mConfig = this.config.copy(activeBrush = this.config.activeBrush.copy(hardness = hardness))
       } else if (borderWidth >= 0) {
-        this.config = this.config.copy(borderWidth = borderWidth)
+        this.mConfig = this.config.copy(borderWidth = borderWidth)
       } else if (fontSize >= 0) {
-        this.config = this.config.copy(fontSize = fontSize)
+        this.mConfig = this.config.copy(fontSize = fontSize)
       }
     }
   }
@@ -326,7 +327,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       val newElements = this.updatePrimaryColor(this.selectedElements, color)
       this.updateSelected(newElements)
     } else {
-      this.config = this.config.copy(primaryColor = color)
+      this.mConfig = this.config.copy(primaryColor = color)
     }
   }
 
@@ -349,12 +350,12 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       val newElements = updateSecondaryColor(this.selectedElements, color)
       this.updateSelected(newElements)
     } else {
-      this.config = this.config.copy(secondaryColor = color)
+      this.mConfig = this.config.copy(secondaryColor = color)
     }
   }
 
   def changeTool(tool: Tool) = {
-    this.config = this.config.copy(activeTool = tool)
+    this.mConfig = this.config.copy(activeTool = tool)
   }
 
   private def updateUseBorderOrFill(elements: Seq[Element], newValue: Boolean, changeUseBorder: Boolean): Seq[Element] = {
@@ -381,7 +382,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       val newElements = updateUseBorderOrFill(this.selectedElements, newValue, true)
       this.updateSelected(newElements)
     } else {
-      this.config = this.config.copy(useBorder = newValue)
+      this.mConfig = this.config.copy(useBorder = newValue)
     }
   }
 
@@ -390,14 +391,14 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       val newElements = updateUseBorderOrFill(this.selectedElements, newValue, false)
       this.updateSelected(newElements)
     } else {
-      this.config = this.config.copy(useFill = newValue)
+      this.mConfig = this.config.copy(useFill = newValue)
     }
   }
 
   def selectLayer(layer: Layer) = {
     if (layer != this.activeLayer) {
       this.deselectAll()
-      this.config = this.config.copy(activeLayer = layer)
+      this.mConfig = this.config.copy(activeLayer = layer)
     }
   }
 

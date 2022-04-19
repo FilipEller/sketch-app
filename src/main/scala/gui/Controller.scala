@@ -114,7 +114,7 @@ class Controller {
   def updateSelectedView(): Unit = {
     val index = this.selectedView.getSelectionModel.getSelectedIndex
     this.selectedView.getItems.clear()
-    this.drawing.config.selectedElements.reverse
+    this.drawing.selectedElements.reverse
       .foreach( e => this.selectedView.getItems.add(e.name) )
     if (this.selectedView.getItems.nonEmpty) {
       val targetIndex = math.max(math.min(index, this.selectedView.getItems.length - 1), 0)
@@ -184,7 +184,7 @@ class Controller {
 
   def updateSelectedProperties(): Unit = {
     this.updateSelectedPropertiesByElement(
-      drawing.config.selectedElements.headOption
+      drawing.selectedElements.headOption
     )
   }
 
@@ -232,7 +232,7 @@ class Controller {
 
       val input = dialog.getEditor.getText
       if (input != null && input.nonEmpty) {
-        val elementOption = this.drawing.config.activeLayer.find(selected)
+        val elementOption = this.drawing.activeLayer.find(selected)
         elementOption match {
           case Some(e: Element) => {
             this.drawing.renameElement(e, input)
@@ -250,8 +250,8 @@ class Controller {
   }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
-    if (!this.drawing.config.activeLayer.hidden) {
-      if (!Seq(SelectionTool, MoveTool, TextTool).contains(this.drawing.config.activeTool)) {
+    if (!this.drawing.activeLayer.hidden) {
+      if (!Seq(SelectionTool, MoveTool).contains(this.drawing.config.activeTool)) {
         this.drawing.deselectAll()
       }
       val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
@@ -324,13 +324,13 @@ class Controller {
   @FXML protected def renameLayer(event: ActionEvent) = {
     val dialog = new TextInputDialog()
     dialog.setTitle("")
-    dialog.setHeaderText(s"Rename ${this.drawing.config.activeLayer.name}")
+    dialog.setHeaderText(s"Rename ${this.drawing.activeLayer.name}")
     dialog.getDialogPane.setContentText("New name:")
     dialog.showAndWait()
 
     val input = dialog.getEditor.getText
     if (input != null && input.nonEmpty) {
-        this.drawing.renameLayer(this.drawing.config.activeLayer, input)
+        this.drawing.renameLayer(this.drawing.activeLayer, input)
     }
     updateLayerView()
   }

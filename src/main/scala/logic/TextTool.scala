@@ -6,14 +6,17 @@ import scalafx.scene.paint.Color.rgb
 object TextTool extends ShapeTool(Rectangle) {
 
   override def use(drawing: Drawing, event: MouseEvent, eventPoint: Point2D): Unit = {
+
     val originalConfig = drawing.config
-    drawing.config =
-      drawing.config.copy(
-        primaryColor = rgb(255, 230, 0),
-        secondaryColor = rgb(0, 0, 0, 0)
-      )
+    drawing.deselectAll()
+    drawing.changePrimaryColor(rgb(255, 230, 0))
+    drawing.changeSecondaryColor(rgb(0, 0, 0, 0))
+    drawing.changeProperty(borderWidth = 2)
     super.use(drawing, event, eventPoint)
-    drawing.config = originalConfig
+    drawing.changePrimaryColor(originalConfig.primaryColor)
+    drawing.changeSecondaryColor(originalConfig.secondaryColor)
+    drawing.changeProperty(borderWidth = originalConfig.borderWidth)
+
     event.getEventType match {
       case MouseEvent.MOUSE_RELEASED => {
         val rectangle = this.currentElement
@@ -23,7 +26,7 @@ object TextTool extends ShapeTool(Rectangle) {
         ElementHistory.undo()
         ElementHistory.add(newElement)
         drawing.config.activeLayer.update(rectangle, newElement)
-        drawing.config = drawing.config.copy(selectedElements = Vector(newElement))
+        drawing.select(newElement)
       }
       case _ =>
     }
