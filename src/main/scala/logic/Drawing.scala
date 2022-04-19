@@ -35,6 +35,13 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       .findLast(_.isInstanceOf[ElementGroup])
       .map(_.asInstanceOf[ElementGroup])
 
+  def selectLayer(layer: Layer): Unit = {
+    if (layer != this.activeLayer) {
+      this.deselectAll()
+      this.mConfig = this.config.copy(activeLayer = layer)
+    }
+  }
+
   def addLayer(): Unit = {
     var index = this.layers.length + 1
     val names = this.layers.map(_.name)
@@ -90,6 +97,11 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       val nameToUse = s"$newName ${index}"
       layer.rename(nameToUse)
     }
+  }
+
+  def toggleActiveLayerHidden() = {
+    this.deselectAll()
+    this.activeLayer.hidden = !this.activeLayer.hidden
   }
 
   private def paintSelection(pane: StackPane) = {
@@ -433,18 +445,6 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     } else {
       this.mConfig = this.config.copy(useFill = newValue)
     }
-  }
-
-  def selectLayer(layer: Layer) = {
-    if (layer != this.activeLayer) {
-      this.deselectAll()
-      this.mConfig = this.config.copy(activeLayer = layer)
-    }
-  }
-
-  def toggleActiveLayerHidden() = {
-    this.deselectAll()
-    this.activeLayer.hidden = !this.activeLayer.hidden
   }
 
 }
