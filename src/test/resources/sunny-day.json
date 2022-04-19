@@ -1,0 +1,994 @@
+{
+  "width": 1000,
+  "height": 600,
+  "layers": [
+    {
+      "name": "Background",
+      "hidden": false,
+      "elements": [
+        {
+          "type": "shape",
+          "shapeType": "rectangle",
+          "width": 1167.9999771118164,
+          "height": 622.3999633789062,
+          "borderWidth": 3,
+          "color": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "fillColor": [
+            150,
+            217,
+            241,
+            1
+          ],
+          "useBorder": false,
+          "useFill": true,
+          "origin": [
+            -37.600013732910156,
+            -13.20001220703125
+          ],
+          "name": "Rectangle 1"
+        },
+        {
+          "type": "shape",
+          "shapeType": "circle",
+          "width": 152,
+          "height": 152,
+          "borderWidth": 3,
+          "color": [
+            204,
+            153,
+            51,
+            1
+          ],
+          "fillColor": [
+            255,
+            230,
+            128,
+            1
+          ],
+          "useBorder": false,
+          "useFill": true,
+          "origin": [
+            704.800048828125,
+            50.79998779296875
+          ],
+          "name": "Sun"
+        },
+        {
+          "type": "shape",
+          "shapeType": "ellipse",
+          "width": 408.80001068115234,
+          "height": 38.399993896484375,
+          "borderWidth": 3,
+          "color": [
+            77,
+            128,
+            128,
+            1
+          ],
+          "fillColor": [
+            255,
+            255,
+            255,
+            1
+          ],
+          "useBorder": false,
+          "useFill": true,
+          "origin": [
+            83.20001983642578,
+            130.79998779296875
+          ],
+          "name": "Ellipse 21"
+        },
+        {
+          "type": "shape",
+          "shapeType": "ellipse",
+          "width": 178.39998626708984,
+          "height": 32.79998779296875,
+          "borderWidth": 3,
+          "color": [
+            77,
+            128,
+            128,
+            1
+          ],
+          "fillColor": [
+            255,
+            255,
+            255,
+            1
+          ],
+          "useBorder": false,
+          "useFill": true,
+          "origin": [
+            114.40003204345703,
+            146.79998779296875
+          ],
+          "name": "Ellipse 27"
+        },
+        {
+          "type": "shape",
+          "shapeType": "ellipse",
+          "width": 46.399986267089844,
+          "height": 12.79998779296875,
+          "borderWidth": 3,
+          "color": [
+            77,
+            128,
+            128,
+            1
+          ],
+          "fillColor": [
+            255,
+            255,
+            255,
+            1
+          ],
+          "useBorder": false,
+          "useFill": true,
+          "origin": [
+            90.40003204345703,
+            144.39999389648438
+          ],
+          "name": "Ellipse 28"
+        },
+        {
+          "type": "group",
+          "elements": [
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 127.20004272460938,
+              "height": 46.4000244140625,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                501.6000061035156,
+                203.5999755859375
+              ],
+              "name": "Ellipse 32"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 132.800048828125,
+              "height": 36,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                554.4000244140625,
+                214
+              ],
+              "name": "Ellipse 33"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 78.4000244140625,
+              "height": 64.79998779296875,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                545.6000366210938,
+                166.79998779296875
+              ],
+              "name": "Ellipse 35"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 85.5999755859375,
+              "height": 39.199981689453125,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                580.0000610351562,
+                196.39999389648438
+              ],
+              "name": "Ellipse 37"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 59.20001220703125,
+              "height": 52,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                526.4000244140625,
+                185.19998168945312
+              ],
+              "name": "Ellipse 39"
+            }
+          ],
+          "color": [
+            77,
+            128,
+            128,
+            1
+          ],
+          "name": "Cloud 2"
+        },
+        {
+          "type": "group",
+          "elements": [
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 133.60000610351562,
+              "height": 98.40000915527344,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                156.80001831054688,
+                53.99998474121094
+              ],
+              "name": "Ellipse 23"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 144,
+              "height": 75.19998168945312,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                261.6000061035156,
+                72.39999389648438
+              ],
+              "name": "Ellipse 24"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 89.60000610351562,
+              "height": 35.20001220703125,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                370.4000244140625,
+                109.19998168945312
+              ],
+              "name": "Ellipse 25"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 181.5999984741211,
+              "height": 76,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                75.20001983642578,
+                98
+              ],
+              "name": "Ellipse 29"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 143.99996948242188,
+              "height": 52.79998779296875,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                358.4000244140625,
+                122
+              ],
+              "name": "Ellipse 30"
+            },
+            {
+              "type": "shape",
+              "shapeType": "ellipse",
+              "width": 170.4000244140625,
+              "height": 31.20001220703125,
+              "borderWidth": 3,
+              "color": [
+                77,
+                128,
+                128,
+                1
+              ],
+              "fillColor": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "useBorder": false,
+              "useFill": true,
+              "origin": [
+                244.80001831054688,
+                142.79998779296875
+              ],
+              "name": "Ellipse 31"
+            }
+          ],
+          "color": [
+            77,
+            128,
+            128,
+            1
+          ],
+          "name": "Cloud"
+        }
+      ]
+    },
+    {
+      "name": "Buildings",
+      "hidden": false,
+      "elements": [
+        {
+          "type": "group",
+          "elements": [
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 125.60006713867188,
+              "height": 176.79998779296875,
+              "borderWidth": 3,
+              "color": [
+                204,
+                128,
+                51,
+                1
+              ],
+              "fillColor": [
+                255,
+                179,
+                102,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                435.1999816894531,
+                286
+              ],
+              "name": "Rectangle 5"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 23.20001220703125,
+              "height": 41.600006103515625,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                447.1999816894531,
+                315.6000061035156
+              ],
+              "name": "Rectangle 30"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 22.4000244140625,
+              "height": 40.800018310546875,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                483.9999694824219,
+                316.3999938964844
+              ],
+              "name": "Rectangle 32"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 21.5999755859375,
+              "height": 38.4000244140625,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                521.6000366210938,
+                318.79998779296875
+              ],
+              "name": "Rectangle 33"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 24,
+              "height": 36,
+              "borderWidth": 3,
+              "color": [
+                179,
+                128,
+                26,
+                1
+              ],
+              "fillColor": [
+                179,
+                179,
+                179,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                486.3999938964844,
+                406.79998779296875
+              ],
+              "name": "Rectangle 52"
+            }
+          ],
+          "color": [
+            204,
+            128,
+            51,
+            1
+          ],
+          "name": "House 2"
+        },
+        {
+          "type": "group",
+          "elements": [
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 220.79998779296875,
+              "height": 119.20001220703125,
+              "borderWidth": 3,
+              "color": [
+                204,
+                128,
+                51,
+                1
+              ],
+              "fillColor": [
+                255,
+                179,
+                102,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                681.6000366210938,
+                341.20001220703125
+              ],
+              "name": "Rectangle 7"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 55.20001220703125,
+              "height": 43.199951171875,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                830.4000244140625,
+                368.4000244140625
+              ],
+              "name": "Rectangle 36"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 52.79998779296875,
+              "height": 40.79998779296875,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                762.4000244140625,
+                369.20001220703125
+              ],
+              "name": "Rectangle 38"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 21.5999755859375,
+              "height": 33.60003662109375,
+              "borderWidth": 3,
+              "color": [
+                179,
+                128,
+                26,
+                1
+              ],
+              "fillColor": [
+                179,
+                179,
+                179,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                708.800048828125,
+                411.5999755859375
+              ],
+              "name": "Rectangle 53"
+            }
+          ],
+          "color": [
+            204,
+            128,
+            51,
+            1
+          ],
+          "name": "House 3"
+        },
+        {
+          "type": "group",
+          "elements": [
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 176.80001068115234,
+              "height": 217.5999755859375,
+              "borderWidth": 3,
+              "color": [
+                204,
+                128,
+                51,
+                1
+              ],
+              "fillColor": [
+                255,
+                179,
+                102,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                120.79999542236328,
+                238
+              ],
+              "name": "Rectangle 4"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 39.20001220703125,
+              "height": 37.600006103515625,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                232.79998779296875,
+                274.79998779296875
+              ],
+              "name": "Rectangle 15"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 37.600006103515625,
+              "height": 40,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                235.19998168945312,
+                334
+              ],
+              "name": "Rectangle 43"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 36,
+              "height": 36,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                184,
+                275.6000061035156
+              ],
+              "name": "Rectangle 48"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 33.59999084472656,
+              "height": 35.20001220703125,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                135.1999969482422,
+                276.3999938964844
+              ],
+              "name": "Rectangle 49"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 35.20001220703125,
+              "height": 37.60003662109375,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                187.19998168945312,
+                331.5999755859375
+              ],
+              "name": "Rectangle 50"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 35.199981689453125,
+              "height": 36,
+              "borderWidth": 3,
+              "color": [
+                204,
+                204,
+                204,
+                1
+              ],
+              "fillColor": [
+                153,
+                204,
+                204,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                136,
+                331.5999755859375
+              ],
+              "name": "Rectangle 51"
+            },
+            {
+              "type": "shape",
+              "shapeType": "rectangle",
+              "width": 24,
+              "height": 33.5999755859375,
+              "borderWidth": 3,
+              "color": [
+                179,
+                128,
+                26,
+                1
+              ],
+              "fillColor": [
+                179,
+                179,
+                179,
+                1
+              ],
+              "useBorder": true,
+              "useFill": true,
+              "origin": [
+                152,
+                410
+              ],
+              "name": "Rectangle 54"
+            }
+          ],
+          "color": [
+            204,
+            128,
+            51,
+            1
+          ],
+          "name": "House"
+        }
+      ]
+    },
+    {
+      "name": "Nature",
+      "hidden": false,
+      "elements": [
+        {
+          "type": "shape",
+          "shapeType": "rectangle",
+          "width": 1017.6000456809998,
+          "height": 165.5999755859375,
+          "borderWidth": 3,
+          "color": [
+            51,
+            102,
+            51,
+            1
+          ],
+          "fillColor": [
+            128,
+            179,
+            128,
+            1
+          ],
+          "useBorder": true,
+          "useFill": true,
+          "origin": [
+            -8.799996852874756,
+            440.4000244140625
+          ],
+          "name": "Grass"
+        },
+        {
+          "type": "shape",
+          "shapeType": "ellipse",
+          "width": 1168.0000228881836,
+          "height": 252,
+          "borderWidth": 3,
+          "color": [
+            77,
+            128,
+            128,
+            1
+          ],
+          "fillColor": [
+            132,
+            169,
+            203,
+            1
+          ],
+          "useBorder": true,
+          "useFill": true,
+          "origin": [
+            114.4000015258789,
+            482.79998779296875
+          ],
+          "name": "Lake"
+        }
+      ]
+    }
+  ]
+}

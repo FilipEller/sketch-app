@@ -1,0 +1,96 @@
+{
+  "width": 1000,
+  "height": 600,
+  "layers": [
+    {
+      "name": "Subject",
+      "hidden": false,
+      "elements": [
+        {
+          "type": "shape",
+          "shapeType": "ellipse",
+          "width": 385.6000061035156,
+          "height": 372,
+          "borderWidth": 8,
+          "color": [
+            230,
+            179,
+            77,
+            1
+          ],
+          "fillColor": [
+            255,
+            230,
+            102,
+            1
+          ],
+          "useBorder": true,
+          "useFill": true,
+          "origin": [
+            437.6000061035156,
+            109.20001220703125
+          ],
+          "name": "Ellipse 17"
+        },
+        {
+          "type": "shape",
+          "shapeType": "square",
+          "width": 249.5999755859375,
+          "height": 249.5999755859375,
+          "borderWidth": 8,
+          "color": [
+            179,
+            77,
+            26,
+            1
+          ],
+          "fillColor": [
+            255,
+            153,
+            128,
+            1
+          ],
+          "useBorder": true,
+          "useFill": true,
+          "origin": [
+            81.5999984741211,
+            101.20001220703125
+          ],
+          "name": "Square 4"
+        }
+      ]
+    },
+    {
+      "name": "Background",
+      "hidden": false,
+      "elements": [
+        {
+          "type": "shape",
+          "shapeType": "rectangle",
+          "width": 1047.200074672699,
+          "height": 632.7999725341797,
+          "borderWidth": 3,
+          "color": [
+            179,
+            230,
+            230,
+            1
+          ],
+          "fillColor": [
+            179,
+            230,
+            230,
+            1
+          ],
+          "useBorder": true,
+          "useFill": true,
+          "origin": [
+            -25.599977016448975,
+            -11.599960327148438
+          ],
+          "name": "Sky"
+        }
+      ]
+    }
+  ]
+}
