@@ -40,7 +40,6 @@ object Path {
 
     while (!finished) {
       path = path :+ new Point2D(x, y)
-      // println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
       val e2 = 2 * error
       if (e2 >= Dy) {
         finished = (x == x1 || finished)
@@ -54,7 +53,7 @@ object Path {
       }
       finished = ((x == x1 && y == y1) || finished)
     }
-    path // note that endpoint (x1, y1) is not included
+    path
   }
 
   def apply(point: Point2D): Path = {
