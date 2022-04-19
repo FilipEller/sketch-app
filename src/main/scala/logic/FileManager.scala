@@ -180,12 +180,12 @@ object FileManager {
     ujson.Obj(
       "width" -> drawing.width,
       "height" -> drawing.height,
-      "layers" -> drawing.layers.map(encodeLayer)
+      "layers" -> drawing.layers.reverse.map(encodeLayer)
     )
   }
 
   private def decodeDrawing(data: Value): Drawing = {
-    val layers = data("layers").arr.map(decodeLayer).toBuffer
+    val layers = data("layers").arr.map(decodeLayer).reverse.toBuffer
     new Drawing(data("width").num.toInt, data("height").num.toInt, layers)
   }
 
