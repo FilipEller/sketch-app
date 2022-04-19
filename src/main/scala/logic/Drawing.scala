@@ -155,11 +155,10 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def select(point: Point2D): Unit = {
-    val selected = this.layers.to(LazyList)
-                      .filter(!_.isHidden)
-                      .map(_.select(point))
-                      .find(_.isDefined).flatten
-    selected.foreach(this.select)
+    if (!this.activeLayer.isHidden) {
+      val selected = this.activeLayer.select(point)
+      selected.foreach(this.select)
+    }
   }
 
   def select(element: Element): Unit = {
