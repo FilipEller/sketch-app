@@ -9,7 +9,7 @@ class Path(points: Seq[Point2D]) extends Seq[Point2D] {
 
   def :+ (point: Point2D): Path = {
     val end = this.points.last
-    val newPoints = this.points.dropRight(1) ++ Path.bresenhamLine(end.x, end.y, point.x, point.y) :+ point
+    val newPoints = this.points.dropRight(1) ++ Path.bresenhamLine(end.x.round.toInt, end.y.round.toInt, point.x.round.toInt, point.y.round.toInt) :+ point
     new Path(newPoints)
   }
 
@@ -25,7 +25,7 @@ class Path(points: Seq[Point2D]) extends Seq[Point2D] {
 
 object Path {
 
-  private def bresenhamLine(x0: Double, y0: Double, x1: Double, y1: Double): Seq[Point2D] = {
+  private def bresenhamLine(x0: Int, y0: Int, x1: Int, y1: Int): Seq[Point2D] = {
 
     var x = x0
     var y = y0
@@ -43,16 +43,16 @@ object Path {
       // println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
       val e2 = 2 * error
       if (e2 >= Dy) {
-        finished = (math.ceil(x) == math.ceil(x1) || finished)
+        finished = (x == x1 || finished)
         error = error + Dy
         x = x + sx
       }
       if (e2 <= Dx) {
-        finished = (math.ceil(y) == math.ceil(y1) || finished)
+        finished = (y == y1 || finished)
         error = error + Dx
         y = y + sy
       }
-      finished = ((math.ceil(x) == math.ceil(x1) && math.ceil(y) == math.ceil(y1)) || finished)
+      finished = ((x == x1 && y == y1) || finished)
     }
     path // note that endpoint (x1, y1) is not included
   }
@@ -62,7 +62,7 @@ object Path {
   }
 
   def apply(point1: Point2D, point2: Point2D) = {
-    val points = bresenhamLine(point1.x, point1.y, point2.x, point2.y) :+ point2
+    val points = bresenhamLine(point1.x.round.toInt, point1.y.round.toInt, point2.x.round.toInt, point2.y.round.toInt) :+ point2
     new Path(points)
   }
 

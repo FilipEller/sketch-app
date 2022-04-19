@@ -45,7 +45,7 @@ case class Shape(shapeType: ShapeType,
       case Circle => {
         val xDiff = point.x - this.center.x
         val yDiff = point.y - this.center.y
-        sqrt(pow(xDiff, 2) + pow(yDiff, 2)) <= 0.5 * (this.width + this.borderWidth)
+        sqrt(pow(xDiff, 2) + pow(yDiff, 2)) <= (this.width + this.borderWidth) / 2
       }
       case _ => false
     }
