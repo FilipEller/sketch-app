@@ -39,6 +39,19 @@ case class Layer(var name: String) {
 
   def contains(element: Element) = this.elements.contains(element)
 
+  def find(name: String): Option[Element] = {
+    this.elements.find(_.name == name)
+  }
+
+  def find(names: Seq[String]): Seq[Element] = {
+    names.flatMap(find)
+  }
+
+  def select(point: Point2D): Option[Element] =
+    this.elements.reverse.to(LazyList)
+      .filter(!_.isDeleted)
+      .find(_.collidesWith(point))
+
   def paint(canvas: Canvas): Canvas = {
     this.elements.foreach(_.paint(canvas))
     canvas
@@ -54,15 +67,6 @@ case class Layer(var name: String) {
     this.add(group)
   }*/
 
-  def addToGroup(element: Element, group: ElementGroup): Unit = {
-    if (this.contains(element) && this.contains(group)) {
-      this.remove(element)
-      this.remove(group)
-      this.add(group.add(element))
-    } else {
-      throw new Exception("group or element does not belong to this layer")
-    }
-  }
 /*
   def removeElementGroup(group: ElementGroup): Element = {
     val index = this.elements.indexOf(group)
@@ -135,6 +139,19 @@ case class Layer(var name: String) {
     elements.map(this.delete)
   }
 
+  def rename(element: Element, newName: String): Element = {
+    val newElement = element match {
+      case e: Shape => e.copy(name = newName, previousVersion = Some(e))
+      case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
+      case e: TextBox => e.copy(name = newName, previousVersion = Some(e))
+      case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
+      case e: Element => e
+    }
+    this.update(newElement)
+  }
+
+
+
   /*
   def removeElementFromGroup(group: ElementGroup, name: String): ElementGroup = {
     val element = group.findByName(name)
@@ -151,6 +168,15 @@ case class Layer(var name: String) {
     }
   }*/
 
+  def addToGroup(element: Element, group: ElementGroup): Unit = {
+    if (this.contains(element) && this.contains(group)) {
+      this.remove(element)
+      this.remove(group)
+      this.add(group.add(element))
+    } else {
+      throw new Exception("group or element does not belong to this layer")
+    }
+  }
 
   def removeFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
     val index = this.elements.indexOf(group)
@@ -178,27 +204,4 @@ case class Layer(var name: String) {
     removeFromGroup(group, elements)
   }
 
-  def find(name: String): Option[Element] = {
-    this.elements.find(_.name == name)
-  }
-
-  def find(names: Seq[String]): Seq[Element] = {
-    names.flatMap(find)
-  }
-
-  def rename(element: Element, newName: String): Element = {
-    val newElement = element match {
-      case e: Shape => e.copy(name = newName, previousVersion = Some(e))
-      case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
-      case e: TextBox => e.copy(name = newName, previousVersion = Some(e))
-      case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
-      case e: Element => e
-    }
-    this.update(newElement)
-  }
-
-  def select(point: Point2D): Option[Element] =
-    this.elements.reverse.to(LazyList)
-      .filter(!_.isDeleted)
-      .find(_.collidesWith(point))
 }
