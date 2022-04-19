@@ -11,7 +11,7 @@ import scala.collection.mutable.Buffer
 
 class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
 
-  def defaultConfig =
+  val defaultConfig =
     new Configurations(layers.head,   // active layer
       BrushTool,                      // active tool
       rgb(0, 0, 0),                   // primary color
@@ -20,7 +20,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       false,                          // use fill
       new Brush(20, 50),              // active brush
       3,                              // border width
-      Vector(),                       // selected elements
+      Seq(),                          // selected elements
       12)                             // font size
 
   var config = this.defaultConfig
@@ -91,7 +91,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     }
   }
 
-  def paintSelection(pane: StackPane) = {
+  private def paintSelection(pane: StackPane) = {
     val rectangle =
       new Shape(
         Rectangle,
@@ -132,10 +132,9 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     pane.children += canvas
   }
 
-  def paint(pane: StackPane): StackPane = {
+  def paint(pane: StackPane): Unit = {
     this.layers.filter(!_.hidden).foreach(pane.children += _.paint(width, height))
     this.paintSelection(pane)
-    pane
   }
 
   def useTool(event: MouseEvent, localPoint: Point2D) = {
@@ -178,7 +177,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     this.config = this.config.copy(selectedElements = Seq())
   }
 
-  def undo() = {
+  def undo(): Unit = {
     val elements = ElementHistory.undo()
     if (elements.nonEmpty) {
       this.select(this.selectedElements.filter(!elements.contains(_)))
@@ -216,7 +215,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     this.layers.exists(_.contains(element))
   }
 
-  def updateSelected(newElements: Seq[Element]): Unit = {
+  private def updateSelected(newElements: Seq[Element]): Unit = {
     val toUpdate = newElements.filter(!this.contains(_))
     this.activeLayer.update(toUpdate)
     this.select(newElements)
