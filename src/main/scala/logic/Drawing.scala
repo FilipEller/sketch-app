@@ -146,7 +146,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def paint(pane: StackPane): Unit = {
-    this.layers.filter(!_.isHidden).foreach(pane.children += _.paint(width, height))
+    this.layers.filter(!_.isHidden).foreach(pane.children += _.paint(new Canvas(width, height)))
     this.paintSelection(pane)
   }
 

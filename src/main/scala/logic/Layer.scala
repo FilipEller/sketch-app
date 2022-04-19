@@ -39,13 +39,9 @@ case class Layer(var name: String) {
 
   def contains(element: Element) = this.elements.contains(element)
 
-  def paint(width: Int, height: Int): Canvas = {
-    def repaint(width: Int, height: Int) = {
-      val canvas = new Canvas(width, height)
-      this.elements.foreach(_.paint(canvas))
-      canvas
-    }
-    repaint(width, height)
+  def paint(canvas: Canvas): Canvas = {
+    this.elements.foreach(_.paint(canvas))
+    canvas
   }
 
   def rename(newName: String) = {
