@@ -3,6 +3,7 @@ package logic
 import scalafx.geometry.Point2D
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.rgb
+import ujson.Value.InvalidData
 import ujson._
 
 import java.io.File
@@ -186,7 +187,18 @@ object FileManager {
 
   private def decodeDrawing(data: Value): Drawing = {
     val layers = data("layers").arr.map(decodeLayer).reverse.toBuffer
-    new Drawing(data("width").num.toInt, data("height").num.toInt, layers)
+    val width = data("width").num.toInt
+    val height = data("height").num.toInt
+    if (width < 1) {
+      throw new InvalidData(width, "Width was nonpositive")
+    }
+    if (height < 1) {
+      throw new InvalidData(height, "Height was nonpositive")
+    }
+    if (layers.length < 1) {
+      throw new InvalidData(layers.mkString(", "), "No layers found")
+    }
+    new Drawing(width, height, layers)
   }
 
   def save(drawing: Drawing, file: File): Unit = {

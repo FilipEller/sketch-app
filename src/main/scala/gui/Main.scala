@@ -13,7 +13,9 @@ import ujson.ParseException
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{Alert, Button, ButtonType, Label}
 import scalafx.Includes._
+import ujson.Value.InvalidData
 
+import java.lang.reflect.InvocationTargetException
 import java.util.NoSuchElementException
 
 object Main extends JFXApp {
@@ -99,6 +101,7 @@ object Main extends JFXApp {
           this.controller.update()
         } catch {
           case ParseException(_, _) => showAlert()
+          case InvalidData(_, _) => showAlert()
           case e: NoSuchElementException => showAlert()
         }
       }
