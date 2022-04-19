@@ -212,7 +212,7 @@ class Controller {
 
   @FXML protected def removeFromGroup(event: ActionEvent): Unit = {
     val names = this.groupView.getSelectionModel.getSelectedItems.toSeq
-    this.drawing.removeElementsFromSelectedGroup(names)
+    this.drawing.removeFromSelectedGroup(names)
     updateCanvas()
     update()
   }

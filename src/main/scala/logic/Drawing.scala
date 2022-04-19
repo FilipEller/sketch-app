@@ -142,6 +142,14 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     this.config.activeTool.use(this, event, localPoint)
   }
 
+  def select(point: Point2D): Unit = {
+    val selected = this.layers.to(LazyList)
+                      .filter(!_.hidden)
+                      .map(_.select(point))
+                      .find(_.isDefined).flatten
+    selected.foreach(this.select)
+  }
+
   def select(element: Element): Unit = {
     this.mConfig = this.config.copy(selectedElements = Seq(element))
   }
@@ -195,14 +203,6 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       this.layers.filter( l => elements.forall( e => l.contains(e) ) )
         .foreach( _.restore(elements) )
     }
-  }
-
-  def select(point: Point2D): Unit = {
-    val selected = this.layers.to(LazyList)
-                      .filter(!_.hidden)
-                      .map(_.select(point))
-                      .find(_.isDefined).flatten
-    selected.foreach(this.select)
   }
 
   def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
@@ -263,6 +263,46 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
         }
         case _ =>
       }
+    }
+  }
+
+  def removeFromSelectedGroup(names: Seq[String]) = {
+    val layer = this.activeLayer
+    this.selectedGroup match {
+      case Some(group: ElementGroup) => {
+        if (names.length >= group.elements.length) {
+          this.ungroupSelected()
+        } else if (layer.contains(group) && group.elements.length > 1) {
+          val (newGroup, newElements) = layer.removeFromGroupByName(group, names)
+          this.select(newGroup +: newElements)
+        }
+      }
+      case _ =>
+    }
+  }
+
+  def deleteSelected(): Unit = {
+    if (this.selectedElements.exists(!_.deleted)) {
+      val deleted = this.activeLayer.delete(this.selectedElements)
+      ElementHistory.add(deleted)
+      this.deselectAll()
+    }
+  }
+
+  def renameElement(element: Element, newName: String): Unit = {
+    val newElement = this.activeLayer.rename(element, newName)
+    this.select(this.selectedElements.filter(_ != element) :+ newElement)
+    ElementHistory.add(newElement)
+  }
+
+  def rewriteTextBox(textBox: TextBox, newText: String): Element = {
+    val layer = this.activeLayer
+    if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
+      val newTextBox = textBox.rewrite(newText)
+      ElementHistory.add(newTextBox)
+      layer.update(newTextBox)
+    } else {
+      textBox
     }
   }
 
@@ -402,49 +442,9 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     }
   }
 
-  def deleteSelected(): Unit = {
-    if (this.selectedElements.exists(!_.deleted)) {
-      val deleted = this.activeLayer.delete(this.selectedElements)
-      ElementHistory.add(deleted)
-      this.deselectAll()
-    }
-  }
-
-  def removeElementsFromSelectedGroup(names: Seq[String]) = {
-    val layer = this.activeLayer
-    this.selectedGroup match {
-      case Some(group: ElementGroup) => {
-        if (names.length >= group.elements.length) {
-          this.ungroupSelected()
-        } else if (layer.contains(group) && group.elements.length > 1) {
-          val (newGroup, newElements) = layer.removeFromGroupByName(group, names)
-          this.select(newGroup +: newElements)
-        }
-      }
-      case _ =>
-    }
-  }
-
   def toggleActiveLayerHidden() = {
     this.deselectAll()
     this.activeLayer.hidden = !this.activeLayer.hidden
-  }
-
-  def renameElement(element: Element, newName: String): Unit = {
-    val newElement = this.activeLayer.rename(element, newName)
-    this.select(this.selectedElements.filter(_ != element) :+ newElement)
-    ElementHistory.add(newElement)
-  }
-
-  def rewriteTextBox(textBox: TextBox, newText: String): Element = {
-    val layer = this.activeLayer
-    if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
-      val newTextBox = textBox.rewrite(newText)
-      ElementHistory.add(newTextBox)
-      layer.update(newTextBox)
-    } else {
-      textBox
-    }
   }
 
 }
