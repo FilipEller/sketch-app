@@ -9,7 +9,7 @@ import scalafx.scene.paint.Color.rgb
 
 import scala.collection.mutable.Buffer
 
-class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
+class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
 
   def defaultConfig =
     new Configurations(layers.head,   // active layer
@@ -25,10 +25,12 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   var config = this.defaultConfig
 
+  def layers = this.mLayers.toSeq
   def selectedElements = this.config.selectedElements
+  def activeLayer = this.config.activeLayer
 
   def selectedGroup: Option[ElementGroup] =
-    this.config.selectedElements
+    this.selectedElements
       .findLast(_.isInstanceOf[ElementGroup])
       .map(_.asInstanceOf[ElementGroup])
 
@@ -40,12 +42,12 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     }
 
     val newName = s"Layer ${index}"
-    this.layers += Layer(newName)
+    this.mLayers += Layer(newName)
   }
 
   def addLayer(layer: Layer): Unit = {
     if (!this.layers.map(_.name).contains(layer.name)) {
-      this.layers += layer
+      this.mLayers += layer
     }
   }
 
@@ -58,13 +60,13 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def removeLayer(layer: Layer): Unit = {
-    this.layers -= layer
+    this.mLayers -= layer
   }
 
   def removeLayer(name: String): Unit = {
     if (this.layers.length > 1) {
       val layer = this.findLayer(name)
-      if (layer.contains(this.config.activeLayer)) {
+      if (layer.contains(this.activeLayer)) {
         val index = layer.map(this.layers.reverse.indexOf).getOrElse(0)
         val indexToUse = math.min(this.layers.length - 1, math.max(index, 0))
         layer.foreach(removeLayer)
@@ -99,7 +101,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
         "selection"
       )
     val selections =
-      this.config.selectedElements.map{
+      this.selectedElements.map{
         case e: Shape =>
           rectangle.copy(
             width = e.width + e.borderWidth,
@@ -150,25 +152,25 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def selectAdd(element: Element): Unit = {
     this.config = this.config.copy(
-      selectedElements = this.config.selectedElements :+ element
+      selectedElements = this.selectedElements :+ element
     )
   }
 
   def selectAdd(elements: Seq[Element]): Unit = {
     this.config = this.config.copy(
-      selectedElements = this.config.selectedElements ++ elements
+      selectedElements = this.selectedElements ++ elements
     )
   }
 
   def deselect(element: Element): Unit = {
     this.config = this.config.copy(
-      selectedElements = this.config.selectedElements.filter(_ != element)
+      selectedElements = this.selectedElements.filter(_ != element)
     )
   }
 
   def selectAll(): Unit = {
     this.config = this.config.copy(
-      selectedElements = this.config.activeLayer.elements.filter(!_.deleted).toSeq
+      selectedElements = this.activeLayer.elements.filter(!_.deleted).toSeq
     )
   }
 
@@ -179,7 +181,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def undo() = {
     val elements = ElementHistory.undo()
     if (elements.nonEmpty) {
-      this.select(this.config.selectedElements.filter(!elements.contains(_)))
+      this.select(this.selectedElements.filter(!elements.contains(_)))
       this.deselectAll()
       elements.foreach{
         case group: ElementGroup if (group.previousVersion.isEmpty) => {
@@ -204,9 +206,9 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
-    val newElements = this.config.selectedElements.map( _.move(xDiff, yDiff) )
+    val newElements = this.selectedElements.map( _.move(xDiff, yDiff) )
     this.select(newElements)
-    this.config.activeLayer
+    this.activeLayer
       .update(newElements)
   }
 
@@ -216,30 +218,30 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def updateSelected(newElements: Seq[Element]): Unit = {
     val toUpdate = newElements.filter(!this.contains(_))
-    this.config.activeLayer.update(toUpdate)
+    this.activeLayer.update(toUpdate)
     this.select(newElements)
     toUpdate.foreach(ElementHistory.add)
   }
 
   def groupSelected(): Unit = {
-    val selected = this.config.selectedElements
+    val selected = this.selectedElements
     if (selected.nonEmpty) {
-      val layer = this.config.activeLayer
+      val layer = this.activeLayer
       val index = layer.elements.indexOf(selected.last) - (selected.length - 1)
       val selectedSorted = selected.sortBy(layer.elements.indexOf(_))
       selected.foreach(layer.remove)
       val group = ElementGroup(selectedSorted)
-      this.config.activeLayer.addAtIndex(group, index)
+      layer.addAtIndex(group, index)
       this.select(group)
       ElementHistory.add(group)
     }
   }
 
   def ungroupSelected(): Unit = {
-    if (this.config.selectedElements.nonEmpty) {
+    if (this.selectedElements.nonEmpty) {
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
-          val (newGroup, newElements) = this.config.activeLayer.removeFromGroup(group, group.elements)
+          val (newGroup, newElements) = this.activeLayer.removeFromGroup(group, group.elements)
           ElementHistory.add(newGroup +: newElements)
           this.select(newElements)
         }
@@ -252,7 +254,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     if (this.selectedElements.nonEmpty) {
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
-          val layer = this.config.activeLayer
+          val layer = this.activeLayer
           val newGroup = group.add(this.selectedElements)
           layer.update(newGroup)
           val newElements = layer.delete(this.selectedElements.filter(_ != group))
@@ -288,8 +290,8 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def changeProperty(brushSize: Int = -1, hardness: Int = -1, borderWidth: Int = -1, fontSize: Int = -1) = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateProperty(this.config.selectedElements, brushSize, hardness, borderWidth, fontSize)
+    if (this.selectedElements.nonEmpty) {
+      val newElements = updateProperty(this.selectedElements, brushSize, hardness, borderWidth, fontSize)
       this.updateSelected(newElements)
     } else {
       if (brushSize >= 0) {
@@ -321,8 +323,8 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def changePrimaryColor(color: Color) = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = this.updatePrimaryColor(this.config.selectedElements, color)
+    if (this.selectedElements.nonEmpty) {
+      val newElements = this.updatePrimaryColor(this.selectedElements, color)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(primaryColor = color)
@@ -344,8 +346,8 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def changeSecondaryColor(color: Color) = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateSecondaryColor(this.config.selectedElements, color)
+    if (this.selectedElements.nonEmpty) {
+      val newElements = updateSecondaryColor(this.selectedElements, color)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(secondaryColor = color)
@@ -376,8 +378,8 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def changeUseBorder(newValue: Boolean) = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateUseBorderOrFill(this.config.selectedElements, newValue, true)
+    if (this.selectedElements.nonEmpty) {
+      val newElements = updateUseBorderOrFill(this.selectedElements, newValue, true)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(useBorder = newValue)
@@ -385,8 +387,8 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def changeUseFill(newValue: Boolean) = {
-    if (this.config.selectedElements.nonEmpty) {
-      val newElements = updateUseBorderOrFill(this.config.selectedElements, newValue, false)
+    if (this.selectedElements.nonEmpty) {
+      val newElements = updateUseBorderOrFill(this.selectedElements, newValue, false)
       this.updateSelected(newElements)
     } else {
       this.config = this.config.copy(useFill = newValue)
@@ -394,22 +396,22 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def selectLayer(layer: Layer) = {
-    if (layer != this.config.activeLayer) {
+    if (layer != this.activeLayer) {
       this.deselectAll()
       this.config = this.config.copy(activeLayer = layer)
     }
   }
 
   def deleteSelected(): Unit = {
-    if (this.config.selectedElements.exists(!_.deleted)) {
-      val deleted = this.config.activeLayer.delete(this.config.selectedElements)
+    if (this.selectedElements.exists(!_.deleted)) {
+      val deleted = this.activeLayer.delete(this.selectedElements)
       ElementHistory.add(deleted)
       this.deselectAll()
     }
   }
 
   def removeElementsFromSelectedGroup(names: Seq[String]) = {
-    val layer = this.config.activeLayer
+    val layer = this.activeLayer
     this.selectedGroup match {
       case Some(group: ElementGroup) => {
         if (names.length >= group.elements.length) {
@@ -425,17 +427,17 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
 
   def toggleActiveLayerHidden() = {
     this.deselectAll()
-    this.config.activeLayer.hidden = !this.config.activeLayer.hidden
+    this.activeLayer.hidden = !this.activeLayer.hidden
   }
 
   def renameElement(element: Element, newName: String): Unit = {
-    val newElement = this.config.activeLayer.rename(element, newName)
-    this.select(this.config.selectedElements.filter(_ != element) :+ newElement)
+    val newElement = this.activeLayer.rename(element, newName)
+    this.select(this.selectedElements.filter(_ != element) :+ newElement)
     ElementHistory.add(newElement)
   }
 
   def rewriteTextBox(textBox: TextBox, newText: String): Element = {
-    val layer = this.config.activeLayer
+    val layer = this.activeLayer
     if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
       val newTextBox = textBox.rewrite(newText)
       ElementHistory.add(newTextBox)
