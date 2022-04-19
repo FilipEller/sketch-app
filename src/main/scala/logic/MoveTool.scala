@@ -2,7 +2,7 @@ package logic
 import javafx.scene.input.MouseEvent
 import scalafx.geometry.Point2D
 
-object TransformTool extends Tool {
+object MoveTool extends Tool {
 
   var isActive = false
   var lastPoint = new Point2D(0, 0)

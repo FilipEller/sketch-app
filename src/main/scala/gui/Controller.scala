@@ -251,7 +251,7 @@ class Controller {
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     if (!this.drawing.config.activeLayer.hidden) {
-      if (!Seq(SelectionTool, TransformTool, TextTool).contains(this.drawing.config.activeTool)) {
+      if (!Seq(SelectionTool, MoveTool, TextTool).contains(this.drawing.config.activeTool)) {
         this.drawing.deselectAll()
       }
       val localPoint = new Point2D(baseCanvas.screenToLocal(event.getScreenX, event.getScreenY))
@@ -280,7 +280,7 @@ class Controller {
     val button = event.getTarget.asInstanceOf[javafx.scene.control.Button].getId
     val targetTool = button match {
       case "Select" => SelectionTool
-      case "Transform" => TransformTool
+      case "Transform" => MoveTool
       case "Brush" => BrushTool
       case "Line" => LineTool
       case "Rectangle" => RectangleTool

@@ -221,7 +221,7 @@ object Main extends JFXApp {
       } else {
         event.code match {
           case KeyCode.V => this.drawing.changeTool(SelectionTool)
-          case KeyCode.M => this.drawing.changeTool(TransformTool)
+          case KeyCode.M => this.drawing.changeTool(MoveTool)
           case KeyCode.B => this.drawing.changeTool(BrushTool)
           case KeyCode.L => this.drawing.changeTool(LineTool)
           case KeyCode.R => this.drawing.changeTool(RectangleTool)
