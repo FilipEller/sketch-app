@@ -14,7 +14,7 @@ case object Ellipse extends ShapeType
 case object Circle extends ShapeType
 
 
-case class Shape(stype: ShapeType,
+case class Shape(shapeType: ShapeType,
                  width: Double,
                  height: Double,
                  borderWidth: Double,
@@ -32,7 +32,7 @@ case class Shape(stype: ShapeType,
   override def toString: String = this.name
 
   def collidesWith(point: Point2D): Boolean = {
-    this.stype match {
+    this.shapeType match {
       case s: ShapeType if s == Rectangle || s == Square => (point.x >= this.origin.x - 0.5 * this.borderWidth
         && point.x <= this.origin.x + this.width + 0.5 * this.borderWidth
         && point.y >= this.origin.y - 0.5 * this.borderWidth
@@ -56,7 +56,7 @@ case class Shape(stype: ShapeType,
       val g = canvas.graphicsContext2D
       if (this.useFill) {
         g.fill = this.fillColor
-        this.stype match {
+        this.shapeType match {
           case Rectangle | Square => g.fillRect(origin.x, origin.y, this.width, this.height)
           case Ellipse | Circle => g.fillOval(origin.x, origin.y, this.width, this.height)
           case _ =>
@@ -66,7 +66,7 @@ case class Shape(stype: ShapeType,
       if (this.useBorder) {
         g.stroke = this.color
         g.setLineWidth(borderWidth)
-        this.stype match {
+        this.shapeType match {
           case Rectangle | Square => g.strokeRect(origin.x, origin.y, this.width, this.height)
           case Ellipse | Circle => g.strokeOval(origin.x, origin.y, this.width, this.height)
           case _ =>

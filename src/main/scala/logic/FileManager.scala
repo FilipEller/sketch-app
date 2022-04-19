@@ -76,7 +76,7 @@ object FileManager {
     element match {
       case e: Shape => ujson.Obj(
         "type"        -> "shape",
-        "shapeType"   -> encodeShapeType(e.stype),
+        "shapeType"   -> encodeShapeType(e.shapeType),
         "width"       -> e.width,
         "height"      -> e.height,
         "borderWidth" -> e.borderWidth,
