@@ -177,7 +177,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   }
 
   def undo() = {
-    val elements = ActionHistory.undo()
+    val elements = ElementHistory.undo()
     if (elements.nonEmpty) {
       this.select(this.config.selectedElements.filter(!elements.contains(_)))
       this.deselectAll()
@@ -218,7 +218,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
     val toUpdate = newElements.filter(!this.contains(_))
     this.config.activeLayer.update(toUpdate)
     this.select(newElements)
-    toUpdate.foreach(ActionHistory.add)
+    toUpdate.foreach(ElementHistory.add)
   }
 
   def groupSelected(): Unit = {
@@ -231,7 +231,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       val group = ElementGroup(selectedSorted)
       this.config.activeLayer.addAtIndex(group, index)
       this.select(group)
-      ActionHistory.add(group)
+      ElementHistory.add(group)
     }
   }
 
@@ -240,7 +240,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
       this.selectedGroup match {
         case Some(group: ElementGroup) => {
           val (newGroup, newElements) = this.config.activeLayer.removeFromGroup(group, group.elements)
-          ActionHistory.add(newGroup +: newElements)
+          ElementHistory.add(newGroup +: newElements)
           this.select(newElements)
         }
         case _ =>
@@ -256,7 +256,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
           val newGroup = group.add(this.selectedElements)
           layer.update(newGroup)
           val newElements = layer.delete(this.selectedElements.filter(_ != group))
-          ActionHistory.add(newGroup +: newElements)
+          ElementHistory.add(newGroup +: newElements)
           this.select(newGroup)
         }
         case _ =>
@@ -403,7 +403,7 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def deleteSelected(): Unit = {
     if (this.config.selectedElements.exists(!_.deleted)) {
       val deleted = this.config.activeLayer.delete(this.config.selectedElements)
-      ActionHistory.add(deleted)
+      ElementHistory.add(deleted)
       this.deselectAll()
     }
   }
@@ -431,14 +431,14 @@ class Drawing(val width: Int, val height: Int, val layers: Buffer[Layer] = Buffe
   def renameElement(element: Element, newName: String): Unit = {
     val newElement = this.config.activeLayer.rename(element, newName)
     this.select(this.config.selectedElements.filter(_ != element) :+ newElement)
-    ActionHistory.add(newElement)
+    ElementHistory.add(newElement)
   }
 
   def rewriteTextBox(textBox: TextBox, newText: String): Element = {
     val layer = this.config.activeLayer
     if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
       val newTextBox = textBox.rewrite(newText)
-      ActionHistory.add(newTextBox)
+      ElementHistory.add(newTextBox)
       layer.update(newTextBox)
     } else {
       textBox

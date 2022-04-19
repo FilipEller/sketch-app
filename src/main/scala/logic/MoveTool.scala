@@ -43,7 +43,7 @@ object MoveTool extends Tool {
               })
           movedElements.zip(elementsWithHistory)
             .foreach( x => drawing.config.activeLayer.update(x._1, x._2) )
-          ActionHistory.add(elementsWithHistory)
+          ElementHistory.add(elementsWithHistory)
           drawing.select(elementsWithHistory)
         }
         this.isActive = false

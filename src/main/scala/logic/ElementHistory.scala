@@ -2,7 +2,7 @@ package logic
 
 import scala.collection.mutable.Stack
 
-object ActionHistory {
+object ElementHistory {
 
   val actions: Stack[Seq[Element]] = Stack()
 

@@ -20,8 +20,8 @@ object TextTool extends ShapeTool(Rectangle) {
         val newElement =
           TextBox("", rectangle.width, rectangle.height, drawing.config.fontSize,
             originalConfig.primaryColor, rectangle.origin)
-        ActionHistory.undo()
-        ActionHistory.add(newElement)
+        ElementHistory.undo()
+        ElementHistory.add(newElement)
         drawing.config.activeLayer.update(rectangle, newElement)
         drawing.config = drawing.config.copy(selectedElements = Vector(newElement))
       }
