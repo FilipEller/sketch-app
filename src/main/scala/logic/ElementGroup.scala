@@ -11,17 +11,6 @@ case class ElementGroup(elements: Seq[Element],
                         previousVersion: Option[Element] = None,
                         isDeleted: Boolean = false) extends Element {
 
-  // Functionality:
-  // selected group is the most recently selected group in selected elements
-  // group view contains elements of the selected group
-
-  // Group selected elements (Button "Group" in Selected View)
-  // Disassemble a group (Button "Ungroup" in Selected View)
-
-  // Add selected elements (other than the group itself) to selected group (Button "Add" in Group view)
-  // Remove elements selected in group view from selected group (Button "Remove" in Group view)
-  // Rename selected group (Button "Rename" in Group view)
-
   val origin = {
     if (this.elements.nonEmpty) {
       new Point2D (this.elements.map(_.origin.x).min, this.elements.map(_.origin.y).min)

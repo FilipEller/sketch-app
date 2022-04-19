@@ -7,7 +7,7 @@ import scala.math.abs
 
 class Path(points: Seq[Point2D]) extends Seq[Point2D] {
 
-  def :+ (point: Point2D) = {
+  def :+ (point: Point2D): Path = {
     val end = this.points.last
     val newPoints = this.points.dropRight(1) ++ Path.bresenhamLine(end.x, end.y, point.x, point.y) :+ point
     new Path(newPoints)
@@ -25,7 +25,7 @@ class Path(points: Seq[Point2D]) extends Seq[Point2D] {
 
 object Path {
 
-  def bresenhamLine(x0: Double, y0: Double, x1: Double, y1: Double): Seq[Point2D] = {
+  private def bresenhamLine(x0: Double, y0: Double, x1: Double, y1: Double): Seq[Point2D] = {
 
     var x = x0
     var y = y0

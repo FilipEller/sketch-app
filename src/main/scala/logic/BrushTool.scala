@@ -8,13 +8,13 @@ import scala.math.min
 
 sealed abstract class StrokeTool extends Tool {
 
-  var currentElement =
+  protected var currentElement =
     new Stroke(rgb(0, 0, 0), new Point2D(0, 0), Path(new Point2D(0, 0)), new Brush(1, 100), "")
-  var clickPoint = new Point2D(0, 0)
+  private var clickPoint = new Point2D(0, 0)
 
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
+  protected def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit
 
-  def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
+  private def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
     val originX = min(this.currentElement.origin.x, eventPoint.x)
     val originY = min(this.currentElement.origin.y, eventPoint.y)
     val origin = new Point2D(originX, originY)
@@ -47,7 +47,7 @@ sealed abstract class StrokeTool extends Tool {
 }
 
 object BrushTool extends StrokeTool {
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
+  protected def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
     this.currentElement = this.currentElement.copy(
       path = this.currentElement.path :+ eventPoint,
       origin = origin
@@ -56,7 +56,7 @@ object BrushTool extends StrokeTool {
 }
 
 object LineTool extends StrokeTool {
-  def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
+  protected def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
     this.currentElement = this.currentElement.copy(
       path = Path(this.currentElement.path.head, eventPoint),
       origin = origin

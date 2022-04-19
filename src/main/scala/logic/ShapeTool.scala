@@ -7,11 +7,11 @@ import scalafx.scene.paint.Color.rgb
 import scala.math.{abs, min}
 
 class ShapeTool(stype: ShapeType) extends Tool {
-  var currentElement =
+  protected var currentElement =
     new Shape(this.stype, 0, 0, 0, rgb(0, 0, 0), rgb(0, 0, 0, 0), true, true, new Point2D(0, 0), "")
-  var clickPoint = new Point2D(0, 0)
+  private var clickPoint = new Point2D(0, 0)
 
-  def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
+  private def updateCurrentElement(drawing: Drawing, eventPoint: Point2D): Element = {
     val xDiff = eventPoint.x - clickPoint.x
     val yDiff = eventPoint.y - clickPoint.y
 

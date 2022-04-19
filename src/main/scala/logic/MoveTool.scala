@@ -4,11 +4,11 @@ import scalafx.geometry.Point2D
 
 object MoveTool extends Tool {
 
-  var isActive = false
-  var lastPoint = new Point2D(0, 0)
-  var originalElements = Seq[Element]()
+  private var isActive = false
+  private var lastPoint = new Point2D(0, 0)
+  private var originalElements = Seq[Element]()
 
-  def move(drawing: Drawing, eventPoint: Point2D): Seq[Element] = {
+  private def move(drawing: Drawing, eventPoint: Point2D): Seq[Element] = {
     val xDiff = eventPoint.x - lastPoint.x
     val yDiff = eventPoint.y - lastPoint.y
     drawing.moveSelected(xDiff, yDiff)
