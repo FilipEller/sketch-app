@@ -9,7 +9,7 @@ class Path(points: Seq[Point2D]) extends Seq[Point2D] {
 
   def :+ (point: Point2D) = {
     val end = this.points.last
-    val newPoints = this.points ++ bresenhamLine(end.x, end.y, point.x, point.y) //:+ point
+    val newPoints = this.points.dropRight(1) ++ Path.bresenhamLine(end.x, end.y, point.x, point.y) :+ point
     new Path(newPoints)
   }
 
@@ -36,37 +36,25 @@ object Path {
     val sy = if(y0 < y1) 1 else -1
     var error = Dx + Dy
     var finished = (x == x1 && y == y1)
-    var path = Seq[Point2D](new Point2D(x, y))
+    var path = Seq[Point2D]()
 
     while (!finished) {
+      path = path :+ new Point2D(x, y)
       // println(s"(x0, y0): ($x0, $y0), (x1, y1): ($x1, $y1), (x, y): ($x, $y)")
       val e2 = 2 * error
       if (e2 >= Dy) {
         finished = (math.ceil(x) == math.ceil(x1) || finished)
         error = error + Dy
         x = x + sx
-        path = path :+ new Point2D(x, y)
       }
       if (e2 <= Dx) {
         finished = (math.ceil(y) == math.ceil(y1) || finished)
         error = error + Dx
         y = y + sy
-        path = path :+ new Point2D(x, y)
       }
       finished = ((math.ceil(x) == math.ceil(x1) && math.ceil(y) == math.ceil(y1)) || finished)
     }
     path // note that endpoint (x1, y1) is not included
-  }
-
-  def apply[C[Point2D] <: collection.Seq[Point2D]](points: C[Point2D]): Path = {
-    var fullPath = Vector[Point2D]()
-    for (i <- 0 until points.length - 1) {
-      fullPath = fullPath ++ bresenhamLine(points(i).x, points(i).y, points(i + 1).x, points(i + 1).y)
-    }
-    println(fullPath)
-    fullPath = fullPath :+ points.last
-
-    new Path(fullPath)
   }
 
   def apply(point: Point2D): Path = {
