@@ -76,8 +76,8 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       val layer = this.findLayer(name)
       if (layer.contains(this.activeLayer)) {
         val index = layer.map(this.layers.reverse.indexOf).getOrElse(0)
-        val indexToUse = math.min(this.layers.length - 1, math.max(index, 0))
         layer.foreach(removeLayer)
+        val indexToUse = math.min(this.layers.length - 1, math.max(index, 0))
         this.selectLayer(this.layers.reverse(indexToUse))
       } else {
         layer.foreach(removeLayer)
