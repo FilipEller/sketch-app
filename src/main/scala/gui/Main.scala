@@ -58,7 +58,7 @@ object Main extends JFXApp {
       this.controller.update()
     }
 
-    if (this.drawing.layers.exists(_.elements.exists(!_.deleted))) {
+    if (this.drawing.layers.exists(_.elements.exists(!_.isDeleted))) {
       val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
       alert.getDialogPane.setContent(new Label("Are you sure you want to create a new drawing? Any unsaved changes will be lost."))
       val noButton = alert.getDialogPane.lookupButton(ButtonType.NO).asInstanceOf[Button]
@@ -99,7 +99,7 @@ object Main extends JFXApp {
       }
     }
 
-    if (this.drawing.layers.exists(_.elements.exists(!_.deleted))) {
+    if (this.drawing.layers.exists(_.elements.exists(!_.isDeleted))) {
       val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
       alert.getDialogPane.setContent(new Label("Are you sure you want to open a drawing? Any unsaved changes will be lost."))
       val noButton = alert.getDialogPane.lookupButton(ButtonType.NO).asInstanceOf[Button]

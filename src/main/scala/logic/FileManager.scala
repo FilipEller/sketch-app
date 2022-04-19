@@ -163,8 +163,8 @@ object FileManager {
   private def encodeLayer(layer: Layer) = {
     ujson.Obj(
       "name" -> layer.name,
-      "hidden" -> layer.hidden,
-      "elements" -> layer.elements.filter(!_.deleted).map(encodeElement)
+      "hidden" -> layer.isHidden,
+      "elements" -> layer.elements.filter(!_.isDeleted).map(encodeElement)
     )
   }
 
@@ -172,7 +172,7 @@ object FileManager {
     val layer = new Layer(data("name").str)
     val elements = data("elements").arr.map(decodeElement).toSeq
     layer.add(elements)
-    layer.hidden = data("hidden").bool
+    layer.isHidden = data("hidden").bool
     layer
   }
 

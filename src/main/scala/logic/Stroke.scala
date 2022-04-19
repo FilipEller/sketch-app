@@ -10,7 +10,7 @@ case class Stroke(color: Color,
                   brush: Brush,
                   name: String,
                   previousVersion: Option[Element] = None,
-                  deleted: Boolean = false) extends Element {
+                  isDeleted: Boolean = false) extends Element {
 
   val width = this.path.map( p => p.x - this.origin.x).max + this.brush.size
   val height = this.path.map( p => p.y - this.origin.y).max + this.brush.size
@@ -18,7 +18,7 @@ case class Stroke(color: Color,
   override def toString: String = this.name
 
   def paint(canvas: Canvas): Unit = { // there's a problem with drawing less opaque brush strokes.
-    if (!this.deleted) {
+    if (!this.isDeleted) {
       val g = canvas.graphicsContext2D  // Brush images are painted too closely for the opacity to have much effect, but painting them further apart would leave each brush image distinctly visible.
       val hardness = this.brush.hardness / 100.0
       val targetOpacity = math.pow(this.color.opacity, 1.5) / (1.25 * math.pow(this.brush.size, 0.5)) // this is fixing opacity with brush size 30 but other sizes have to be tested. With this 5 % opacity is actually invisible though.

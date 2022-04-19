@@ -25,7 +25,7 @@ case class Shape(stype: ShapeType,
                  origin: Point2D,
                  name: String,
                  previousVersion: Option[Element] = None,
-                 deleted: Boolean = false) extends Element {
+                 isDeleted: Boolean = false) extends Element {
 
   val center = new Point2D(this.origin.x + 0.5 * this.width, this.origin.y + 0.5 * this.height)
 
@@ -52,7 +52,7 @@ case class Shape(stype: ShapeType,
   }
 
   def paint(canvas: Canvas): Unit = {
-    if (!this.deleted) {
+    if (!this.isDeleted) {
       val g = canvas.graphicsContext2D
       if (this.useFill) {
         g.fill = this.fillColor

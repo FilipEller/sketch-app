@@ -8,7 +8,7 @@ import scala.collection.mutable.Buffer
 case class Layer(var name: String) {
 
   private val mElements = Buffer[Element]()
-  var hidden = false
+  var isHidden = false
 
   def elements = this.mElements.toSeq
 
@@ -126,10 +126,10 @@ case class Layer(var name: String) {
 
   def delete(element: Element): Element = {
     val deleted = element match {
-      case e: Shape => e.copy(deleted = true, previousVersion = Some(e))
-      case e: Stroke => e.copy(deleted = true, previousVersion = Some(e))
-      case e: TextBox => e.copy(deleted = true, previousVersion = Some(e))
-      case e: ElementGroup => e.copy(deleted = true, previousVersion = Some(e))
+      case e: Shape => e.copy(isDeleted = true, previousVersion = Some(e))
+      case e: Stroke => e.copy(isDeleted = true, previousVersion = Some(e))
+      case e: TextBox => e.copy(isDeleted = true, previousVersion = Some(e))
+      case e: ElementGroup => e.copy(isDeleted = true, previousVersion = Some(e))
       case e: Element => e
     }
     this.update(deleted)
@@ -161,7 +161,7 @@ case class Layer(var name: String) {
     val groupWithoutTarget = group.remove(elements)
     val newGroup = {
       if (groupWithoutTarget.elements.isEmpty)
-        groupWithoutTarget.copy(deleted = true, previousVersion = Some(group))
+        groupWithoutTarget.copy(isDeleted = true, previousVersion = Some(group))
       else
         groupWithoutTarget
     }
@@ -203,6 +203,6 @@ case class Layer(var name: String) {
 
   def select(point: Point2D): Option[Element] =
     this.elements.reverse.to(LazyList)
-      .filter(!_.deleted)
+      .filter(!_.isDeleted)
       .find(_.collidesWith(point))
 }

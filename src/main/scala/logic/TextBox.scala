@@ -13,12 +13,12 @@ case class TextBox(text: String,
                    origin: Point2D,
                    name: String,
                    previousVersion: Option[Element] = None,
-                   deleted: Boolean = false) extends Element {
+                   isDeleted: Boolean = false) extends Element {
 
   override def toString = s"$name ($text)"
 
   def paint(canvas: Canvas): Unit = {
-    if (!this.deleted) {
+    if (!this.isDeleted) {
       val g = canvas.graphicsContext2D
       g.fill = this.color
       g.setLineWidth(1)

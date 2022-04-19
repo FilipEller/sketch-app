@@ -9,7 +9,7 @@ case class ElementGroup(elements: Seq[Element],
                         color: Color,
                         name: String,
                         previousVersion: Option[Element] = None,
-                        deleted: Boolean = false) extends Element {
+                        isDeleted: Boolean = false) extends Element {
 
   // Functionality:
   // selected group is the most recently selected group in selected elements
@@ -93,7 +93,7 @@ case class ElementGroup(elements: Seq[Element],
   }
 
   def paint(canvas: Canvas) = {
-    if (!this.deleted) {
+    if (!this.isDeleted) {
       this.elements.foreach( _.paint(canvas) )
     }
   }

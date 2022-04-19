@@ -101,7 +101,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
 
   def toggleActiveLayerHidden() = {
     this.deselectAll()
-    this.activeLayer.hidden = !this.activeLayer.hidden
+    this.activeLayer.isHidden = !this.activeLayer.isHidden
   }
 
   private def paintSelection(pane: StackPane) = {
@@ -146,7 +146,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def paint(pane: StackPane): Unit = {
-    this.layers.filter(!_.hidden).foreach(pane.children += _.paint(width, height))
+    this.layers.filter(!_.isHidden).foreach(pane.children += _.paint(width, height))
     this.paintSelection(pane)
   }
 
@@ -156,7 +156,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
 
   def select(point: Point2D): Unit = {
     val selected = this.layers.to(LazyList)
-                      .filter(!_.hidden)
+                      .filter(!_.isHidden)
                       .map(_.select(point))
                       .find(_.isDefined).flatten
     selected.foreach(this.select)
@@ -190,7 +190,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
 
   def selectAll(): Unit = {
     this.mConfig = this.config.copy(
-      selectedElements = this.activeLayer.elements.filter(!_.deleted).toSeq
+      selectedElements = this.activeLayer.elements.filter(!_.isDeleted).toSeq
     )
   }
 
@@ -294,7 +294,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def deleteSelected(): Unit = {
-    if (this.selectedElements.exists(!_.deleted)) {
+    if (this.selectedElements.exists(!_.isDeleted)) {
       val deleted = this.activeLayer.delete(this.selectedElements)
       ElementHistory.add(deleted)
       this.deselectAll()
@@ -309,7 +309,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
 
   def rewriteTextBox(textBox: TextBox, newText: String): Element = {
     val layer = this.activeLayer
-    if (layer.contains(textBox) && !layer.hidden && textBox.text != newText) {
+    if (layer.contains(textBox) && !layer.isHidden && textBox.text != newText) {
       val newTextBox = textBox.rewrite(newText)
       ElementHistory.add(newTextBox)
       layer.update(newTextBox)

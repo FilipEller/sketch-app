@@ -250,7 +250,7 @@ class Controller {
   }
 
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
-    if (!this.drawing.activeLayer.hidden) {
+    if (!this.drawing.activeLayer.isHidden) {
       if (!Seq(SelectionTool, MoveTool).contains(this.drawing.config.activeTool)) {
         this.drawing.deselectAll()
       }
@@ -303,7 +303,7 @@ class Controller {
     val layerName = this.layerView.getSelectionModel.getSelectedItem
     val layerOption = this.drawing.findLayer(layerName)
 
-    if (layerOption.exists(_.elements.exists(!_.deleted))) {
+    if (layerOption.exists(_.elements.exists(!_.isDeleted))) {
       val alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL)
       alert.getDialogPane.setContent(new Label(s"Are you sure you want to remove $layerName? It is NOT empty. This action cannot be undone."))
       alert.showAndWait()
