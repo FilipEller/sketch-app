@@ -124,16 +124,6 @@ case class Layer(var name: String) {
     this.update(newElement)
   }
 
-  def addToGroup(element: Element, group: ElementGroup): Unit = {
-    if (this.contains(element) && this.contains(group)) {
-      this.remove(element)
-      this.remove(group)
-      this.add(group.add(element))
-    } else {
-      throw new Exception("group or element does not belong to this layer")
-    }
-  }
-
   def removeFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
     val index = this.elements.indexOf(group)
     val groupWithoutTarget = group.remove(elements)
