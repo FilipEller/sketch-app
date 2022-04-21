@@ -322,7 +322,7 @@ class LayerTest extends AnyFlatSpec with Matchers {
 
   }
 
-    "Layer.delete" should "do nothing if Element is already deleted" in {
+  "Layer.delete" should "do nothing if Element is already deleted" in {
 
     val layer = new Layer("test")
     assume(layer.elements.isEmpty)
@@ -335,6 +335,38 @@ class LayerTest extends AnyFlatSpec with Matchers {
 
     layer.delete(deleted)
     assert(layer.elements(2) === deleted)
+    assert(layer.elements.length === 3)
+
+  }
+
+  "Layer.rename" should "change the name of an Element" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(ellipse)
+    layer.add(square)
+
+    layer.rename(ellipse, "Renamed Ellipse")
+    assert(layer.elements(1).name == "Renamed Ellipse")
+    assert(!layer.elements.contains(ellipse))
+    assert(layer.elements.length === 3)
+
+  }
+
+  "Layer.rename" should "do nothing if Layer does not contain Element" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(ellipse)
+    layer.add(square)
+
+    layer.rename(rectangle1, "Renamed Rectangle")
+    assert(!layer.elements.contains(rectangle1))
+    assert(!layer.elements.exists(_.name == "Renamed Rectangle"))
     assert(layer.elements.length === 3)
 
   }
