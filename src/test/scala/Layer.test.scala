@@ -263,10 +263,11 @@ class LayerTest extends AnyFlatSpec with Matchers {
 
     layer.restore(circle)
     assert(!layer.elements.contains(circle))
+    assert(layer.elements.length === 1)
 
   }
 
-  "Layer.restore" should "add the old version even if Layer does not contain the new version" in {
+  "Layer.restore" should "do nothing if Layer does not contain the new version" in {
 
     val layer = new Layer("test")
     assume(layer.elements.isEmpty)
@@ -276,7 +277,8 @@ class LayerTest extends AnyFlatSpec with Matchers {
 
     layer.restore(newSquare)
     assert(!layer.elements.contains(newSquare))
-    assert(layer.elements.contains(square))
+    assert(!layer.elements.contains(square))
+    assert(layer.elements.length === 2)
 
   }
 
