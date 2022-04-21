@@ -54,7 +54,7 @@ class ShapeTool(shapeType: ShapeType) extends Tool {
       }
       case MouseEvent.MOUSE_RELEASED => {
         layer.update(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
-        if (this.currentElement.width > 0 || this.currentElement.height > 0) {
+        if (this.currentElement.width > 0 && this.currentElement.height > 0) {
           ElementHistory.add(this.currentElement)
         } else {
           layer.remove(this.currentElement)
