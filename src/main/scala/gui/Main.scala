@@ -1,21 +1,20 @@
 package gui
 
 import javafx.fxml.FXMLLoader
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.{Alert, Button, ButtonType, Label}
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.AnchorPane
 import logic._
+import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
 import scalafx.scene.input.KeyCode
 import scalafx.stage.FileChooser
 import scalafx.stage.FileChooser.ExtensionFilter
 import ujson.ParseException
-import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.{Alert, Button, ButtonType, Label}
-import scalafx.Includes._
 import ujson.Value.InvalidData
 
-import java.lang.reflect.InvocationTargetException
 import java.util.NoSuchElementException
 
 object Main extends JFXApp {
