@@ -280,4 +280,61 @@ class LayerTest extends AnyFlatSpec with Matchers {
 
   }
 
+  "Layer.delete" should "remove an Element and add a new version with isDeleted as true" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(ellipse)
+    layer.add(rectangle1)
+    layer.add(rectangle2)
+    assert(layer.elements.length === 4)
+
+    layer.delete(circle)
+    assert(!layer.elements.contains(circle))
+    assert(layer.elements.head.name == circle.name && layer.elements.head.isDeleted)
+    assert(layer.elements.length === 4)
+
+    layer.delete(Seq(rectangle1, rectangle2))
+    assert(!layer.elements.contains(rectangle1))
+    assert(!layer.elements.contains(rectangle2))
+    assert(layer.elements(2).name == rectangle1.name && layer.elements(2).isDeleted)
+    assert(layer.elements(3).name == rectangle2.name && layer.elements(3).isDeleted)
+    assert(layer.elements.length === 4)
+
+  }
+
+  "Layer.delete" should "do nothing if Layer does not contain Element" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(ellipse)
+
+    layer.delete(square)
+    assert(!layer.elements.contains(square))
+    assert(!layer.elements.exists(e => e.name == square.name && e.isDeleted))
+    assert(layer.elements.length === 2)
+
+  }
+
+    "Layer.delete" should "do nothing if Element is already deleted" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    val deleted = square.copy(isDeleted = true, previousVersion = Some(square))
+
+    layer.add(circle)
+    layer.add(ellipse)
+    layer.add(deleted)
+
+    layer.delete(deleted)
+    assert(layer.elements(2) === deleted)
+    assert(layer.elements.length === 3)
+
+  }
+
 }
