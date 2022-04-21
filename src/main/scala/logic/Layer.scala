@@ -21,12 +21,18 @@ case class Layer(var name: String) {
   }
 
   def addAtIndex(element: Element, index: Int): Unit = {
-    val indexToUse = math.max(0, index)
+    val indexToUse = math.max(0, math.min(index, this.elements.length))
     this.mElements.insert(indexToUse, element)
   }
 
   def addAtIndex(elements: Seq[Element], index: Int): Unit = {
-    elements.foreach(this.mElements.insert(index, _))
+    if (index < 0) {
+      elements.reverse.foreach(this.mElements.prepend)
+    } else if (index > this.elements.length) {
+      elements.foreach(this.mElements.append)
+    } else {
+      elements.reverse.foreach(this.addAtIndex(_, index))
+    }
   }
 
   def remove(element: Element): Unit = {
@@ -44,7 +50,7 @@ case class Layer(var name: String) {
   }
 
   def find(names: Seq[String]): Seq[Element] = {
-    names.flatMap(find)
+    names.flatMap(this.find)
   }
 
   def select(point: Point2D): Option[Element] =
@@ -141,7 +147,7 @@ case class Layer(var name: String) {
       case e: ElementGroup => e.copy(previousVersion = None)
       case e: Element => e
     }
-    this.addAtIndex(newElements.reverse, index + 1)
+    this.addAtIndex(newElements, index + 1)
     (newGroup, newElements)
   }
 
