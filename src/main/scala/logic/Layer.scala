@@ -89,14 +89,24 @@ case class Layer(var name: String) {
   }
 
   def restore(element: Element): Unit = {
-    val index = this.elements.indexOf(element)
-    this.remove(element)
-    element.previousVersion.foreach( this.addAtIndex(_, index) )
-    element match {
-      case group: ElementGroup if group.previousVersion.isEmpty => {
-        group.elements.reverse.foreach( this.addAtIndex(_, index) )
+    if (this.contains(element)) {
+      val index = this.elements.indexOf(element)
+      this.remove(element)
+      element.previousVersion.foreach( this.addAtIndex(_, index) )
+      element match {
+        case group: ElementGroup if group.previousVersion.isEmpty => {
+          this.addAtIndex(group.elements, index)
+        }
+        case _ =>
       }
-      case _ =>
+    } else {
+      element.previousVersion.foreach(this.add)
+      element match {
+        case group: ElementGroup if group.previousVersion.isEmpty => {
+          this.add(group.elements)
+        }
+        case _ =>
+      }
     }
   }
 
