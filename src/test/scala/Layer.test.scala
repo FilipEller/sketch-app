@@ -12,6 +12,12 @@ class LayerTest extends AnyFlatSpec with Matchers {
   val square = Shape(Square, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0))
   val circle = Shape(Circle, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0))
 
+  val newRectangle1 = rectangle1.copy(name = "New Rectangle 1", previousVersion = Some(rectangle1))
+  val newRectangle2 = rectangle2.copy(name = "New Rectangle 2", previousVersion = Some(rectangle2))
+  val newEllipse = ellipse.copy(name = "New Ellipse", previousVersion = Some(ellipse))
+  val newSquare = circle.copy(name = "New Square", previousVersion = Some(square))
+  val newCircle = circle.copy(name = "New Circle", previousVersion = Some(circle))
+
   "Layer.add" should "store the every new Element as the layer's elements collection's last value" in {
     val layer = new Layer("test")
     assume(layer.elements.isEmpty)
@@ -180,7 +186,6 @@ class LayerTest extends AnyFlatSpec with Matchers {
     layer.add(rectangle1)
     layer.add(rectangle2)
 
-    val newCircle = circle.copy(name = "New Circle", previousVersion = Some(circle))
     layer.update(newCircle)
     assert(!layer.elements.contains(circle))
     assert(layer.elements.contains(newCircle))
@@ -190,8 +195,6 @@ class LayerTest extends AnyFlatSpec with Matchers {
     assert(!layer.elements.contains(ellipse))
     assert(layer.elements.contains(newEllipse))
 
-    val newRectangle1 = rectangle1.copy(name = "New Rectangle 1", previousVersion = Some(rectangle1))
-    val newRectangle2 = rectangle2.copy(name = "New Rectangle 2", previousVersion = Some(rectangle2))
     layer.update(Seq(newRectangle1, newRectangle2))
     assert(!layer.elements.contains(rectangle1))
     assert(!layer.elements.contains(rectangle2))
@@ -208,10 +211,9 @@ class LayerTest extends AnyFlatSpec with Matchers {
     layer.add(circle)
     layer.add(ellipse)
 
-    val newCircle = circle.copy(name = "New Circle")
-    layer.update(newCircle)
-    assert(layer.elements.contains(circle))
-    assert(layer.elements.contains(newCircle))
+    val withoutPrevious = circle.copy(name = "New Circle")
+    layer.update(withoutPrevious)
+    assert(layer.elements.contains(withoutPrevious))
 
   }
 
@@ -223,16 +225,59 @@ class LayerTest extends AnyFlatSpec with Matchers {
     layer.add(circle)
     layer.add(ellipse)
 
-    val newSquare = square.copy(name = "New Square")
     layer.update(newSquare)
     assert(!layer.elements.contains(square))
     assert(layer.elements.contains(newSquare))
 
   }
 
-  /*
-    assertResult(ellipse) {
-        layer.elements.last
-    }
-   */
+    "Layer.restore" should "remove the new version and add the old version of an Element at the same index" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(newEllipse)
+    layer.add(newRectangle1)
+    layer.add(newRectangle2)
+
+    layer.restore(newEllipse)
+    assert(!layer.elements.contains(newEllipse))
+    assert(layer.elements(1) === ellipse)
+
+    layer.restore(Seq(newRectangle1, newRectangle2))
+    assert(!layer.elements.contains(newRectangle1))
+    assert(!layer.elements.contains(newRectangle2))
+    assert(layer.elements(2) === rectangle1)
+    assert(layer.elements(3) === rectangle2)
+
+  }
+
+  "Layer.restore" should "remove an Element even if it has no previous version" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(ellipse)
+
+    layer.restore(circle)
+    assert(!layer.elements.contains(circle))
+
+  }
+
+  "Layer.restore" should "add the old version even if Layer does not contain the new version" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    layer.add(circle)
+    layer.add(ellipse)
+
+    layer.restore(newSquare)
+    assert(!layer.elements.contains(newSquare))
+    assert(layer.elements.contains(square))
+
+  }
+
 }
