@@ -219,6 +219,19 @@ object Main extends JFXApp {
         case KeyCode.F => this.toggleFillCheckBox()
         case _ =>
       }
+    } else if (event.isAltDown) {
+      event.code match {
+        case KeyCode.V => this.drawing.changeTool(SelectionTool)
+        case KeyCode.M => this.drawing.changeTool(MoveTool)
+        case KeyCode.B => this.drawing.changeTool(BrushTool)
+        case KeyCode.L => this.drawing.changeTool(LineTool)
+        case KeyCode.R => this.drawing.changeTool(RectangleTool)
+        case KeyCode.E => this.drawing.changeTool(EllipseTool)
+        case KeyCode.S => this.drawing.changeTool(SquareTool)
+        case KeyCode.C => this.drawing.changeTool(CircleTool)
+        case KeyCode.T => this.drawing.changeTool(TextTool)
+        case _ =>
+      }
     } else {
       val textBoxes =
         this.drawing.selectedElements
