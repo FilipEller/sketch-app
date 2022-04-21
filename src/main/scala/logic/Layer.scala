@@ -115,14 +115,18 @@ case class Layer(var name: String) {
   }
 
   def delete(element: Element): Element = {
-    val deleted = element match {
-      case e: Shape => e.copy(isDeleted = true, previousVersion = Some(e))
-      case e: Stroke => e.copy(isDeleted = true, previousVersion = Some(e))
-      case e: TextBox => e.copy(isDeleted = true, previousVersion = Some(e))
-      case e: ElementGroup => e.copy(isDeleted = true, previousVersion = Some(e))
-      case e: Element => e
+    if (this.elements.contains(element) && !element.isDeleted) {
+      val deleted = element match {
+        case e: Shape => e.copy(isDeleted = true, previousVersion = Some(e))
+        case e: Stroke => e.copy(isDeleted = true, previousVersion = Some(e))
+        case e: TextBox => e.copy(isDeleted = true, previousVersion = Some(e))
+        case e: ElementGroup => e.copy(isDeleted = true, previousVersion = Some(e))
+        case e: Element => e
+      }
+      this.update(deleted)
+    } else {
+      element
     }
-    this.update(deleted)
   }
 
   def delete(elements: Seq[Element]): Seq[Element] = {

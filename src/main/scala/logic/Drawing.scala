@@ -293,11 +293,10 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def deleteSelected(): Unit = {
-    if (this.selectedElements.exists(!_.isDeleted)) {
-      val deleted = this.activeLayer.delete(this.selectedElements)
-      ElementHistory.add(deleted)
-      this.deselectAll()
-    }
+    val toDelete = this.selectedElements.filter(!_.isDeleted)
+    val deleted = this.activeLayer.delete(toDelete)
+    ElementHistory.add(deleted.filter(_.isDeleted))
+    this.deselectAll()
   }
 
   def renameElement(element: Element, newName: String): Unit = {
