@@ -255,7 +255,6 @@ object Main extends JFXApp {
       }
     }
   }
-  // TODO: Bug with text boxes. Text box could not be undone after drawing it, then pressing v (write text), the clicking somewhere else.
   scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => handleKeyEvent(event))
 
 }

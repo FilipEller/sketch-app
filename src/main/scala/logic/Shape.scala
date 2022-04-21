@@ -84,7 +84,7 @@ object Shape {
   var ellipseCount = 0
 
   def apply(stype: ShapeType, width: Double, height: Double, borderWidth: Double,
-            color: Color,borderColor: Color, useBorder: Boolean, useFill: Boolean, origin: Point2D,
+            color: Color, borderColor: Color, useBorder: Boolean, useFill: Boolean, origin: Point2D,
             name: String = "", previousVersion: Option[Element] = None, deleted: Boolean = false) = {
 
     val nameToUse = {
