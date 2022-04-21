@@ -99,14 +99,6 @@ case class Layer(var name: String) {
         }
         case _ =>
       }
-    } else {
-      element.previousVersion.foreach(this.add)
-      element match {
-        case group: ElementGroup if group.previousVersion.isEmpty => {
-          this.add(group.elements)
-        }
-        case _ =>
-      }
     }
   }
 
