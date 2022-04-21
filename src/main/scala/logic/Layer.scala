@@ -126,14 +126,18 @@ case class Layer(var name: String) {
   }
 
   def rename(element: Element, newName: String): Element = {
-    val newElement = element match {
-      case e: Shape => e.copy(name = newName, previousVersion = Some(e))
-      case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
-      case e: TextBox => e.copy(name = newName, previousVersion = Some(e))
-      case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
-      case e: Element => e
+    if (this.contains(element)) {
+      val newElement = element match {
+        case e: Shape => e.copy(name = newName, previousVersion = Some(e))
+        case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
+        case e: TextBox => e.copy(name = newName, previousVersion = Some(e))
+        case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
+        case e: Element => e
+      }
+      this.update(newElement)
+    } else {
+      element
     }
-    this.update(newElement)
   }
 
   def removeFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {

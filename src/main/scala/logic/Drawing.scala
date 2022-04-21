@@ -302,7 +302,9 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   def renameElement(element: Element, newName: String): Unit = {
     val newElement = this.activeLayer.rename(element, newName)
     this.select(this.selectedElements.filter(_ != element) :+ newElement)
-    ElementHistory.add(newElement)
+    if (newElement != element) {
+      ElementHistory.add(newElement)
+    }
   }
 
   def rewriteTextBox(textBox: TextBox, newText: String): Element = {
