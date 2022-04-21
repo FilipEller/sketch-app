@@ -20,13 +20,15 @@ object TextTool extends ShapeTool(Rectangle) {
     event.getEventType match {
       case MouseEvent.MOUSE_RELEASED => {
         val rectangle = this.currentElement
-        val newElement =
-          TextBox("", rectangle.width, rectangle.height, drawing.config.fontSize,
-            originalConfig.primaryColor, rectangle.origin)
-        ElementHistory.undo()
-        ElementHistory.add(newElement)
-        drawing.config.activeLayer.update(rectangle, newElement)
-        drawing.select(newElement)
+        if (rectangle.width > 0 && rectangle.height > 0) {
+          val newElement =
+            TextBox("", rectangle.width, rectangle.height, drawing.config.fontSize,
+              originalConfig.primaryColor, rectangle.origin)
+          ElementHistory.undo()
+          ElementHistory.add(newElement)
+          drawing.config.activeLayer.update(rectangle, newElement)
+          drawing.select(newElement)
+        }
       }
       case _ =>
     }
