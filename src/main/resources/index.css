@@ -14,17 +14,17 @@
 
 .control-panel .label, .menu .label, .button {
     -fx-text-fill: #ddd;
-    -fx-font-family: "Tahoma";
+    -fx-font-family: "Tahoma", "Geneva", sans-serif;
 }
 
 .menu-item .label {
     -fx-text-fill: #181818;
-    -fx-font-family: "Tahoma";
+    -fx-font-family: "Tahoma", "Geneva", sans-serif;
 }
 
 .slider .axis {
     -fx-tick-label-fill: #ddd;
-    -fx-tick-label-font-family: "Tahoma";
+    -fx-tick-label-font-family: "Tahoma", "Geneva", sans-serif;
 }
 
 .button, .check-box .box {
