@@ -127,11 +127,24 @@ case class Layer(var name: String) {
 
   def rename(element: Element, newName: String): Element = {
     if (this.contains(element)) {
+      val nameToUse = {
+        if (this.elements.forall(_.name != newName)) {
+          newName
+        } else {
+          var index = 2
+          val names = this.elements.map(_.name)
+          while (names.contains(s"$newName ${index}")) {
+            index += 1
+          }
+          s"$newName ${index}"
+        }
+      }
+
       val newElement = element match {
-        case e: Shape => e.copy(name = newName, previousVersion = Some(e))
-        case e: Stroke => e.copy(name = newName, previousVersion = Some(e))
-        case e: TextBox => e.copy(name = newName, previousVersion = Some(e))
-        case e: ElementGroup => e.copy(name = newName, previousVersion = Some(e))
+        case e: Shape => e.copy(name = nameToUse, previousVersion = Some(e))
+        case e: Stroke => e.copy(name = nameToUse, previousVersion = Some(e))
+        case e: TextBox => e.copy(name = nameToUse, previousVersion = Some(e))
+        case e: ElementGroup => e.copy(name = nameToUse, previousVersion = Some(e))
         case e: Element => e
       }
       this.update(newElement)
