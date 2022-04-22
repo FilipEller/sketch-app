@@ -24,6 +24,7 @@ case class Stroke(color: Color,
       val targetOpacity = math.pow(this.color.opacity, 1.5) / (1.25 * math.pow(this.brush.size, 0.5)) // this is fixing opacity with brush size 30 but other sizes have to be tested. With this 5 % opacity is actually invisible though.
       val opacity = if (targetOpacity > 1) 1 else if (targetOpacity < 0.01) 0.01 else targetOpacity
       val usedColor = new Color(this.color.opacity(opacity))
+      val size = if (this.brush.size > 0) this.brush.size else 1
       val gradient =
         new RadialGradient(
           0, 0,                // focus angle, focus distance
@@ -38,7 +39,7 @@ case class Stroke(color: Color,
           }  // does not seem to work if assigned to a variable
       )
       g.fill = if (this.brush.hardness == 100 && this.color.opacity == 1) this.color else gradient
-      this.path.foreach(point => g.fillOval(point.x - 0.5 * this.brush.size, point.y - 0.5 * this.brush.size, this.brush.size, this.brush.size))
+      this.path.foreach(point => g.fillOval(point.x - 0.5 * size, point.y - 0.5 * size, size, size))
     }
   }
 
