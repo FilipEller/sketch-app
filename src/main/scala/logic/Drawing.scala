@@ -9,7 +9,7 @@ import scalafx.scene.paint.Color.rgb
 
 import scala.collection.mutable.Buffer
 
-class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
+class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers: Buffer[Layer] = Buffer(Layer("Layer 1"))) {
 
   val defaultConfig =
     new Configurations(layers.head,   // active layer
@@ -36,7 +36,7 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
       .map(_.asInstanceOf[ElementGroup])
 
   def selectLayer(layer: Layer): Unit = {
-    if (layer != this.activeLayer) {
+    if (layer != this.activeLayer && this.layers.contains(layer)) {
       this.deselectAll()
       this.mConfig = this.config.copy(activeLayer = layer)
     }
@@ -59,15 +59,11 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
     }
   }
 
-  def addLayers(layers: Seq[Layer]): Unit = {
-    layers.foreach(addLayer)
-  }
-
   def findLayer(name: String): Option[Layer] = {
     this.layers.find(_.name == name)
   }
 
-  def removeLayer(layer: Layer): Unit = {
+  private def removeLayer(layer: Layer): Unit = {
     this.mLayers -= layer
   }
 
@@ -86,16 +82,18 @@ class Drawing(val width: Int, val height: Int, private val mLayers: Buffer[Layer
   }
 
   def renameLayer(layer: Layer, newName: String) = {
-    if (this.layers.forall(_.name != newName)) {
-      layer.rename(newName)
-    } else {
-      var index = 2
-      val names = this.layers.map(_.name)
-      while (names.contains(s"$newName ${index}")) {
-        index += 1
+    if (this.layers.contains(layer)) {
+      if (this.layers.forall(_.name != newName)) {
+        layer.rename(newName)
+      } else {
+        var index = 2
+        val names = this.layers.map(_.name)
+        while (names.contains(s"$newName ${index}")) {
+          index += 1
+        }
+        val nameToUse = s"$newName ${index}"
+        layer.rename(nameToUse)
       }
-      val nameToUse = s"$newName ${index}"
-      layer.rename(nameToUse)
     }
   }
 
