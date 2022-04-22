@@ -6,6 +6,7 @@ import scalafx.scene.paint.Color.rgb
 
 class LayerTest extends AnyFlatSpec with Matchers {
 
+  // Elements are immutable the same elements can safely be used in all tests
   val rectangle1 = Shape(Rectangle, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0))
   val rectangle2 = Shape(Rectangle, 10, 10, 10, rgb(100, 100, 100), rgb(100, 100, 100), true, true, new Point2D(100, 100))
   val ellipse = Shape(Ellipse, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0))
@@ -367,6 +368,34 @@ class LayerTest extends AnyFlatSpec with Matchers {
     layer.rename(rectangle1, "Renamed Rectangle")
     assert(!layer.elements.contains(rectangle1))
     assert(!layer.elements.exists(_.name == "Renamed Rectangle"))
+    assert(layer.elements.length === 3)
+
+  }
+
+  "Layer.rename" should "add an index if Layer already contains given name" in {
+
+    val layer = new Layer("test")
+    assume(layer.elements.isEmpty)
+
+    val shape1 = Shape(Rectangle, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0), "My Shape")
+    val shape2 = Shape(Rectangle, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0), "Boring Name")
+    val shape3 = Shape(Rectangle, 10, 10, 10, rgb(0, 0, 0), rgb(0, 0, 0), true, true, new Point2D(0, 0), "Another Boring Name")
+
+    layer.add(shape1)
+    layer.add(shape2)
+    layer.add(shape3)
+    assert(layer.elements.length === 3)
+
+    assert(layer.elements(1) === shape2)
+    layer.rename(shape2, "My Shape")
+    assert(!layer.elements.contains(shape2))
+    assert(layer.elements(1).name === "My Shape 2")
+    assert(layer.elements.length === 3)
+
+    assert(layer.elements(2) === shape3)
+    layer.rename(shape3, "My Shape")
+    assert(!layer.elements.contains(shape3))
+    assert(layer.elements(2).name === "My Shape 3")
     assert(layer.elements.length === 3)
 
   }
