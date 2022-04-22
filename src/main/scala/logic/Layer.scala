@@ -5,12 +5,13 @@ import scalafx.scene.canvas.Canvas
 
 import scala.collection.mutable.Buffer
 
-case class Layer(var name: String) {
+case class Layer(private var mName: String) {
 
   private val mElements = Buffer[Element]()
   var isHidden = false
 
   def elements = this.mElements.toSeq
+  def name = this.mName
 
   def add(element: Element): Unit = {
     this.mElements += element
@@ -64,7 +65,7 @@ case class Layer(var name: String) {
   }
 
   def rename(newName: String) = {
-    this.name = newName
+    this.mName = newName
   }
 
   def update(element: Element): Element = {
