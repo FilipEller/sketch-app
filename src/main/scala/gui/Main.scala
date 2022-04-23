@@ -183,19 +183,28 @@ object Main extends JFXApp {
     this.controller.updateCanvas()
   }
 
-  def updateTextBox(textBox: TextBox, event: KeyEvent) = {
-    if (this.drawing.activeLayer.contains(textBox)) {
-      val newText = {
-        event.code match {
-          case KeyCode.BackSpace => textBox.text.dropRight(1)
-          case KeyCode.Space => textBox.text + " "
-          case KeyCode.Enter => textBox.text + "\n"
-          case _ => textBox.text + event.getCharacter
+  def updateTextBoxes(event: KeyEvent): Unit = {
+    if (!event.isAltDown && !event.isControlDown) {
+      def write(textBox: TextBox): Unit = {
+        if (this.drawing.activeLayer.contains(textBox)) {
+          val newText = {
+            event.code match {
+              case KeyCode.Space => textBox.text + " "
+              case KeyCode.Enter => textBox.text + "\n"
+              case _ if event.getCharacter == "\b" => textBox.text.dropRight(1)
+              case _ => textBox.text + event.getCharacter
+            }
+          }
+          val newTextBox = this.drawing.rewriteTextBox(textBox, newText)
+          this.drawing.deselect(textBox)
+          this.drawing.select(this.drawing.selectedElements :+ newTextBox)
         }
       }
-      val newTextBox = this.drawing.rewriteTextBox(textBox, newText)
-      this.drawing.deselect(textBox)
-      this.drawing.select(this.drawing.selectedElements :+ newTextBox)
+      val textBoxes =
+        this.drawing.selectedElements
+          .filter(_.isInstanceOf[TextBox])
+          .map(_.asInstanceOf[TextBox])
+      textBoxes.foreach(write)
       this.controller.updateCanvas()
     }
   }
@@ -231,13 +240,7 @@ object Main extends JFXApp {
         case _ =>
       }
     } else {
-      val textBoxes =
-        this.drawing.selectedElements
-          .filter(_.isInstanceOf[TextBox])
-          .map(_.asInstanceOf[TextBox])
-      if (textBoxes.nonEmpty) {
-        textBoxes.foreach(this.updateTextBox(_, event))
-      } else {
+      if (!this.drawing.selectedElements.exists(_.isInstanceOf[TextBox])) {
         event.code match {
           case KeyCode.V => this.drawing.changeTool(SelectionTool)
           case KeyCode.M => this.drawing.changeTool(MoveTool)
@@ -253,6 +256,8 @@ object Main extends JFXApp {
       }
     }
   }
-  scene.addEventFilter(KeyEvent.KEY_TYPED, (event: KeyEvent) => handleKeyEvent(event))
+
+  scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => this.handleKeyEvent(event))
+  scene.addEventFilter(KeyEvent.KEY_TYPED, (event: KeyEvent) => this.updateTextBoxes(event))
 
 }
