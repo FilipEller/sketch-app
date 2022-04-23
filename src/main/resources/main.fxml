@@ -46,7 +46,7 @@
     </MenuBar>
     <BorderPane prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <center>
-          <StackPane id="background" fx:id="pane" prefHeight="929.0" prefWidth="1591.0" BorderPane.alignment="CENTER">
+          <StackPane id="background" fx:id="pane" prefHeight="929.0" prefWidth="1109.0" BorderPane.alignment="CENTER">
           </StackPane>
         </center>
         <bottom>
@@ -427,7 +427,7 @@
             </HBox>
         </top>
       <right>
-         <VBox prefWidth="250.0" styleClass="panel" BorderPane.alignment="CENTER">
+         <VBox prefHeight="749.0" prefWidth="265.0" styleClass="panel" BorderPane.alignment="CENTER">
             <children>
                <VBox alignment="TOP_CENTER" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
@@ -480,7 +480,7 @@
                      </HBox>
                   </children>
                </VBox>
-               <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="49.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
+               <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="909.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
                   <children>
                      <Label text="Selected Group" />
                      <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS" />
