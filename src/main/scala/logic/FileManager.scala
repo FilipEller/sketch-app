@@ -38,8 +38,8 @@ object FileManager {
   }
 
   private def decodeColor(data: Value): Color = {
-    val color = data.arr.map(_.num.toInt)
-    rgb(color(0), color(1), color(2), color(3))
+    val color = data.arr.map(_.num)
+    rgb(color(0).toInt, color(1).toInt, color(2).toInt, color(3))
   }
 
   private def encodePoint(point: Point2D) = {
