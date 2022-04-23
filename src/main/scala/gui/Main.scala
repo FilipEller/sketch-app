@@ -102,6 +102,7 @@ object Main extends JFXApp {
           case ParseException(_, _) => showAlert()
           case InvalidData(_, _) => showAlert()
           case e: NoSuchElementException => showAlert()
+          case e: IllegalArgumentException => showAlert()
         }
       }
     }
