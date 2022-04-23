@@ -190,8 +190,7 @@ object Main extends JFXApp {
           case KeyCode.BackSpace => textBox.text.dropRight(1)
           case KeyCode.Space => textBox.text + " "
           case KeyCode.Enter => textBox.text + "\n"
-          case _ if event.isShiftDown => textBox.text + event.text.toUpperCase
-          case _ => textBox.text + event.text
+          case _ => textBox.text + event.getCharacter
         }
       }
       val newTextBox = this.drawing.rewriteTextBox(textBox, newText)
@@ -254,6 +253,6 @@ object Main extends JFXApp {
       }
     }
   }
-  scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => handleKeyEvent(event))
+  scene.addEventFilter(KeyEvent.KEY_TYPED, (event: KeyEvent) => handleKeyEvent(event))
 
 }
