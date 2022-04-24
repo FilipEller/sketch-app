@@ -27,16 +27,19 @@ sealed abstract class StrokeTool extends Tool {
     val layer = config.activeLayer
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
+        // Start a new Stroke
         this.clickPoint = eventPoint
         this.currentElement =
           Stroke(config.primaryColor, this.clickPoint, Path(this.clickPoint), config.activeBrush)
         layer.add(this.currentElement)
       }
       case MouseEvent.MOUSE_DRAGGED => {
-        layer.update(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        // Update the Stroke while dragging
+        layer.update(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
       }
       case MouseEvent.MOUSE_RELEASED => {
-        layer.update(this.currentElement, updateCurrentElement(drawing, eventPoint))
+        // Finalize the Stroke
+        layer.update(this.currentElement, this.updateCurrentElement(drawing, eventPoint))
         ElementHistory.add(this.currentElement)
       }
       case _ => {
@@ -48,6 +51,7 @@ sealed abstract class StrokeTool extends Tool {
 
 object BrushTool extends StrokeTool {
   protected def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
+    // Connect the new Point to the Stroke by making a line to it from the last point
     this.currentElement = this.currentElement.copy(
       path = this.currentElement.path :+ eventPoint,
       origin = origin
@@ -57,6 +61,7 @@ object BrushTool extends StrokeTool {
 
 object LineTool extends StrokeTool {
   protected def setCurrentElement(eventPoint: Point2D, origin: Point2D): Unit = {
+    // Only makes a line between the first Point and the new Point
     this.currentElement = this.currentElement.copy(
       path = Path(this.currentElement.path.head, eventPoint),
       origin = origin

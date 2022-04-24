@@ -8,6 +8,11 @@ object SelectionTool extends Tool {
     val target = drawing.config.activeLayer.select(eventPoint)
     event.getEventType match {
       case MouseEvent.MOUSE_PRESSED => {
+        // Select the topmost Element at the point where the moouse was pressed on the active Layer.
+        // If shift is down, the Element is added to the selection as the most recently selected.
+        // Else, only the Element becomes the selection.
+        // If control is down and the Element is selected, it becomes deselected instead.
+        // If mouse is pressed on nothing, all elements become deselected, unless shift or control is down.
         target match {
           case Some(e: Element) if (event.isShiftDown) => {
             drawing.deselect(e)
@@ -27,6 +32,7 @@ object SelectionTool extends Tool {
         }
       }
       case MouseEvent.MOUSE_DRAGGED => {
+        // Keep selecting or deselcting Elements while dragging
         target match {
           case Some(e: Element) if (event.isControlDown) => {
             drawing.deselect(e)

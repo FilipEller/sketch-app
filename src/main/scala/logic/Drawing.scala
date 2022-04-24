@@ -30,6 +30,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
   def selectedElements = this.config.selectedElements
   def activeLayer = this.config.activeLayer
 
+  // The most recently selected Group in selected Elements
   def selectedGroup: Option[ElementGroup] =
     this.selectedElements
       .findLast(_.isInstanceOf[ElementGroup])
@@ -42,6 +43,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Add an empty Layer
   def addLayer(): Unit = {
     var index = this.layers.length + 1
     val names = this.layers.map(_.name)
@@ -53,6 +55,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     this.mLayers += Layer(newName)
   }
 
+  // Add an existing Layer. Used when loading a Drawing from a file
   def addLayer(layer: Layer): Unit = {
     if (!this.layers.map(_.name).contains(layer.name)) {
       this.mLayers += layer
@@ -67,6 +70,9 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     this.mLayers -= layer
   }
 
+  // Remove a layer by its name
+  // It will not be removed if it is the last remaining Layer
+  // If active Layer is the one to be removed, another Layer is selected
   def removeLayer(name: String): Unit = {
     if (this.layers.length > 1) {
       val layer = this.findLayer(name)
@@ -81,6 +87,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Rename a Layer but add an index if the new name is already in use
   def renameLayer(layer: Layer, newName: String) = {
     if (this.layers.contains(layer)) {
       if (this.layers.forall(_.name != newName)) {
@@ -97,11 +104,13 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Hide or unhide the active Layer
   def toggleActiveLayerHidden() = {
     this.deselectAll()
     this.activeLayer.isHidden = !this.activeLayer.isHidden
   }
 
+  // Paint a yellow rectangle around the selected Elements
   private def paintSelection(pane: StackPane) = {
     val rectangle =
       new Shape(
@@ -143,15 +152,18 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     pane.children += canvas
   }
 
+  // Paint each of this Drawing's Layers on a StackPane
   def paint(pane: StackPane): Unit = {
     this.layers.filter(!_.isHidden).foreach(pane.children += _.paint(new Canvas(width, height)))
     this.paintSelection(pane)
   }
 
+  // Use the active tool
   def useTool(event: MouseEvent, localPoint: Point2D) = {
     this.config.activeTool.use(this, event, localPoint)
   }
 
+  // Select the topmost Element at the given point in the active Layer
   def select(point: Point2D): Unit = {
     if (!this.activeLayer.isHidden) {
       val selected = this.activeLayer.select(point)
@@ -159,6 +171,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Select only the given Element
   def select(element: Element): Unit = {
     this.mConfig = this.config.copy(selectedElements = Seq(element))
   }
@@ -167,6 +180,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     this.mConfig = this.config.copy(selectedElements = elements)
   }
 
+  // Select the given Element but keep other selected Elements still selected
   def selectAdd(element: Element): Unit = {
     this.mConfig = this.config.copy(
       selectedElements = this.selectedElements :+ element
@@ -179,6 +193,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     )
   }
 
+  // Deselect the given Element but keep other selected Elements still selected
   def deselect(element: Element): Unit = {
     this.mConfig = this.config.copy(
       selectedElements = this.selectedElements.filter(_ != element)
@@ -195,6 +210,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     this.mConfig = this.config.copy(selectedElements = Seq())
   }
 
+  // Undo the most recent action that relates to Elements
   def undo(): Unit = {
     val elements = ElementHistory.undo()
     if (elements.nonEmpty) {
@@ -214,6 +230,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Move all the selected Elements by the given offset
+  // Called by the Move Tool
   def moveSelected(xDiff: Double, yDiff: Double): Seq[Element] = {
     val newElements = this.selectedElements.map( _.move(xDiff, yDiff) )
     this.select(newElements)
@@ -221,10 +239,16 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
       .update(newElements)
   }
 
+  // Check if any Layer contains the given Element
   def contains(element: Element): Boolean = {
     this.layers.exists(_.contains(element))
   }
 
+  // Update the given Elements on the active Layer
+  // and add them to ElementHistory.
+  // Called by the Drawing's methods that change the selected Elements' properties.
+  // It is assumed that the older versions of the Given elements are currently selected
+  // so the selection is updated to contain the new versions.
   private def updateSelected(newElements: Seq[Element]): Unit = {
     val toUpdate = newElements.filter(!this.contains(_))
     this.activeLayer.update(toUpdate)
@@ -232,6 +256,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     toUpdate.foreach(ElementHistory.add)
   }
 
+  // Make a group out of the selected Elements
   def groupSelected(): Unit = {
     val selected = this.selectedElements
     if (selected.nonEmpty) {
@@ -246,6 +271,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Dismantle the selected Group.
+  // Its Elements are added back to the active Layer
   def ungroupSelected(): Unit = {
     if (this.selectedElements.nonEmpty) {
       this.selectedGroup match {
@@ -259,6 +286,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // add new Elements to the selected Group
   def addSelectedToGroup(): Unit = {
     if (this.selectedElements.nonEmpty) {
       this.selectedGroup match {
@@ -275,6 +303,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // remove some Elements from the selected Group
   def removeFromSelectedGroup(names: Seq[String]) = {
     val layer = this.activeLayer
     this.selectedGroup match {
@@ -290,6 +319,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Delete the selected Elements by making their isDeleted value true
   def deleteSelected(): Unit = {
     val toDelete = this.selectedElements.filter(!_.isDeleted)
     val deleted = this.activeLayer.delete(toDelete)
@@ -305,6 +335,7 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Replace a TextBox's text with the given text
   def rewriteTextBox(textBox: TextBox, newText: String): Element = {
     val layer = this.activeLayer
     if (layer.contains(textBox) && !layer.isHidden && textBox.text != newText) {
@@ -316,6 +347,10 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // A common method for updating any of the Element properties
+  // among brush size, hardness, border width and font size.
+  // Only one property is updated with a single call and others are left unchanged.
+  // Groups are handled recursively
   private def updateProperty(elements: Seq[Element],
                              brushSize: Int, hardness: Int,
                              borderWidth: Int, fontSize: Int): Seq[Element] = {
@@ -339,6 +374,9 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Updates the selected Elements' properties if there are any.
+  // Otherwise, changes the Configurations
+  // Only one property / configuration is updated with a single call.
   def changeProperty(brushSize: Int = -1, hardness: Int = -1, borderWidth: Int = -1, fontSize: Int = -1) = {
     if (this.selectedElements.nonEmpty) {
       val newElements = updateProperty(this.selectedElements, brushSize, hardness, borderWidth, fontSize)
@@ -356,6 +394,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Update the primary color of the given Elements.
+  // Groups are handled recursively
   private def updatePrimaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
     elements.map{
       case e: Shape => e.copy(color = color, previousVersion = Some(e))
@@ -372,6 +412,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Update the primary color of the selected Elements if there are any.
+  // Otherwise, change the Configurations.
   def changePrimaryColor(color: Color) = {
     if (this.selectedElements.nonEmpty) {
       val newElements = this.updatePrimaryColor(this.selectedElements, color)
@@ -381,6 +423,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Update the secondary color of the given Elements.
+  // Groups are handled recursively
   private def updateSecondaryColor(elements: Seq[Element], color: Color): Seq[Element] = {
     elements.map{
       case e: Shape => e.copy(fillColor = color, previousVersion = Some(e))
@@ -395,6 +439,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Update the secondary color of the selected Elements if there are any.
+  // Otherwise, change the Configurations.
   def changeSecondaryColor(color: Color) = {
     if (this.selectedElements.nonEmpty) {
       val newElements = updateSecondaryColor(this.selectedElements, color)
@@ -404,10 +450,13 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // change the active Tool
   def changeTool(tool: Tool) = {
     this.mConfig = this.config.copy(activeTool = tool)
   }
 
+  // A common method for updating either the useFill or the useBorder value of the given Elements.
+  // Groups are handled recursively
   private def updateUseBorderOrFill(elements: Seq[Element], newValue: Boolean, changeUseBorder: Boolean): Seq[Element] = {
     elements.map{
       case e: Shape => {
@@ -427,6 +476,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Update the useBorder value of the selected Elements if there are any.
+  // Otherwise, change the configurations.
   def changeUseBorder(newValue: Boolean) = {
     if (this.selectedElements.nonEmpty) {
       val newElements = updateUseBorderOrFill(this.selectedElements, newValue, true)
@@ -436,6 +487,8 @@ class Drawing(val width: Int = 1000, val height: Int = 600, private val mLayers:
     }
   }
 
+  // Update the useFill value of the selected Elements if there are any.
+  // Otherwise, change the configurations.
   def changeUseFill(newValue: Boolean) = {
     if (this.selectedElements.nonEmpty) {
       val newElements = updateUseBorderOrFill(this.selectedElements, newValue, false)

@@ -24,12 +24,14 @@ case class TextBox(text: String,
       g.setLineWidth(1)
       g.font = new Font("Poppins", fontSize)
       if (this.text.nonEmpty) {
+        // Render the text of the Element
+        // The text is squeezed to the width of the Element
+        // but it may overflow the height
         g.fillText(this.text, origin.x + 1, origin.y + fontSize, this.width)
       } else {
+        // Render a filler text if the TextBox is empty.
         g.fillText("Lorem Ipsum", origin.x + 1, origin.y + fontSize, this.width)
       }
-      // g.fill = rgb(0, 0, 0)
-      // g.strokeRect(origin.x, origin.y, this.width, this.height)
     }
   }
 
@@ -46,15 +48,17 @@ case class TextBox(text: String,
 
 object TextBox {
 
-  var strokeCount = 0
+  // Counts the number of TextBoxes created during this run of the program
+  // The count is used to name new TextBoxes uniquely.
+  var boxCount = 0
 
   def apply(text: String, width: Double, height: Double, fontSize: Double, color: Color, origin: Point2D,
                  name: String = "", previousVersion: Option[Element] = None, deleted: Boolean = false) = {
 
     val nameToUse = {
       if (name == "") {
-        strokeCount += 1
-        s"Text Box $strokeCount"
+        boxCount += 1
+        s"Text Box $boxCount"
       } else {
         name
       }

@@ -186,6 +186,7 @@ object Main extends JFXApp {
     this.controller.updateCanvas()
   }
 
+  // Write into all the selected TextBoxes
   def updateTextBoxes(event: KeyEvent): Unit = {
     if (!event.isAltDown && !event.isControlDown) {
       def write(textBox: TextBox): Unit = {
@@ -212,9 +213,11 @@ object Main extends JFXApp {
     }
   }
 
+  // Shortcuts for the user
   def handleKeyEvent(event: KeyEvent): Unit = {
     if (event.isControlDown) {
       event.code match {
+        // Actions
         case KeyCode.Z => this.undo()
         case KeyCode.X => this.deleteSelected()
         case KeyCode.N => this.newDrawing()
@@ -231,6 +234,7 @@ object Main extends JFXApp {
       }
     } else if (event.isAltDown) {
       event.code match {
+        // Changing tools
         case KeyCode.V => this.drawing.changeTool(SelectionTool)
         case KeyCode.M => this.drawing.changeTool(MoveTool)
         case KeyCode.B => this.drawing.changeTool(BrushTool)
@@ -245,6 +249,7 @@ object Main extends JFXApp {
     } else {
       if (!this.drawing.selectedElements.exists(_.isInstanceOf[TextBox])) {
         event.code match {
+          // Simpler alternatives for changing tools
           case KeyCode.V => this.drawing.changeTool(SelectionTool)
           case KeyCode.M => this.drawing.changeTool(MoveTool)
           case KeyCode.B => this.drawing.changeTool(BrushTool)
@@ -260,6 +265,9 @@ object Main extends JFXApp {
     }
   }
 
+  // Listen for KeyEvents
+  // KEY_PRESSED is used for recognizing shortcuts
+  // KEY_TYPED is used for writing into TextBoxes
   scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => this.handleKeyEvent(event))
   scene.addEventFilter(KeyEvent.KEY_TYPED, (event: KeyEvent) => this.updateTextBoxes(event))
 

@@ -14,7 +14,9 @@ import scalafx.scene.paint.Color.White
 
 class Controller {
 
-  @FXML var pane: javafx.scene.layout.StackPane = _
+  // All of these variables will be given values when the FXML file is loaded in Main.
+  // When the Controller's methods can be called, none of these will be null anymore.
+  @FXML var pane: javafx.scene.layout.StackPane = _ // The stack of canvases where the Drawing is rendered
   @FXML var layerView: javafx.scene.control.ListView[String] = _
   @FXML var groupView: javafx.scene.control.ListView[String] = _
   @FXML var selectedView: javafx.scene.control.ListView[String] = _
@@ -28,13 +30,17 @@ class Controller {
   @FXML var borderWidthSlider: javafx.scene.control.Slider = _
   @FXML var fontSizeSlider: javafx.scene.control.Slider = _
 
+  // These variables are set in this.initController
   var drawing: Drawing = _
   var baseCanvas: Canvas = _
 
+  // Renders the Drawing on the StackPane
   def updateCanvas(): Unit = {
-    this.pane.children.tail.foreach(this.pane.children -= _) // empties background except for white base canvas
+    // Empties the StackPane except for white base Canvas
+    this.pane.children.tail.foreach(this.pane.children -= _)
     drawing.paint(this.pane)
 
+    // Adds the event listeners back
     this.pane.children.tail.foreach(canvas => {
       canvas.setOnMousePressed(this.useTool(_))
       canvas.setOnMouseDragged(this.useTool(_))
@@ -42,6 +48,7 @@ class Controller {
     })
   }
 
+  // Makes a cell to LayerView for each Layer in Drawing
   def updateLayerView(): Unit = {
     val selectedIndex = this.layerView.getSelectionModel.getSelectedIndex
     this.layerView.getItems.clear()
@@ -50,6 +57,7 @@ class Controller {
     this.layerView.getSelectionModel.select(selectedIndex)
   }
 
+  // Selects a Layer cell in LayerView
   def selectLayer(new_val: String) = {
     val layerOption = this.drawing.findLayer(new_val)
     layerOption.foreach(this.drawing.selectLayer)
@@ -111,17 +119,21 @@ class Controller {
     updateCanvas()
   }
 
+  // Makes a cell in SelectedView for each selected Element of Drawing
   def updateSelectedView(): Unit = {
     val index = this.selectedView.getSelectionModel.getSelectedIndex
     this.selectedView.getItems.clear()
     this.drawing.selectedElements.reverse
       .foreach( e => this.selectedView.getItems.add(e.name) )
+    // Keeps one of the Elements focused in SelectedView for renaming
     if (this.selectedView.getItems.nonEmpty) {
       val targetIndex = math.max(math.min(index, this.selectedView.getItems.length - 1), 0)
       this.selectedView.getSelectionModel.select(targetIndex)
     }
   }
 
+  // Makes a cell in GroupView for each Element inside selected ElementGroup
+  // selected Group is the most recently selected ElementGroup in Drawing's selected Elements
   def updateGroupView(): Unit = {
     this.groupView.getItems.clear()
     this.drawing.selectedGroup match {
@@ -130,6 +142,9 @@ class Controller {
     }
   }
 
+  // Sets the GUI's controls to match the given Element's properties
+  // or sets them to the user's current configuration if elementOption is None.
+  // If the given Element does not have some property, a default value for that property is used
   def updateSelectedPropertiesByElement(elementOption: Option[Element]): Unit = {
     val default = this.drawing.defaultConfig
     elementOption match {
@@ -217,6 +232,7 @@ class Controller {
     update()
   }
 
+  // Rename the focused Element in SelectedView through a dialog
   @FXML protected def renameElement(event: ActionEvent): Unit = {
     val selected = if (this.selectedView.getItems.length == 1) {
       this.selectedView.getItems.head
@@ -249,6 +265,7 @@ class Controller {
     Main.deleteSelected()
   }
 
+  // Called whenever the user clicks on the Canvas
   def useTool(event: javafx.scene.input.MouseEvent): Unit = {
     if (!this.drawing.activeLayer.isHidden) {
       if (!Seq(SelectionTool, MoveTool).contains(this.drawing.config.activeTool)) {
@@ -260,14 +277,18 @@ class Controller {
     }
   }
 
+  // Initialize the controller
+  // This is called after the FXML is loaded and Main has created a Drawing
   def initController(): Unit = {
     println("initializing canvas")
-    this.drawing = Main.drawing // won't be null, don't worry
+    this.drawing = Main.drawing // Will not be null. DelayedInit is an oddity of this version of ScalaFX
+
+    this.groupView.getSelectionModel.setSelectionMode(SelectionMode.MULTIPLE)
+
+    // Paint a white rectangle as the background of the user's artwork
     this.baseCanvas = new Canvas(this.drawing.width, this.drawing.height)
     this.pane.children.clear()
     this.pane.children += baseCanvas
-
-    this.groupView.getSelectionModel.setSelectionMode(SelectionMode.MULTIPLE)
     val g = baseCanvas.graphicsContext2D
     g.fill = White
     g.fillRect(0, 0, this.drawing.width, this.drawing.height)
@@ -276,6 +297,7 @@ class Controller {
     updateCanvas()
   }
 
+  // Change the active Tool when the user clicks on a button in the Tool bar
   @FXML protected def changeTool(event: ActionEvent): Unit = {
     val button = event.getTarget.asInstanceOf[javafx.scene.control.Button].getId
     val targetTool = button match {
@@ -298,6 +320,8 @@ class Controller {
     updateLayerView()
   }
 
+  // Remove a Layer from the Drawing
+  // If the Layer is not empty, the action requires user confirmation through a dialog
   @FXML protected def removeLayer(event: ActionEvent) = {
     val layerIndex = this.layerView.getSelectionModel.getSelectedIndex
     val layerName = this.layerView.getSelectionModel.getSelectedItem
@@ -320,7 +344,7 @@ class Controller {
     updateCanvas()
   }
 
-  // not implemented
+  // Rename the active Layer through a dialog
   @FXML protected def renameLayer(event: ActionEvent) = {
     val dialog = new TextInputDialog()
     dialog.setTitle("")

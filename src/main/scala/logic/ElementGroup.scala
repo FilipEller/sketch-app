@@ -11,6 +11,8 @@ case class ElementGroup(elements: Seq[Element],
                         previousVersion: Option[Element] = None,
                         isDeleted: Boolean = false) extends Element {
 
+  // The origin closes to the top-left corner among this Group's Elements
+  // If the Group is empty, a default value of (0, 0) is returned
   val origin = {
     if (this.elements.nonEmpty) {
       new Point2D (this.elements.map(_.origin.x).min, this.elements.map(_.origin.y).min)
@@ -18,6 +20,10 @@ case class ElementGroup(elements: Seq[Element],
       this.previousVersion.map(_.origin).getOrElse(new Point2D(0, 0))
     }
   }
+
+  // The width of bounding box that encloses all this Group's Elements
+  // If the Group is empty, the previous version's width is returned.
+  // If that does not exist, 0 is returned.
   val width = {
     if (this.elements.nonEmpty) {
       this.elements.map( e => e.origin.x + e.width ).max - this.origin.x
@@ -25,6 +31,10 @@ case class ElementGroup(elements: Seq[Element],
       this.previousVersion.map(_.width).getOrElse(0)
     }
   }
+
+  // The height of bounding box that encloses all this Group's Elements
+  // If the Group is empty, the previous version's height is returned.
+  // If that does not exist, 0 is returned.
   val height = {
     if (this.elements.nonEmpty) {
       this.elements.map( e => e.origin.y + e.height ).max - this.origin.y
@@ -81,6 +91,7 @@ case class ElementGroup(elements: Seq[Element],
     this.copy(elements = newElements, previousVersion = Some(this))
   }
 
+  // Render the Group
   def paint(canvas: Canvas) = {
     if (!this.isDeleted) {
       this.elements.foreach( _.paint(canvas) )
@@ -92,7 +103,8 @@ case class ElementGroup(elements: Seq[Element],
 }
 
 object ElementGroup {
-
+  // Counts the number of Groups created during this run of the program
+  // The count is used to name new Groups uniquely.
   var groupCount = 0
   
   def nameToUse(name: String) = {

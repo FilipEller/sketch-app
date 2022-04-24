@@ -7,10 +7,15 @@ import scala.collection.mutable.Buffer
 
 case class Layer(private var mName: String) {
 
+  // Mutable collection of the Elements on this Layer.
+  // The last elements is rendered on top of all the other Elements.
   private val mElements = Buffer[Element]()
   var isHidden = false
 
+  // public immutable version of the mElements collection
   def elements = this.mElements.toSeq
+
+  // public immutable version of the Layer's name
   def name = this.mName
 
   def add(element: Element): Unit = {
@@ -21,6 +26,8 @@ case class Layer(private var mName: String) {
     elements.foreach(this.add)
   }
 
+  // Add an Element at a specific index of this.elements
+  // to maintain correct ordering when rendered
   def addAtIndex(element: Element, index: Int): Unit = {
     val indexToUse = math.max(0, math.min(index, this.elements.length))
     this.mElements.insert(indexToUse, element)
@@ -54,11 +61,15 @@ case class Layer(private var mName: String) {
     names.flatMap(this.find)
   }
 
+  // Returns the topmost Element of this.elements
+  // that encloses the given Point on the canvas
   def select(point: Point2D): Option[Element] =
     this.elements.reverse.to(LazyList)
       .filter(!_.isDeleted)
       .find(_.collidesWith(point))
 
+  // Renders the Elements on this layer
+  // The last Element is painted last and thus on top of the other Elements
   def paint(canvas: Canvas): Canvas = {
     this.elements.foreach(_.paint(canvas))
     canvas
@@ -68,6 +79,7 @@ case class Layer(private var mName: String) {
     this.mName = newName
   }
 
+  // Adds the given Element and removes the previous version of it if there is one
   def update(element: Element): Element = {
     val index = element.previousVersion
                   .map( e => this.elements.indexOf(e) )
@@ -78,6 +90,9 @@ case class Layer(private var mName: String) {
     element
   }
 
+  // Removes the oldElement and adds the newElement
+  // oldElement is assumed to be the previous version of newElement
+  // although there is no reference from newElement.previousVersion to oldElement
   def update(oldElement: Element, newElement: Element): Element = {
     val index = this.elements.indexOf(oldElement)
     this.addAtIndex(newElement, index)
@@ -89,6 +104,7 @@ case class Layer(private var mName: String) {
     elements.map(this.update)
   }
 
+  // Removes the given Element and adds its previousVersion if there is one.
   def restore(element: Element): Unit = {
     if (this.contains(element)) {
       val index = this.elements.indexOf(element)
@@ -107,6 +123,7 @@ case class Layer(private var mName: String) {
     elements.foreach(this.restore)
   }
 
+  // Deletes the given Element by making its isDeleted value true
   def delete(element: Element): Element = {
     if (this.elements.contains(element) && !element.isDeleted) {
       val deleted = element match {
@@ -126,6 +143,8 @@ case class Layer(private var mName: String) {
     elements.map(this.delete)
   }
 
+  // Renames the Element with the given name.
+  // Adds an index to the end of the name if the name is already in use.
   def rename(element: Element, newName: String): Element = {
     if (this.contains(element)) {
       val nameToUse = {
@@ -154,6 +173,8 @@ case class Layer(private var mName: String) {
     }
   }
 
+  // Remove the given Elements from the given Group
+  // The removed Elements are added to this Layer if succesfully removed from the Group
   def removeFromGroup(group: ElementGroup, elements: Seq[Element]): (ElementGroup, Seq[Element]) = {
     val index = this.elements.indexOf(group)
     val groupWithoutTarget = group.remove(elements)
