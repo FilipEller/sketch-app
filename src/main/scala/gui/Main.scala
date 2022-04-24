@@ -57,6 +57,7 @@ object Main extends JFXApp {
   def newDrawing(): Unit = {
     def createNewDrawing(): Unit = {
       this.drawing = new Drawing(1000, 600)
+      ElementHistory.clear()
       this.controller.initController()
       this.controller.update()
     }
@@ -96,6 +97,7 @@ object Main extends JFXApp {
       if (file != null) {
         try {
           this.drawing = FileManager.load(file)
+          ElementHistory.clear()
           this.controller.initController()
           this.controller.update()
         } catch {
