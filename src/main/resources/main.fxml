@@ -72,11 +72,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/hand_cursor_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/hand_cursor_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -97,17 +95,15 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/resize_horizontal_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/resize_horizontal_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-                <Button id="Brush" mnemonicParsing="true" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
+                <Button id="Brush" onAction="#changeTool" prefHeight="50.0" prefWidth="50.0">
                     <tooltip>
                         <Tooltip text="Brush Tool (B)" />
                     </tooltip>
@@ -119,11 +115,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/art_therapist_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/art_therapist_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -141,11 +135,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/line_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/line_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -166,11 +158,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/rectangle_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/rectangle_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -191,11 +181,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/ellipse_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/ellipse_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -216,11 +204,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/unchecked_checkbox_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/unchecked_checkbox_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -238,11 +224,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/360_degrees_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/360_degrees_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -260,11 +244,9 @@
                   <String fx:value="tool-button" />
                </styleClass>
                <graphic>
-                  <ImageView>
-                     <image>
-                        <Image url="@img/text_24px.png" />
-                     </image>
-                  </ImageView>
+                   <ImageView>
+                       <Image url="@img/text_24px.png"/>
+                   </ImageView>
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -276,323 +258,312 @@
             <HBox prefHeight="100.0" prefWidth="1920.0" styleClass="panel" BorderPane.alignment="CENTER_LEFT">
                 <GridPane prefHeight="98.0" prefWidth="712.0" styleClass="control-panel">
                     <columnConstraints>
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="370.3999755859375" minWidth="10.0" prefWidth="75.80000000000001" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="403.79999999999995" minWidth="10.0" prefWidth="301.5999755859375" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="387.599951171875" minWidth="10.0" prefWidth="353.60002441406243" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="370.3999755859375" minWidth="10.0"
+                                           prefWidth="75.80000000000001"/>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="403.79999999999995" minWidth="10.0"
+                                           prefWidth="301.5999755859375"/>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="387.599951171875" minWidth="10.0"
+                                           prefWidth="353.60002441406243"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
                     </rowConstraints>
-                  <HBox.margin>
-                      <Insets />
-                  </HBox.margin>
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                     <children>
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                         <Label text="  Brush size">
-                           <graphic>
-                              <Slider fx:id="brushSizeSlider" blockIncrement="1.0" onMouseReleased="#changeBrushSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="10.0">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Slider>
-                           </graphic>
+                            <graphic>
+                                <Slider fx:id="brushSizeSlider" blockIncrement="1.0" onMouseReleased="#changeBrushSize"
+                                        showTickLabels="true" showTickMarks="true" styleClass="slider-control"
+                                        value="10.0">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </Slider>
+                            </graphic>
                         </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="322.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
+                    </HBox>
+                    <HBox prefHeight="100.0" prefWidth="322.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                         <Label text="  Brush Hardness">
-                           <graphic>
-                              <Slider fx:id="hardnessSlider" blockIncrement="1.0" minorTickCount="4" onMouseReleased="#changeHardness" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="50.0">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Slider>
-                           </graphic>
+                            <graphic>
+                                <Slider fx:id="hardnessSlider" blockIncrement="1.0" minorTickCount="4"
+                                        onMouseReleased="#changeHardness" showTickLabels="true" showTickMarks="true"
+                                        styleClass="slider-control" value="50.0">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </Slider>
+                            </graphic>
                         </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
-                     <children>
+                    </HBox>
+                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                         <Label text="  Border width">
-                           <graphic>
-                              <Slider fx:id="borderWidthSlider" blockIncrement="1.0" onMouseReleased="#changeBorderWidth" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="2.0">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Slider>
-                           </graphic>
+                            <graphic>
+                                <Slider fx:id="borderWidthSlider" blockIncrement="1.0"
+                                        onMouseReleased="#changeBorderWidth" showTickLabels="true"
+                                        showTickMarks="true" styleClass="slider-control" value="2.0">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </Slider>
+                            </graphic>
                         </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="294.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <children>
+                    </HBox>
+                    <HBox prefHeight="100.0" prefWidth="294.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <Label text="  Font size">
-                           <graphic>
-                              <Slider fx:id="fontSizeSlider" blockIncrement="1.0" min="5.0" minorTickCount="4" onMouseReleased="#changeFontSize" showTickLabels="true" showTickMarks="true" styleClass="slider-control" value="12.0">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Slider>
-                           </graphic>
+                            <graphic>
+                                <Slider fx:id="fontSizeSlider" blockIncrement="1.0" min="5.0" minorTickCount="4"
+                                        onMouseReleased="#changeFontSize" showTickLabels="true" showTickMarks="true"
+                                        styleClass="slider-control" value="12.0">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </Slider>
+                            </graphic>
                         </Label>
-                     </children>
-                  </HBox>
-               </children>
+                    </HBox>
                 </GridPane>
-                <GridPane layoutX="511.0" layoutY="11.0" prefHeight="98.0" prefWidth="500.0" styleClass="control-panel" HBox.hgrow="ALWAYS">
-                  <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  </columnConstraints>
-                  <rowConstraints>
-                      <RowConstraints maxHeight="63.01588439941406" minHeight="10.0" prefHeight="63.01588439941406" vgrow="SOMETIMES" />
-                  </rowConstraints>
-                  <HBox.margin>
-                      <Insets />
-                  </HBox.margin>
-               <children>
-                  <VBox alignment="CENTER" prefHeight="60.0" prefWidth="144.0">
-                     <children>
-                        <Label prefHeight="17.0" text="Primary Color" />
+                <GridPane layoutX="511.0" layoutY="11.0" prefHeight="98.0" prefWidth="500.0" styleClass="control-panel"
+                          HBox.hgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="63.01588439941406" minHeight="10.0" prefHeight="63.01588439941406"
+                                        vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                    <VBox alignment="CENTER" prefHeight="60.0" prefWidth="144.0">
+                        <Label prefHeight="17.0" text="Primary Color"/>
                         <ColorPicker id="primaryColorPicker" fx:id="primaryColorPicker" onAction="#changeColor">
                             <value>
-                                <Color />
+                                <Color/>
                             </value>
-                           <styleClass>
-                              <String fx:value="button" />
-                              <String fx:value="color-picker" />
-                           </styleClass>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
+                            <styleClass>
+                                <String fx:value="button"/>
+                                <String fx:value="color-picker"/>
+                            </styleClass>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </ColorPicker>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="60.0" prefWidth="251.0" GridPane.columnIndex="1">
-                     <children>
-                        <Label prefHeight="17.0" text="Secondary Color" />
+                    </VBox>
+                    <VBox alignment="CENTER" prefHeight="60.0" prefWidth="251.0" GridPane.columnIndex="1">
+                        <Label prefHeight="17.0" text="Secondary Color"/>
                         <ColorPicker id="secondaryColorPicker" fx:id="secondaryColorPicker" onAction="#changeColor">
-                           <styleClass>
-                              <String fx:value="button" />
-                              <String fx:value="color-picker" />
-                           </styleClass>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
+                            <styleClass>
+                                <String fx:value="button"/>
+                                <String fx:value="color-picker"/>
+                            </styleClass>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </ColorPicker>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
-                     <children>
+                    </VBox>
+                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text=" Border">
-                                 <graphic>
-                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false" onAction="#changeUseBorder" selected="true">
-                                       <tooltip>
-                                           <Tooltip text="CTRL+B" />
-                                       </tooltip>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </CheckBox>
-                                 </graphic>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text=" Fill">
-                                 <graphic>
-                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false" onAction="#changeUseFill">
+                            <Label text=" Border">
+                                <graphic>
+                                    <CheckBox fx:id="borderCheckBox" mnemonicParsing="false"
+                                              onAction="#changeUseBorder" selected="true">
                                         <tooltip>
-                                           <Tooltip text="CTRL+F" />
-                                       </tooltip>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                            <Tooltip text="CTRL+B"/>
+                                        </tooltip>
+                                        <cursor>
+                                            <Cursor fx:constant="HAND"/>
+                                        </cursor>
                                     </CheckBox>
-                                 </graphic>
-                              </Label>
-                           </children>
+                                </graphic>
+                            </Label>
                         </HBox>
-                     </children>
-                  </VBox>
-               </children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                            <Label text=" Fill">
+                                <graphic>
+                                    <CheckBox fx:id="fillCheckBox" mnemonicParsing="false"
+                                              onAction="#changeUseFill">
+                                        <tooltip>
+                                            <Tooltip text="CTRL+F"/>
+                                        </tooltip>
+                                        <cursor>
+                                            <Cursor fx:constant="HAND"/>
+                                        </cursor>
+                                    </CheckBox>
+                                </graphic>
+                            </Label>
+                        </HBox>
+                    </VBox>
                 </GridPane>
             </HBox>
         </top>
       <right>
-         <VBox prefHeight="749.0" prefWidth="265.0" styleClass="panel" BorderPane.alignment="CENTER">
-            <children>
-               <VBox alignment="TOP_CENTER" styleClass="control-panel" VBox.vgrow="ALWAYS">
-                  <children>
-                     <Label text="Selected Elements" />
-                     <ListView id="selected-view" fx:id="selectedView" styleClass="list" VBox.vgrow="ALWAYS" />
-                     <HBox prefHeight="36.0" prefWidth="228.0">
-                        <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#makeGroup" text="Group">
-                               <tooltip>
-                                   <Tooltip text="CTRL+G" />
-                               </tooltip>
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region prefHeight="200.0" prefWidth="112.0" />
-                           <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#renameElement" text="Rename">
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region layoutX="62.0" layoutY="10.0" prefHeight="200.0" prefWidth="112.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" HBox.hgrow="ALWAYS">
-                               <tooltip>
-                                   <Tooltip text="CTRL+X" />
-                               </tooltip>
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                        </children>
-                        <VBox.margin>
-                           <Insets />
-                        </VBox.margin>
-                        <padding>
-                           <Insets bottom="7.0" top="7.0" />
-                        </padding>
-                     </HBox>
-                  </children>
-               </VBox>
-               <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="909.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
-                  <children>
-                     <Label text="Selected Group" />
-                     <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS" />
-                     <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
-                        <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addToGroup" prefWidth="65.0" text="Add" HBox.hgrow="ALWAYS">
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeFromGroup" prefWidth="65.0" text="Remove" HBox.hgrow="ALWAYS">
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region prefHeight="200.0" prefWidth="200.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#ungroup" text="Ungroup">
-                               <tooltip>
-                                   <Tooltip text="CTRL+U" />
-                               </tooltip>
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                        </children>
-                        <VBox.margin>
-                           <Insets />
-                        </VBox.margin>
-                        <padding>
-                           <Insets top="10.0" />
-                        </padding>
-                     </HBox>
-                  </children>
-               </VBox>
-               <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="392.0" styleClass="control-panel" VBox.vgrow="ALWAYS">
-                  <children>
-                     <Label text="Layers" />
-                     <ListView id="layer-view" fx:id="layerView" styleClass="list" VBox.vgrow="ALWAYS" />
-                     <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
-                        <children>
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addLayer" text="Add" HBox.hgrow="ALWAYS">
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" text="Remove" HBox.hgrow="ALWAYS">
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region prefHeight="200.0" prefWidth="200.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#renameLayer" prefWidth="65.0" text="Rename" HBox.hgrow="ALWAYS">
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                           <Region layoutX="108.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0" />
-                           <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLayerHidden" text="Hide">
-                                <tooltip>
-                                    <Tooltip text="CTRL+H" />
-                                </tooltip>
-                              <styleClass>
-                                 <String fx:value="button" />
-                                 <String fx:value="layer-button" />
-                              </styleClass>
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                           </Button>
-                        </children>
-                        <VBox.margin>
-                           <Insets />
-                        </VBox.margin>
-                        <padding>
-                           <Insets bottom="5.0" top="5.0" />
-                        </padding>
-                     </HBox>
-                     <HBox layoutX="20.0" layoutY="275.0" maxHeight="40.0">
-                        <padding>
-                           <Insets bottom="5.0" top="5.0" />
-                        </padding>
-                     </HBox>
-                  </children>
-               </VBox>
-            </children>
-         </VBox>
+          <VBox prefHeight="749.0" prefWidth="265.0" styleClass="panel" BorderPane.alignment="CENTER">
+              <VBox alignment="TOP_CENTER" styleClass="control-panel" VBox.vgrow="ALWAYS">
+                  <Label text="Selected Elements"/>
+                  <ListView id="selected-view" fx:id="selectedView" styleClass="list" VBox.vgrow="ALWAYS"/>
+                  <HBox prefHeight="36.0" prefWidth="228.0">
+                      <VBox.margin>
+                          <Insets/>
+                      </VBox.margin>
+                      <padding>
+                          <Insets bottom="7.0" top="7.0"/>
+                      </padding>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#makeGroup" text="Group">
+                          <tooltip>
+                              <Tooltip text="CTRL+G"/>
+                          </tooltip>
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region prefHeight="200.0" prefWidth="112.0"/>
+                      <Button layoutX="174.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false"
+                              onAction="#renameElement" text="Rename">
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region layoutX="62.0" layoutY="10.0" prefHeight="200.0" prefWidth="112.0"/>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteSelected"
+                              text="Delete" HBox.hgrow="ALWAYS">
+                          <tooltip>
+                              <Tooltip text="CTRL+X"/>
+                          </tooltip>
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                  </HBox>
+              </VBox>
+              <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="909.0" styleClass="control-panel"
+                    VBox.vgrow="ALWAYS">
+                  <Label text="Selected Group"/>
+                  <ListView id="group-view" fx:id="groupView" styleClass="list" VBox.vgrow="ALWAYS"/>
+                  <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
+                      <VBox.margin>
+                          <Insets/>
+                      </VBox.margin>
+                      <padding>
+                          <Insets top="10.0"/>
+                      </padding>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addToGroup" text="Add"
+                              HBox.hgrow="ALWAYS">
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeFromGroup"
+                              text="Remove" HBox.hgrow="ALWAYS">
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region prefHeight="200.0" prefWidth="200.0"/>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#ungroup" text="Ungroup">
+                          <tooltip>
+                              <Tooltip text="CTRL+U"/>
+                          </tooltip>
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                  </HBox>
+              </VBox>
+              <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="392.0" styleClass="control-panel"
+                    VBox.vgrow="ALWAYS">
+                  <Label text="Layers"/>
+                  <ListView id="layer-view" fx:id="layerView" styleClass="list" VBox.vgrow="ALWAYS"/>
+                  <HBox maxHeight="40.0" VBox.vgrow="ALWAYS">
+                      <VBox.margin>
+                          <Insets/>
+                      </VBox.margin>
+                      <padding>
+                          <Insets bottom="5.0" top="5.0"/>
+                      </padding>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#addLayer" text="Add"
+                              HBox.hgrow="ALWAYS">
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#removeLayer" text="Remove"
+                              HBox.hgrow="ALWAYS">
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region prefHeight="200.0" prefWidth="200.0"/>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#renameLayer" text="Rename"
+                              HBox.hgrow="ALWAYS">
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                      <Region layoutX="108.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0"/>
+                      <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLayerHidden"
+                              text="Hide">
+                          <tooltip>
+                              <Tooltip text="CTRL+H"/>
+                          </tooltip>
+                          <styleClass>
+                              <String fx:value="button"/>
+                              <String fx:value="layer-button"/>
+                          </styleClass>
+                          <cursor>
+                              <Cursor fx:constant="HAND"/>
+                          </cursor>
+                      </Button>
+                  </HBox>
+                  <HBox layoutX="20.0" layoutY="275.0" maxHeight="40.0">
+                      <padding>
+                          <Insets bottom="5.0" top="5.0"/>
+                      </padding>
+                  </HBox>
+              </VBox>
+          </VBox>
       </right>
     </BorderPane>
 </AnchorPane>
