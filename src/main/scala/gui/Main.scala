@@ -189,16 +189,21 @@ object Main extends JFXApp {
       def write(textBox: TextBox): Unit = {
         if (this.drawing.activeLayer.contains(textBox)) {
           val newText = {
-            event.code match {
-              case KeyCode.Space => textBox.text + " "
-              case KeyCode.Enter => textBox.text + "\n"
-              case _ if event.getCharacter == "\b" => textBox.text.dropRight(1)
-              case _ => textBox.text + event.getCharacter
+            event.getEventType match {
+              case KeyEvent.KEY_TYPED => textBox.text + event.getCharacter
+              case KeyEvent.KEY_PRESSED => {
+                event.code match {
+                  case KeyCode.BackSpace => textBox.text.dropRight(1)
+                  case _ => textBox.text
+                }
+              }
             }
           }
-          val newTextBox = this.drawing.rewriteTextBox(textBox, newText)
-          this.drawing.deselect(textBox)
-          this.drawing.select(this.drawing.selectedElements :+ newTextBox)
+          if (newText != textBox.text) {
+            val newTextBox = this.drawing.rewriteTextBox(textBox, newText)
+            this.drawing.deselect(textBox)
+            this.drawing.select(this.drawing.selectedElements :+ newTextBox)
+          }
         }
       }
       val textBoxes =
@@ -259,6 +264,7 @@ object Main extends JFXApp {
   }
 
   scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => this.handleKeyEvent(event))
+  scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => this.updateTextBoxes(event))
   scene.addEventFilter(KeyEvent.KEY_TYPED, (event: KeyEvent) => this.updateTextBoxes(event))
 
 }
