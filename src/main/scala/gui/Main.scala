@@ -272,6 +272,7 @@ object Main extends JFXApp {
 
   // Listen for KeyEvents
   // KEY_PRESSED is used for recognizing shortcuts
+  // as well as recognizing backspace when writing into TextBoxes
   // KEY_TYPED is used for writing into TextBoxes
   scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => this.handleKeyEvent(event))
   scene.addEventFilter(KeyEvent.KEY_PRESSED, (event: KeyEvent) => this.updateTextBoxes(event))
