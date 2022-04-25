@@ -9,6 +9,7 @@ import ujson._
 import java.io.File
 
 object FileManager {
+  // Check src/test/resources for example files
 
   private def encodeShapeType(stype: ShapeType): String = {
     stype match {
@@ -201,6 +202,8 @@ object FileManager {
     new Drawing(width, height, layers)
   }
 
+  // Saves the given Drawing to a JSON file with the path of the given File.
+  // Overwrites that file if it already exists
   def save(drawing: Drawing, file: File): Unit = {
     val encoded = encodeDrawing(drawing)
     val jsonString = ujson.transform(encoded, StringRenderer(indent = 2)).toString
@@ -209,6 +212,12 @@ object FileManager {
     os.write.over(osPath, jsonString)
   }
 
+  // Loads a Drawing from the given File.
+  // Possible thrown exceptions include:
+  // ujson.ParseException,
+  // ujson.Value.InvalidData,
+  // NoSuchElementException, and
+  // IllegalArgumentException
   def load(file: File): Drawing = {
     val path = os.Path(file.getPath)
     val jsonString = os.read(path)

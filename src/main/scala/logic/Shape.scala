@@ -6,6 +6,7 @@ import scalafx.scene.paint.Color
 
 import scala.math.{pow, sqrt}
 
+// Used to distinguish different kinds of shapes
 abstract sealed class ShapeType
 
 case object Rectangle extends ShapeType
@@ -31,6 +32,7 @@ case class Shape(shapeType: ShapeType,
 
   override def toString: String = this.name
 
+  // Check if this Element encloses the given Point.
   def collidesWith(point: Point2D): Boolean = {
     this.shapeType match {
       case s: ShapeType if s == Rectangle || s == Square => (point.x >= this.origin.x - 0.5 * this.borderWidth
@@ -51,10 +53,12 @@ case class Shape(shapeType: ShapeType,
     }
   }
 
+  // Render the Element
   def paint(canvas: Canvas): Unit = {
     if (!this.isDeleted) {
       val g = canvas.graphicsContext2D
       if (this.useFill) {
+        // Fill the inside of the Element with this.fillColor
         g.fill = this.fillColor
         this.shapeType match {
           case Rectangle | Square => g.fillRect(origin.x, origin.y, this.width, this.height)
@@ -64,6 +68,7 @@ case class Shape(shapeType: ShapeType,
       }
 
       if (this.useBorder) {
+        // Paint the border of the Element with this.color
         g.stroke = this.color
         g.setLineWidth(borderWidth)
         this.shapeType match {
@@ -78,6 +83,8 @@ case class Shape(shapeType: ShapeType,
 
 object Shape {
 
+  // Counts the number of each kind of Shape created during this run of the program
+  // The count is used to name new Shapes uniquely.
   var rectangleCount = 0
   var squareCount = 0
   var circleCount = 0
