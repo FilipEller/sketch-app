@@ -11,8 +11,8 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11"
 libraryDependencies += "org.scalafx" %% "scalafx" % "14-R19"
 libraryDependencies += "org.scalafx" % "scalafx-extras_2.13" % "0.5.0"
 
-// Add dependency on uJson
-libraryDependencies += "com.lihaoyi" %% "upickle" % "1.5.0"
+// Add dependency on uJson / uPickle
+libraryDependencies += "com.lihaoyi" %% "upickle" % "1.6.0"
 
 // Add dependency on os-lib
 libraryDependencies += "com.lihaoyi" %% "os-lib" % "0.8.1"
