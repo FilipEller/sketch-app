@@ -193,7 +193,13 @@ object Main extends JFXApp {
         if (this.drawing.activeLayer.contains(textBox)) {
           val newText = {
             event.getEventType match {
-              case KeyEvent.KEY_TYPED => textBox.text + event.getCharacter
+              case KeyEvent.KEY_TYPED => {
+                if (event.getCharacter == "\b") {
+                  textBox.text
+                } else {
+                  textBox.text + event.getCharacter
+                }
+              }
               case KeyEvent.KEY_PRESSED => {
                 event.code match {
                   case KeyCode.BackSpace => textBox.text.dropRight(1)
